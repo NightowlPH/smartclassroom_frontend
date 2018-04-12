@@ -1,0 +1,31 @@
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+           <div class="ibox-content">
+            <h3>Register to IN+</h3>
+            <p>Create account to see it in action.</p>
+            <p style="color: red">{{message}}</p>
+            <form class="m-t" [formGroup]="modalForm"  novalidate>
+                <div class="form-group has-feedback">
+		            <input type="text" class="form-control" placeholder="Last Name" formControlName="Lname">		            
+		          </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="First Name" formControlName = "Fname">
+                </div>
+                 <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Card ID" formControlName = "cardID">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" formControlName = "username" >
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" formControlName = "userpassword">
+                </div>          
+                <button type="submit" class="btn btn-primary block full-width m-b" (click)="register()" >Register</button>
+
+                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                <a class="btn btn-sm btn-white btn-block" (click)="login()">Login</a>
+            </form>            
+          </div>
+        </div>
+    </div>

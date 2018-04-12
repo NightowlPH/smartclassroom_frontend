@@ -1,0 +1,22 @@
+<form #input="ngForm">
+ 	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>				
+				<th style="width: 40px">ID</th>
+				<th>Group Name</th>
+				<th >Permission Name</th>
+				<th style="width: 40px">Users</th>												
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor = "let access of groupAccess">				
+				<td>{{access.id}}</td>
+				<td>{{access.groupName}}</td>
+				<td>{{access.permissionName}}</td>
+				<td align="center">{{access.users}}</td>															
+			</tr>
+		</tbody>
+	</table>
+	<button type="button" class="btn btn-back btn-sm" (click) = "back()">Back</button>	
+ </form>
+

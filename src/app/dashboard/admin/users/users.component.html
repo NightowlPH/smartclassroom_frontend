@@ -1,0 +1,243 @@
+<div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
+<form #input="ngForm">
+
+    <div class="form-horizontal2">
+        <div class="form-group2 col2-sm-12">
+			<div class="col2-sm-6">
+				<div class="input-group-btn">
+	               	<button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row}}&emsp;</button>
+	               	<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
+		               <ul class="dropdown-menu">
+		               	   <li><a (click)=manageRow(10)>10</a></li>
+		                   <li><a (click)=manageRow(50)>50</a></li>
+		                   <li><a (click)=manageRow(100)>100</a></li>
+		                   <li><a (click)=manageRow(totalUsr)>Show all</a></li>                 
+		               </ul>
+           		</div>
+			</div>
+			<div class="col2-sm-6">
+				<div class="col2-sm-6"></div>
+				<div class="col2-sm-6">					
+					<input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter">
+				</div>
+			</div>
+        </div>                   
+    </div>    
+ 	<table class="table table-striped table-bordered table-hover ">
+		<thead>
+			<tr>
+				<th style="width: 30px"></th>				
+				<th style="width: 50px" (click)="sort('id',0)" class="{{class[1][0]}}">
+					ID<span class="fa fa-sort{{class[0][0]}} pull-right"></span>
+				</th>				
+				<th (click)="sort('Username',1)" class="{{class[1][1]}}">
+					Username<span class="fa fa-sort{{class[0][1]}} pull-right"></span>
+				</th>
+				<th (click)="sort('Lname',2)" class="{{class[1][2]}}">
+					Lname<span class="fa fa-sort{{class[0][2]}} pull-right"></span>
+				</th>
+				<th (click)="sort('Fname',3)" class="{{class[1][3]}}">
+					Fname<span class="fa fa-sort{{class[0][3]}} pull-right"></span>
+				</th>
+				<th (click)="sort('CardID',4)" class="{{class[1][4]}}">
+					CardID<span class="fa fa-sort{{class[0][4]}} pull-right"></span>
+				</th>				
+				<th style="width: 40px">Edit</th>
+				<th style="width: 40px">Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let user of users | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">
+				<td align="center" ><input type="checkbox"  name="a{{user.id}}" ngModel></td>
+				<td>{{user.id}}</td>
+				<td>{{user.username}}</td>
+				<td>{{user.Lname}}</td>
+				<td>{{user.Fname}}</td>
+				<td>{{user.cardID}}</td>				
+				<td align="center">									                
+                    <button class="btn btn-primary btn-xs" (click) = "update_user(user.id)" data-toggle="modal" href="#modal-userss">
+                    	<span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+				</td>
+				<td align="center">								                                        
+                    <button type="submit" class="btn btn-danger btn-xs" (click)="deleteUser(input,user.id)">
+                    	<span class="glyphicon glyphicon-trash"></span>
+                    </button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Showing 1 to {{row}} of {{totalUsr}}</p>
+	<div class="pull-right">
+		<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	</div><br><br>
+
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#modal-userss" (click) = "add_user()">Add</button>
+	 <button type="submit" class="btn btn-w-m btn-danger btn-sm" (click) = "deleteUser(input,'none')">Delete</button>   
+ </form>
+
+
+<div id="modal-userss" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content animated {{modalAnimation}}">
+          <div class="modal-body">
+          	<p></p>
+              <div class="row">
+                <div class="col-sm-11">              
+                  <div class="col-sm-1">
+                  </div>               
+                  <form [formGroup]="modalForm"  novalidate>        
+                    <div class="col-sm-11">               
+                      <div *ngIf = "add == 'addUser' || update == 'updateUser'" class="form-horizontal">                                                                      
+                         <div class="form-group">
+                          <label class="col-lg-2 control-label">Lname:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="Last Name" formControlName="Lname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">Fname:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="First Name" formControlName="Fname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">Username:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="Username" formControlName="username">
+                            </div>
+                        </div>
+                        <div *ngIf = "add == 'addUser'" class="form-group">
+                          <label class="col-lg-2 control-label">Password:</label>
+                            <div class="col-lg-10">
+                              <input type="password" class="form-control" placeholder="Password" formControlName="userpassword">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">CardID:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="cardID" formControlName="cardID">
+                            </div>
+                        </div>
+                      </div>                    
+
+                      <div *ngIf = "add == 'addUser' && modalForm.status == 'VALID'">
+                        <div class="col-sm-6"></div>                        
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addUser()" >Add</button>
+                      </div>   
+
+                      <div *ngIf = "add == 'addUser' && modalForm.status == 'INVALID'">
+                        <div class="col-sm-6"></div>                        
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" disabled="">Add</button>
+                      </div>                 
+
+                      <div *ngIf = "update == 'updateUser'">
+                        <div class="col-sm-6"></div>                
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "updateUser()" >Save</button>                      
+                      </div>                      
+
+                      </div>
+                    </form>
+                </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+<div id="modal-users" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content animated {{modalAnimation}}">
+          <div class="modal-body">
+            <p></p>
+              <div class="row">
+                <div class="col-sm-11">              
+                  <div class="col-sm-1">
+                  </div>               
+                   <form #heroForm="ngForm">
+                    <div class="col-sm-11">               
+                      <div  class="form-horizontal">                                                                      
+                         <div class="form-group">
+                          <label class="col-lg-2 control-label">Lname:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="profile.Fname" name = "Fname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">Fname:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="profile.Lname" name = "Lname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">Username:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="Username" [(ngModel)]="profile.username" name = "username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">CardID:</label>
+                            <div class="col-lg-10">
+                              <input type="text" class="form-control" placeholder="cardID" [(ngModel)]="profile.cardID" name = "cardID">
+                            </div>
+                        </div>
+                      </div>                            
+
+                      <div>
+                        <div class="col-sm-6"></div>                
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "editProfile()" >Save</button>                      
+                      </div>                      
+
+                      </div>
+                    </form>
+                </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+<div id="modal-users2" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content animated {{modalAnimation}}">
+          <div class="modal-body">
+            <div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
+              <div class="row">
+                <div class="col-sm-11">              
+                  <div class="col-sm-1">
+                  </div>               
+                   <form [formGroup]="modalForm"  novalidate> 
+                    <div class="col-sm-11">               
+                      <div  class="form-horizontal">                                                                      
+                         <div class="form-group">
+                          <label class="col-lg-2 control-label">Current Password:</label>
+                            <div class="col-lg-10">
+                              <input type="password" class="form-control" placeholder="Current Password" formControlName="current_password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">New Password:</label>
+                            <div class="col-lg-10">
+                              <input type="password" class="form-control" placeholder="New Password" formControlName="new_password">
+                            </div>
+                        </div>                                            
+                      </div>                            
+
+                      <div>
+                        <div class="col-sm-6"></div>                
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "changePassword()" >Save</button>                      
+                      </div>                      
+
+                      </div>
+                    </form>
+                </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>

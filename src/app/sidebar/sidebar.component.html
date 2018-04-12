@@ -1,0 +1,9 @@
+<div *ngFor = "let menuItem of menuItems" class="nav">
+<li class="{{menuItem.status}}">
+	<a (click)=navigateTo(menuItem.path)>
+		<i class="{{menuItem.icon}}"></i> 
+		<span class="nav-label">{{menuItem.title}}</span>
+	</a>
+</li>
+</div>
+

@@ -1,0 +1,84 @@
+<form #input="ngForm">
+ 	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>				
+				<th style="width: 40px">ID</th>
+				<th>Group Name</th>
+				<th >Permission Name</th>
+				<th style="width: 40px">Users</th>								
+				<th style="width: 40px">Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor = "let access of groupAccess">				
+				<td>{{access.id}}</td>
+				<td>{{access.groupName}}</td>
+				<td>{{access.permissionName}}</td>
+				<td align="center">{{access.users}}</td>											
+				<td align="center">								                                        
+                    <button type="submit" class="btn btn-danger btn-xs" (click)="delGroupAccess(access.id)">
+                    	<span class="glyphicon glyphicon-trash"></span>
+                    </button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<button type="button" class="btn btn-back btn-sm" (click) = "back()">Back</button>
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#modal-grpAccess" (click) = "getData()">Add</button>	
+ </form>
+
+
+<div id="modal-grpAccess" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">    
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form #input="ngForm">                
+              <div class="col-sm-2"></div>                     
+              <div class="col-sm-12">
+                <br>
+                <table class="table table-fixed table-striped table-hover ">
+                  <thead>
+                    <tr>                                 
+                      <th style="width: 266px">Group Name</th>
+                      <th style="width: 200px">Permission Name</th> 
+                      <th>Members</th>                     
+                      <th style="width: 25px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>                                                           
+                    <tr *ngFor = "let group of unregistered_group">                                  
+                      <td style="width: 266px" >{{group.name}}</td>
+                      <td style="width: 200px" >
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-primary btn-table dropdown-toggle" type="button">{{CB_Status['a'+group.id]}} <span class="caret"></span></button>
+                           <ul class="dropdown-menu">
+                              <ng-container *ngFor = "let permission of permissions">
+                                <li><a (click)="addPermission(group.id,permission.id,permission.name)">{{permission.name}}</a></li> 
+                              </ng-container>                               
+                           </ul>
+                        </div>                      
+                      </td> 
+                      <td align="center">{{group.members}}</td>                   
+                      <ng-container *ngIf = "CB_Status['a'+group.id] == 'Permission'">
+                        <input type="checkbox" name="" disabled="">
+                      </ng-container>
+                      <ng-container *ngIf = "CB_Status['a'+group.id] != 'Permission'">
+                        <input type="checkbox" name="" checked="" (click) = "unCheck_CB(group.id)">
+                      </ng-container>
+                    </tr>                                
+                  </tbody>
+                </table>
+              </div>
+              <div class="pull-right">            
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addGrpAccess()" >Add</button>                      
+              </div> 
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

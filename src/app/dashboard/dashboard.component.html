@@ -1,0 +1,31 @@
+<div id="wrapper">
+	<nav class="navbar-default navbar-static-side" role="navigation">
+		<div class="sidebar-collapse">
+			<ul class="nav" id="side-menu">
+				<sidebar-header-cmp></sidebar-header-cmp>
+				<sidebar-cmp></sidebar-cmp>
+			</ul>
+		</div>
+	</nav>
+	<div id="page-wrapper" class="gray-bg">
+		<div class="row border-bottom">
+			<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+				<content-header-cmp></content-header-cmp>
+			</nav>
+		</div>
+		<navbar-cmp></navbar-cmp>
+		<div class="{{class}}">
+		    <div class="row">
+			    <div class="col-lg-12">
+				    <div class="ibox float-e-margins">
+				    	<table-header-cmp></table-header-cmp>
+				    	<div class = "{{class3}}">				  				    		
+				    		<router-outlet></router-outlet>		    		
+				    	</div>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
+	    <footer-cmp></footer-cmp>             
+	</div>
+</div>

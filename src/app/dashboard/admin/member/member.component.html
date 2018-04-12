@@ -1,0 +1,148 @@
+<form #input="ngForm">
+
+	<div class="form-horizontal2">
+        <div class="form-group2 col2-sm-12">
+			<div class="col2-sm-6">
+				<div class="input-group-btn">
+               <button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row}}&emsp;</button>
+               <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
+               <ul class="dropdown-menu">
+               	   <li><a (click)=manageRow(10)>10</a></li>
+                   <li><a (click)=manageRow(50)>50</a></li>
+                   <li><a (click)=manageRow(100)>100</a></li>
+                   <li><a (click)=manageRow(200)>Show all</a></li>                 
+               </ul>
+           </div>
+			</div>
+			<div class="col2-sm-6">
+				<div class="col2-sm-6"></div>
+				<div class="col2-sm-6">					
+					<input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter"> 				
+				</div>
+			</div>
+        </div>                   
+    </div>
+
+ 	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>				
+				<th style="width: 50px" (click)="sort('id',0)" class="{{class[1][0]}}">
+					ID<span class="fa fa-sort{{class[0][0]}} pull-right"></span>
+				</th>				
+				<th (click)="sort('username',1)" class="{{class[1][1]}}">
+					Username<span class="fa fa-sort{{class[0][1]}} pull-right"></span>
+				</th>
+				<th (click)="sort('Lname',2)" class="{{class[1][2]}}">
+					Lname<span class="fa fa-sort{{class[0][2]}} pull-right"></span>
+				</th>
+				<th (click)="sort('Fname',3)" class="{{class[1][3]}}">
+					Fname<span class="fa fa-sort{{class[0][3]}} pull-right"></span>
+				</th>
+				<th (click)="sort('CardID',4)" class="{{class[1][4]}}">
+					CardID<span class="fa fa-sort{{class[0][4]}} pull-right"></span>
+				</th>							
+				<th style="width: 40px">Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor = "let member of groupMember | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: row, currentPage: p, id: 'first' };">				
+				<td>{{member.id}}</td>
+				<td>{{member.username}}</td>
+				<td>{{member.Lname}}</td>
+				<td>{{member.Fname}}</td>
+				<td>{{member.cardID}}</td>
+				<td align="center">								                                        
+          <button type="submit" class="btn btn-danger btn-xs" (click)="deleteMember(member.id)">
+          	<span class="glyphicon glyphicon-trash"></span>
+          </button>
+				</td>								
+			</tr>
+		</tbody>
+	</table>
+	<p>Showing 1 to {{row}} of {{totalUsr}}</p>
+	<div class="pull-right">
+		<pagination-controls (pageChange)="p = $event" id = "first"></pagination-controls>
+	</div><br><br>
+	<button type="button" class="btn btn-back btn-sm" (click) = "back()">Back</button>	
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#modal-members" (click) = "getData()">Add</button>	
+ </form>
+
+
+
+<div id="modal-members" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">    
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form #input="ngForm">                
+              <div class="col-sm-2"></div>                     
+              <div class="col-sm-12">
+              <br>           
+              <div class="form-horizontal2">
+                <div class="form-group2 col2-sm-12">
+                  <div class="col2-sm-6">
+                    <div class="input-group-btn">
+                      <button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row2}}&emsp;</button>
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a (click)=manageRow2(8)>8</a></li>
+                        <li><a (click)=manageRow2(50)>50</a></li>
+                        <li><a (click)=manageRow2(100)>100</a></li>
+                        <li><a (click)=manageRow2(200)>Show all</a></li>                 
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col2-sm-6">
+                    <div class="col2-sm-5"></div>
+                    <div class="col2-sm-7">         
+                      <input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter2">        
+                    </div>
+                  </div>
+                </div>                   
+              </div>
+                <table class="table table-fixed table-striped table-hover ">
+                  <thead>
+                    <tr>                                 
+                      <th (click)="sort2('Username',1)" class="{{class2[1][0]}}">
+                        Username<span class="fa fa-sort{{class2[0][0]}} pull-right"></span>
+                      </th>
+                      <th (click)="sort2('Lname',2)" class="{{class2[1][1]}}">
+                        Lname<span class="fa fa-sort{{class2[0][1]}} pull-right"></span>
+                      </th>
+                      <th (click)="sort2('Fname',3)" class="{{class2[1][2]}}">
+                        Fname<span class="fa fa-sort{{class2[0][2]}} pull-right"></span>
+                      </th>
+                      <th (click)="sort2('CardID',4)" class="{{class2[1][3]}}">
+                        CardID<span class="fa fa-sort{{class2[0][3]}} pull-right"></span>
+                      </th>
+                      <th style="width: 25px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>                              
+                    <tr *ngFor = "let user of notMember | orderBy: key2 : reverse2 | filter:filter2 | paginate: { itemsPerPage: row2, currentPage: p2, id: 'second' };">                                  
+                      <td style="width: 169px">{{user.username}}</td>
+                      <td style="width: 98px">{{user.Lname}}</td>
+                      <td style="width: 98px">{{user.Fname}}</td>
+                      <td style="width: 101px">{{user.cardID}}</td>
+                      <td><input type="checkbox"  name="a{{user.id}}" ngModel></td>
+                    </tr>                                
+                  </tbody>
+                </table>
+                <p>Showing 1 to {{row2}} of {{totalUsr2}}</p>
+                <div class="pull-right">
+                  <pagination-controls (pageChange)="p2 = $event" id = "second"></pagination-controls>
+                </div><br><br>
+              </div>
+              <div>
+                <div class="col-sm-7"></div>                        
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addMember(input)" >Add</button>                      
+              </div> 
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

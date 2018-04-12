@@ -1,0 +1,34 @@
+
+<div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+
+		<div *ngFor = "let room of rooms">
+			<div class="col-lg-4">
+			    <div class="grow">
+			        <div class="contact-box">                       
+			            <div class="col-lg-4">
+			                <div class="text-center">
+			                    <img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.name[0]}}.png">
+			                    <div class="m-t-xs font-bold">Room: {{room.id}}</div>
+			                </div>			               
+			            </div>
+			            <a (click)=GroupAccess(room.id)>
+			                <div class="col-sm-8">                    
+			                    <h3><strong>{{room.name}}</strong></h3>                    
+			                    <strong>Description</strong><br>
+			                     <h5>{{room.description}}</h5><br>
+			                    <strong>Number of groups:</strong>&nbsp;{{room.groups}}<br>			                                    
+			                </div>
+			                <div class="clearfix"></div>
+			            </a>
+			        </div>
+			    </div>
+			</div>
+		</div>
+
+    </div>
+</div>            
+
+ 
+
