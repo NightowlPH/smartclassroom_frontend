@@ -62,24 +62,32 @@ export class NavbarComponent implements DoCheck
 			}
 			else if(url.indexOf('roomAccess') != -1)
 			{
-				this.navbarService.GetRoomDetail(url.slice(23,url.length))
-				.subscribe( data =>
-				{			
-					if(url.indexOf('home/admin') != -1)
-					{							
-						this.breadcrumb.push({'name': 'Rooms', 'path': 'admin/rooms'}, {'name': data['data'].name, 'path': ''})
-						this.title = data['data'].name
-					}				
-					else
-					{							
-						this.breadcrumb.push({'name': 'Rooms', 'path': 'rooms'}, {'name': data['data'].name, 'path': ''})
-						this.title = data['data'].name
-					}
-
-				},(error: HttpErrorResponse) =>
+				if(url.indexOf('home/admin') != -1)
 				{
-					this.handleError(error)
-				})
+					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					.subscribe( data =>
+					{									
+						this.breadcrumb.push({'name': 'Rooms', 'path': 'admin/rooms'}, {'name': data['data'].name, 'path': ''})
+						this.title = data['data'].name						
+
+					},(error: HttpErrorResponse) =>
+					{
+						this.handleError(error)
+					})
+				}
+				else
+				{
+					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					.subscribe( data =>
+					{													
+						this.breadcrumb.push({'name': 'Rooms', 'path': 'rooms'}, {'name': data['data'].name, 'path': ''})
+						this.title = data['data'].name						
+
+					},(error: HttpErrorResponse) =>
+					{
+						this.handleError(error)
+					})
+				}				
 			}
 			else
 			{
@@ -138,23 +146,32 @@ export class NavbarComponent implements DoCheck
 			}
 			else if(url.indexOf('roomAccess') != -1)
 			{
-				this.navbarService.GetRoomDetail(url.slice(17,url.length))
-				.subscribe( data =>
-				{					
-					if(url.indexOf('home/admin') != -1)
-					{							
-						this.breadcrumb.push({'name': 'Rooms', 'path': 'admin/rooms'}, {'name': data['data'].name, 'path': ''})
-						this.title = data['data'].name
-					}				
-					else
-					{							
-						this.breadcrumb.push({'name': 'Rooms', 'path': 'rooms'}, {'name': data['data'].name, 'path': ''})
-						this.title = data['data'].name
-					}
-				},(error: HttpErrorResponse) =>
+				if(url.indexOf('home/admin') != -1)
 				{
-					this.handleError(error)
-				})
+					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					.subscribe( data =>
+					{									
+						this.breadcrumb.push({'name': 'Rooms', 'path': 'admin/rooms'}, {'name': data['data'].name, 'path': ''})
+						this.title = data['data'].name						
+
+					},(error: HttpErrorResponse) =>
+					{
+						this.handleError(error)
+					})
+				}
+				else
+				{
+					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					.subscribe( data =>
+					{													
+						this.breadcrumb.push({'name': 'Rooms', 'path': 'rooms'}, {'name': data['data'].name, 'path': ''})
+						this.title = data['data'].name						
+
+					},(error: HttpErrorResponse) =>
+					{
+						this.handleError(error)
+					})
+				}
 			}
 			else
 			{
