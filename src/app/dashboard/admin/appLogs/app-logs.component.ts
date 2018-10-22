@@ -1,9 +1,8 @@
 import { Component, OnInit} from '@angular/core'
-import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminAppLogsService } from './app-logs.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -27,19 +26,19 @@ export class AdminAppLogsComponent implements OnInit
 	filter: string
 	
 
-	constructor(private appLogsService: AdminAppLogsService, private route: Router, private cookieService: CookieService){}
+	constructor(private appLogsService: AdminAppLogsService, 
+				private errorHandlerService: ErrorHandlerService){}
 
 	ngOnInit()
 	{
 		this.appLogsService.GetActiveUsers()
 		.subscribe( data =>
-		{			
-			this.updateToken(data['token'])	
+		{						
 			this.activeUsers = data['users']
 			this.totalUsr = this.activeUsers.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})		
 	}
 	
@@ -48,11 +47,12 @@ export class AdminAppLogsComponent implements OnInit
 	{
 		this.appLogsService.DelActiveUsers(id)
 		.subscribe( data =>
-		{
-			console.log(data['token'])
-			this.updateToken(data['token'])
+		{			
 			this.ngOnInit()
-		})
+		},(error: HttpErrorResponse) =>
+			{
+				this.errorHandlerService.handleError(error)
+			})
 	}
 
 	refresh()
@@ -88,26 +88,4 @@ export class AdminAppLogsComponent implements OnInit
 		}		
 	}
 	
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.route.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.route.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

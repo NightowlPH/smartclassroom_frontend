@@ -1,0 +1,123 @@
+<div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
+<form #input="ngForm">
+
+	<div class="form-horizontal2">
+        <div class="form-group2 col2-sm-12">
+			<div class="col2-sm-6">
+				<div class="input-group-btn">
+               <button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row}}&emsp;</button>
+               <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
+               <ul class="dropdown-menu">
+               	   <li><a (click)=manageRow(10)>10</a></li>
+                   <li><a (click)=manageRow(50)>50</a></li>
+                   <li><a (click)=manageRow(100)>100</a></li>
+                   <li><a (click)=manageRow(200)>Show all</a></li>                 
+               </ul>
+           </div>
+			</div>
+			<div class="col2-sm-6">
+				<div class="col2-sm-6"></div>
+				<div class="col2-sm-6">					
+					<input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter"> 				
+				</div>
+			</div>
+        </div>                   
+    </div>
+    <p>Showing 1 to {{row}} of {{totalUsr}}</p>
+ 	<table class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>				
+				<th style="width: 50px" (click)="sort('id',0)" class="{{class[1][0]}}">
+					ID<span class="fa fa-sort{{class[0][0]}} pull-right"></span>
+				</th>
+				<th (click)="sort('name',1)" class="{{class[1][1]}}">
+					Name<span class="fa fa-sort{{class[0][1]}} pull-right"></span>
+				</th>
+				<th (click)="sort('description',2)" class="{{class[1][2]}}">
+					Description<span class="fa fa-sort{{class[0][2]}} pull-right"></span>
+				</th>
+				<th style="width: 40px">Edit</th>
+				<th style="width: 40px">Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let device of devices | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">				
+				<td>{{device.id}}</td>
+				<td>{{device.name}}</td>
+				<td>{{device.description}}</td>
+				<td align="center">									                
+            <button class="btn btn-primary btn-xs" (click) = "getUpdateData(device.id)" data-toggle="modal" href="#modal-devices">
+            	<span class="glyphicon glyphicon-pencil"></span>
+            </button>
+				</td>
+				<td align="center">								                                        
+            <button type="submit" class="btn btn-danger btn-xs" (click)="deleteDevice(device.id)">
+            	<span class="glyphicon glyphicon-trash"></span>
+            </button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Showing 1 to {{row}} of {{totalUsr}}</p>
+	<div class="pull-right">
+		<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	</div><br><br>
+	<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#modal-devices" (click) = "getData()">Add</button>	
+ </form>
+
+
+<div id="modal-devices" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content animated {{modalAnimation}}">
+          <div class="modal-body">
+          	<p></p>
+              <div class="row">
+                <div class="col-sm-11">              
+                  <div class="col-sm-1">
+                  </div>               
+                  <form [formGroup]="modalForm"  novalidate>        
+                    <div class="col-sm-11">
+
+                      <div *ngIf = "add == 'addDevice' || update == 'updateDevice'
+                       || add == 'addGroup' || update == 'updateGroup'" class="form-horizontal"> 
+                       <div class="form-group">
+                        <label class="col-lg-2 control-label">Name:</label>
+                          <div class="col-lg-10">
+                            <input type="text" class="form-control" placeholder="Name" formControlName="name" >
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-lg-2 control-label">Description:</label>                          
+                          <div class="col-lg-10">
+                            <textarea class="form-control" formControlName="description" placeholder="Enter description ..." ></textarea>
+                          </div>
+                        </div>
+                      </div>                                          
+
+                      <div *ngIf = "add == 'addDevice' && modalForm.status == 'VALID'">
+                        <div class="col-sm-6"></div>                        
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addDevice()" >Add</button>
+                      </div> 
+
+                      <div *ngIf = "add == 'addDevice' && modalForm.status == 'INVALID'">
+                        <div class="col-sm-6"></div>                        
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" disabled="">Add</button>
+                      </div>                 
+
+                      <div *ngIf = "update == 'updateDevice'">
+                        <div class="col-sm-6"></div>                        
+                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "updateDevice()" >Save</button>                      
+                      </div>                      
+
+                      </div>
+                    </form>
+                </div>
+          </div>
+      </div>
+      </div>
+  </div>
+</div>
+

@@ -6,6 +6,7 @@ import { Router }    from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 import { UsersService} from './users.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 import { Profile } from './users.metadata';
 
 
@@ -39,7 +40,7 @@ export class UsersComponent
 	user_id: string
 
 	constructor(private usersService: UsersService, private formBuilder: FormBuilder, private cookieService: CookieService,
-			    private route: Router ){ this.createForm() }
+			    private errorHandlerService: ErrorHandlerService, private route: Router){ this.createForm() }
 
 
 	createForm()
@@ -66,13 +67,12 @@ export class UsersComponent
 		this.usersService
 		.getAll()
 		.subscribe( data => 
-			{				
-				this.updateToken(data['token'])				
+			{									
 				this.users = data['users']
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			});				
 	}	
 
@@ -84,8 +84,7 @@ export class UsersComponent
 		console.log(this.profile)
 		this.usersService.UpdateUser(this.profile)
 		.subscribe( data => 
-		{	
-			this.updateToken(data['token'])
+		{				
 			if(data['message'])
 			{
 				this.message = data['message']
@@ -97,7 +96,7 @@ export class UsersComponent
 			}						
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -105,8 +104,7 @@ export class UsersComponent
 	{				
 		this.usersService.ChangePassword(this.modalForm.value)
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			if(data['message'] != 'your password is successfully change')
 			{
 				this.message = data['message']
@@ -140,28 +138,5 @@ export class UsersComponent
 	{		
 		this.row = length
 	}
-	p: number = 1;
-
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.route.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.route.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
+	p: number = 1;		
 }

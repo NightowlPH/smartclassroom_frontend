@@ -24,6 +24,7 @@ import { RoomComponent } from './user/room/room.component';
 import { RoomAccessComponent } from './user/roomAccess/room-access.component';
 import { AuditTrailComponent } from './user/auditTrail/audit-trail.component';
 import { RoomStatusComponent } from './user/roomStatus/room-status.component';
+import { DevicesComponent } from './admin/devices/devices.component'
 import { DashboardComponent } from './dashboard.component';
 
 import { DashboardRoutingModule } from './dashboard.routes';
@@ -72,6 +73,7 @@ import { SidebarModule } from '../sidebar/sidebar.module';
         RoomAccessComponent,
         AuditTrailComponent,
         RoomStatusComponent,
+        DevicesComponent,
     	DashboardComponent
     ]
 })

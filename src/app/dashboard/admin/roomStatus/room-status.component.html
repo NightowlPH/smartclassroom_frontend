@@ -1,0 +1,132 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<ng-container *ngFor="let room of room_status">
+			<div class="col-lg-4">
+				<div class="grow">
+					<div class="contact-box" style="height: 270px">
+						<div class="col-lg-4">
+			                <div class="text-center">			                    
+			                    <img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.room_name[0]}}.png">                          
+			                    <div class="m-t-xs font-bold">Room: {{room.room_id}}</div><br>
+			                    <ng-container *ngIf = "room.add_device">
+			                    	<button class="btn btn-primary btn-xs" data-toggle="modal" href="#modal-add-devies" (click) = "getRoomDevice(room.room_id)">Add Device</button>
+			                    </ng-container>
+			                </div>
+			            </div>
+			            <a>
+							<div class="col-sm-8">
+								<h3><strong>{{room.room_name}}</strong></h3>                    			                   
+								<strong>Devices:</strong><br><br>
+								<table>
+									<tbody>
+										<tr *ngFor="let device of room.devices" >
+											<td style="width: 150px ; padding-right: 5px; padding-left: 5px">{{device.device_name}}</td>
+											<td style="width: 40px; padding-right: 20px; padding-left: 5px">
+												<div class="switch">
+					                                <div class="onoffswitch">
+					                                	<ng-container *ngIf = "device.device_status == 'on'">
+					                                		<input type="checkbox"  class="onoffswitch-checkbox" id="{{device.room_status_id}}" checked>
+					                                	</ng-container>															
+					                                	<ng-container *ngIf = "device.device_status == 'off'">
+					                                		<input type="checkbox"  class="onoffswitch-checkbox" id="{{device.room_status_id}}">
+					                                	</ng-container>					                                    
+					                                    <label class="onoffswitch-label" for="{{device.room_status_id}}">
+					                                        <span class="onoffswitch-inner"></span>
+					                                        <span class="onoffswitch-switch"></span>
+					                                    </label>
+					                                </div>
+					                            </div>
+											</td>											
+											<td align="center">								                                        
+							                    <button type="submit" class="btn btn-danger btn-xs" (click)="deleteRoomDevice(device.room_status_id)">
+							                    	<span class="glyphicon glyphicon-trash"></span>
+							                    </button>
+											</td>										
+										</tr>
+									</tbody>
+								</table>
+                <!-- <input type="text" id="ionrange_3">							 -->
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>				
+		</ng-container>
+    </div>
+</div>
+
+<div id="modal-add-devies" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">    
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form #input="ngForm">                
+              <div class="col-sm-2"></div>                     
+              <div class="col-sm-12">
+              <br>           
+              <div class="form-horizontal2">
+                <div class="form-group2 col2-sm-12">
+                  <div class="col2-sm-6">
+                    <div class="input-group-btn">
+                      <button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row2}}&emsp;</button>
+                      <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a (click)=manageRow2(8)>8</a></li>
+                        <li><a (click)=manageRow2(50)>50</a></li>
+                        <li><a (click)=manageRow2(100)>100</a></li>
+                        <li><a (click)=manageRow2(200)>Show all</a></li>                 
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col2-sm-6">
+                    <div class="col2-sm-5"></div>
+                    <div class="col2-sm-7">         
+                      <input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter2">        
+                    </div>
+                  </div>
+                </div>                   
+              </div>
+                <table class="table table-fixed table-striped table-hover ">
+                  <thead>
+                    <tr>                                 
+                      <th (click)="sort('id',1)" class="{{class[1][0]}}">
+                        ID<span class="fa fa-sort{{class[0][0]}} pull-right"></span>
+                      </th>
+                      <th (click)="sort('Lname',2)" class="{{class[1][1]}}">
+                        Name<span class="fa fa-sort{{class[0][1]}} pull-right"></span>
+                      </th>
+                      <th (click)="sort('Fname',3)" class="{{class[1][2]}}">
+                        Description<span class="fa fa-sort{{class[0][2]}} pull-right"></span>
+                      </th>                      
+                      <th style="width: 25px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>                              
+                    <tr *ngFor = "let device of devices | orderBy: key2 : reverse2 | filter:filter2 | paginate: { itemsPerPage: row2, currentPage: p2, id: 'second' };">                                  
+                      <td style="width: 169px">{{device.id}}</td>
+                      <td style="width: 98px">{{device.name}}</td>
+                      <td style="width: 98px">{{device.description}}</td>                      
+                      <td><input type="checkbox"  name="a{{device.id}}" ngModel></td>
+                    </tr>                                
+                  </tbody>
+                </table>
+                <p>Showing 1 to {{row}} of {{totalUsr}}</p>
+                <div class="pull-right">
+                  <pagination-controls (pageChange)="p = $event" id = "first"></pagination-controls>
+                </div><br><br>                
+              </div>
+              <div>
+                <div class="col-sm-7"></div>                        
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addRoomDevice(input)" >Add</button>                      
+              </div> 
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <input type="text" id="ionrange_3"> -->

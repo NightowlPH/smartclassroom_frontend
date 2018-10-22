@@ -1,10 +1,9 @@
 import { Component, OnInit, DoCheck} from '@angular/core'
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router }    from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 import { PermissionService } from './permission.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -31,7 +30,7 @@ export class PermissionComponent
 	filter: string
 
 	constructor( private permissionService: PermissionService, 
-		         private cookieService: CookieService, private route: Router ){}
+		         private errorHandlerService: ErrorHandlerService){}
 	
 
 	ngOnInit()
@@ -39,13 +38,12 @@ export class PermissionComponent
 		this.permissionService
 		.getAll()
 		.subscribe(data => 
-		{
-			this.updateToken(data['token'])
+		{			
 			this.permissions = data['permissions']
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			});
 	}
 	
@@ -75,30 +73,5 @@ export class PermissionComponent
 			this.row = this.totalUsr
 		}		
 	}
-	p: number = 1;
-
-	
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.route.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.route.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
-	
+	p: number = 1;	
 }

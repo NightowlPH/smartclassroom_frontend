@@ -1,21 +1,19 @@
-import { Component, OnInit, DoCheck} from '@angular/core'
-import { NgForm } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
+import { Component, OnInit} from '@angular/core'
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router }    from '@angular/router';
+import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 
-import { AdminPermissionService } from './permission.service';
+import { DevicesService } from './devices.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
-	selector: 'permission-cmp',
-	templateUrl: 'permission.component.html'
+	selector: 'devices-cmp',
+	templateUrl: 'devices.component.html'
 })
 
-export class AdminPermissionComponent
+export class DevicesComponent
 {
-	permissions: object[]
+	devices: object[]
 	message: string
 	modalForm: FormGroup
 	
@@ -31,8 +29,8 @@ export class AdminPermissionComponent
 	tempID
 	filter: string
 
-	constructor( private permissionService: AdminPermissionService, private formBuilder: FormBuilder, 
-		         private route: Router,  private errorHandlerService: ErrorHandlerService ){ this.createForm() }
+	constructor( private deviceService: DevicesService, private formBuilder: FormBuilder, 
+		         private errorHandlerService: ErrorHandlerService ){ this.createForm() }
 
 	createForm()
 	{
@@ -44,12 +42,12 @@ export class AdminPermissionComponent
 
 	ngOnInit()
 	{
-		this.permissionService
+		this.deviceService
 		.getAll()
 		.subscribe(data => 
-		{			
-			this.permissions = data['permissions']
-			this.totalUsr = this.permissions.length
+		{				
+			this.devices = data['devices']
+			this.totalUsr = this.devices.length
 		},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
@@ -59,7 +57,7 @@ export class AdminPermissionComponent
 	getData()
 	{
 		this.update = ""	    		  		
-		this.add = "addPermission"
+		this.add = "addDevice"
 		this.modalAnimation = "flipInY" 
 		this.modalForm = this.formBuilder.group
 		({
@@ -68,17 +66,17 @@ export class AdminPermissionComponent
 		})    		   	
 	}
 
-	addPermission()
+	addDevice()
 	{
 		if ( this.modalForm.status == "VALID")
 		{								
-			this.permissionService.AddPermission(this.modalForm.value,"permissions").subscribe( response =>
+			this.deviceService.AddDevice(this.modalForm.value,"devices").subscribe( response =>
 			{				
 				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
 				{
-					this.message = "permission already exist"
+					this.message = "Device already exist"
 				}
 			},(error: HttpErrorResponse) =>
 			{
@@ -87,11 +85,11 @@ export class AdminPermissionComponent
 		}		
 	}
 
-	deletePermission(id: any)
+	deleteDevice(id: any)
 	{
 				
-		this.permissionService.deletePermission(id).subscribe( permission => 
-		{			
+		this.deviceService.deleteDevice(id).subscribe( Device => 
+		{						
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -102,10 +100,10 @@ export class AdminPermissionComponent
 	getUpdateData(id: string)
 	{
 		this.add = ""    
-		this.permissionService.routeID = id		
+		this.deviceService.routeID = id		
 		this.modalAnimation = "fadeInDown"    		
-		this.permissionService.GetPermission("permission").subscribe( data => 
-		{			
+		this.deviceService.GetDevice("device").subscribe( data => 
+		{				
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
@@ -113,11 +111,11 @@ export class AdminPermissionComponent
 			})
 	}
 
-	updatePermission()
+	updateDevice()
 	{
 		if (this.modalForm.status == "VALID")
 		{
-			this.permissionService.UpdatePermission(this.modalForm.value,"permission")
+			this.deviceService.UpdateDevice(this.modalForm.value,"device")
 			.subscribe( data => 
     		{    			
     			if(data['message'])
@@ -134,7 +132,7 @@ export class AdminPermissionComponent
 				this.errorHandlerService.handleError(error)
 			})
 		}
-	}	
+	}
 
 	sort(key, id: number)
 	{				
@@ -171,7 +169,6 @@ export class AdminPermissionComponent
 			name: [data["name"],Validators.required],
 			description: [data["description"], Validators.required]
 		})
-		this.update = "updatePermission"	   
+		this.update = "updateDevice"	   
 	}	
-	
 }

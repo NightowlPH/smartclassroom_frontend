@@ -2,9 +2,9 @@ import { Component, OnInit, DoCheck } from '@angular/core'
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminRoomService } from './room.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -23,8 +23,8 @@ export class AdminRoomComponent
 	update: string
 	modalAnimation: string
 
-	constructor( private roomService: AdminRoomService,private router: Router, 
-		         private cookieService: CookieService, private formBuilder: FormBuilder){this.createForm()}
+	constructor( private roomService: AdminRoomService,private router: Router, private errorHandlerService: ErrorHandlerService, 
+		         private formBuilder: FormBuilder){this.createForm()}
 
 
 	createForm()
@@ -39,13 +39,12 @@ export class AdminRoomComponent
 	{
 		this.roomService.getRooms()
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.rooms  = data['rooms']
 			console.log(this.rooms)
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -66,8 +65,7 @@ export class AdminRoomComponent
 		if ( this.modalForm.status == "VALID")
 		{								
 			this.roomService.AddRoom(this.modalForm.value,"rooms").subscribe( response =>
-			{	
-				this.updateToken(response['token'])			
+			{					
 				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
@@ -76,7 +74,7 @@ export class AdminRoomComponent
 				}
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})				
 		}	
 	}
@@ -85,12 +83,11 @@ export class AdminRoomComponent
 	{
 		this.roomService.DeleteRoom(id)
 		.subscribe( room =>
-		{
-			this.updateToken(room['token'])
+		{			
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -100,12 +97,11 @@ export class AdminRoomComponent
 		this.add = ""    		
 		this.modalAnimation = "fadeInDown"
 		this.roomService.GetRoom("room").subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -115,8 +111,7 @@ export class AdminRoomComponent
 		{
 			this.roomService.UpdateRoom(this.modalForm.value,"room")
 			.subscribe( data => 
-			{
-				this.updateToken(data['token'])
+			{				
 				if(data['message'])
 				{
 					this.message = data['message']
@@ -128,7 +123,7 @@ export class AdminRoomComponent
 				}		
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 		}		
 	}
@@ -147,27 +142,6 @@ export class AdminRoomComponent
 			description: [data["description"], Validators.required]
 		})
 		this.update = "updateRoom"
-	}
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.router.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.router.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
+	}	
+	
 }

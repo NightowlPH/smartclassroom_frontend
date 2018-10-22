@@ -1,12 +1,11 @@
 import { Component, OnInit, DoCheck } from '@angular/core'
 import { Location } from '@angular/common';
-import { Route } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
-import { AdminMembersService } from './member.service'
+import { AdminMembersService } from './member.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 
 @Component
@@ -39,7 +38,7 @@ export class AdminMemberComponent
 	filter2: string
 
 	constructor( private route: ActivatedRoute, private membersService: AdminMembersService,
-				 private cookieService: CookieService, private router: Router ){}
+				 private router: Router, private errorHandlerService: ErrorHandlerService){}
 
 	ngOnInit()
 	{		
@@ -47,13 +46,12 @@ export class AdminMemberComponent
 		console.log("member",this.route)
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])			
+		{					
 			this.groupMember = data['members']
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -61,13 +59,12 @@ export class AdminMemberComponent
 	{			
 		this.membersService.getAllNotMem(this.route.snapshot.paramMap.get('id')	)
 			.subscribe( data =>
-			{	
-				this.updateToken(data['token'])			
+			{						
 				this.notMember = data['members']
 				this.totalUsr2 = this.notMember.length				
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})	
 	}
 
@@ -75,13 +72,12 @@ export class AdminMemberComponent
 	{			
 		var group_id = this.route.snapshot.paramMap.get('id')
 		this.membersService.DeleteMember(group_id, id).subscribe( data => 
-		{
-			this.updateToken(data['token'])
+		{			
 			this.ngOnInit()	
 			
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 				
 	}
@@ -100,12 +96,11 @@ export class AdminMemberComponent
 		console.log(body)
 		this.membersService.AddMember(body,"groupMember",this.route.snapshot.paramMap.get('id'))
 		.subscribe( response =>
-		{
-			this.updateToken(response['token'])
+		{			
 			this.ngOnInit()		
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -166,28 +161,6 @@ export class AdminMemberComponent
 		{
 			this.row2 = this.totalUsr2
 		}		
-	}
-	
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.router.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.router.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
 	}
 
 }

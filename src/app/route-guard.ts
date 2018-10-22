@@ -23,8 +23,7 @@ export class AuthGuard implements CanActivate
 
   checkLogin(url: string): boolean 
   {
-     console.log("pass to route guard")
-    if (this.cookieService.get("token"))
+    if (this.cookieService.check("token"))
     {
       return true
     }

@@ -1,9 +1,9 @@
 import { Component, OnInit} from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminRoomAccessService } from './room-access.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 
 @Component
@@ -21,20 +21,19 @@ export class AdminRoomAccessComponent implements OnInit
 	CB_Status = {}	
 	addAccess = [[],[]]
 
-	constructor(private roomAccessService: AdminRoomAccessService,
-		        private cookieService: CookieService, private route: ActivatedRoute, private router: Router ){}
+	constructor(private roomAccessService: AdminRoomAccessService, private errorHandlerService: ErrorHandlerService,
+		        private route: ActivatedRoute, private router: Router ){}
 
 	ngOnInit()
 	{
 		var id = this.route.snapshot.paramMap.get('id')
 		this.roomAccessService.getGroupAccess(id)
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.groupAccess = data['group']			
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -53,18 +52,17 @@ export class AdminRoomAccessComponent implements OnInit
 				this.CB_Status = Object.assign(this.CB_Status,obj)					
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})		
 		})
 
 		this.roomAccessService.getPermissions()
 		.subscribe( data =>
-		{			
-			this.updateToken(data['token'])
+		{						
 			this.permissions = data['permissions']		
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -79,12 +77,11 @@ export class AdminRoomAccessComponent implements OnInit
 		})
 		this.roomAccessService.AddGroupAccess(this.route.snapshot.paramMap.get('id'),all_data)
 		.subscribe( response =>
-		{
-			this.updateToken(response['token'])
+		{			
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -106,39 +103,17 @@ export class AdminRoomAccessComponent implements OnInit
 	{
 		this.roomAccessService.DeleteGroupAccess(id)
 		.subscribe( response =>
-		{
-			this.updateToken(response['token'])
+		{			
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
 	back()
 	{		
 		this.router.navigate(['home/admin/rooms'])
-	}
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.router.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.router.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
+	}	
+	
 }

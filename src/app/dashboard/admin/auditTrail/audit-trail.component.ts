@@ -1,9 +1,8 @@
 import { Component, OnInit} from '@angular/core'
-import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminAuditTrailService } from './audit-trail.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -24,20 +23,19 @@ export class AdminAuditTrailComponent implements OnInit
 	tempID	
 	filter: string
 
-	constructor(private auditTrailService: AdminAuditTrailService, private route: Router, 
-		        private cookieService: CookieService){}
+	constructor(private auditTrailService: AdminAuditTrailService,  		        
+				private errorHandlerService: ErrorHandlerService ){}
 
 	ngOnInit()
 	{
 		this.auditTrailService.GetAuditTrails()
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.auditTrail = data['auditTrail']
 			this.totalUsr = this.auditTrail.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -45,12 +43,11 @@ export class AdminAuditTrailComponent implements OnInit
 	{
 		this.auditTrailService.DeleteAuditTrail(id)
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -58,12 +55,11 @@ export class AdminAuditTrailComponent implements OnInit
 	{
 		this.auditTrailService.DelAllAuditTrail()
 		.subscribe( data => 
-		{
-			this.updateToken(data['token'])
+		{			
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -95,28 +91,6 @@ export class AdminAuditTrailComponent implements OnInit
 	{		
 		this.row = length
 	}
-	p: number = 1;
-
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.route.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.route.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
+	p: number = 1;	
+	
 }
