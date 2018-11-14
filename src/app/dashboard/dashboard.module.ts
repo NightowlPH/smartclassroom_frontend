@@ -3,7 +3,7 @@ import { FormsModule }    from '@angular/forms';
 import { CommonModule }   from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
-import { Ng2OrderModule } from 'ng2-order-pipe'; //importing the module
+import { OrderModule } from 'ngx-order-pipe'; //importing the module
 import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
 import { HttpClientModule } from '@angular/common/http';
 
@@ -50,7 +50,7 @@ import { SidebarModule } from '../sidebar/sidebar.module';
 		FooterModule,   
 		SidebarModule,
         Ng2SearchPipeModule, //including into imports
-        Ng2OrderModule, // importing the sorting package here
+        OrderModule, // importing the sorting package here
         NgxPaginationModule,
         HttpClientModule
     ],

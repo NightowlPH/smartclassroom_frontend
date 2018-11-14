@@ -21,6 +21,14 @@ export class DevicesService
 		})
 	}
 
+	getRemoteDesign()
+	{
+		return this.http.get(`${this.baseUrl}/remoteDesign`,
+		{
+			headers: this.Headers()
+		})
+	}
+
 	deleteDevice(id:number)
 	{		
 		return this.http.delete(`${this.baseUrl}/device/${id}`,

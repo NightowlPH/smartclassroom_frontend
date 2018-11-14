@@ -24,8 +24,9 @@ export class DashboardComponent implements DoCheck
 
 	profile: Profile = {Fname: '', Lname: '', username: '', cardID: ''}
 	user_id: string
+	modalAnimation = "fadeInLeftBig"
 
-	constructor( private dashboardService: DashboardService, private formBuilder: FormBuilder, private errorHandlerService: ErrorHandlerService){}
+	constructor( private dashboardService: DashboardService, private formBuilder: FormBuilder, private errorHandlerService: ErrorHandlerService){ this.createForm()}
 
 	createForm()
 	{					
@@ -52,7 +53,7 @@ export class DashboardComponent implements DoCheck
 
 	ngDoCheck()
 	{
-		if (location.pathname == "/home/groups" || location.pathname == "/home/rooms" || location.pathname == "/home/admin/groups" || location.pathname == "/home/admin/rooms" || location.pathname == "/home/appLogs" || location.pathname == "/home/admin/roomStatus")
+		if (location.hash.slice(1,location.hash.length) == "/home/groups" || location.hash.slice(1,location.hash.length) == "/home/rooms" || location.hash.slice(1,location.hash.length) == "/home/admin/groups" || location.hash.slice(1,location.hash.length) == "/home/admin/rooms" || location.hash.slice(1,location.hash.length) == "/home/appLogs" || location.hash.slice(1,location.hash.length) == "/home/admin/roomStatus")
 		{
 			this.class = ""		
 			this.class3 = ""

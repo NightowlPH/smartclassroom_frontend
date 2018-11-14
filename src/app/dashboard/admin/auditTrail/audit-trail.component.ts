@@ -90,7 +90,21 @@ export class AdminAuditTrailComponent implements OnInit
 	manageRow(length: number)
 	{		
 		this.row = length
+		this.selecTag()
 	}
-	p: number = 1;	
+	p: number = 1;
+
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
+	}
 	
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit} from '@angular/core'
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
+import * as $ from 'jquery'
+
+declare var $: any;
 
 import { DevicesService } from './devices.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
@@ -14,6 +17,7 @@ import { ErrorHandlerService } from '../../../error-handler.service';
 export class DevicesComponent
 {
 	devices: object[]
+	remote_design: object[]
 	message: string
 	modalForm: FormGroup
 	
@@ -21,7 +25,7 @@ export class DevicesComponent
 	update: string
 	modalAnimation: string
 
-	class = [["","",""],["","",""]]
+	class = [["","","",""],["","","",""]]
 	key: string = 'id'
 	reverse: boolean = false
 	row = 10
@@ -36,7 +40,8 @@ export class DevicesComponent
 	{
 		this.modalForm = this.formBuilder.group
 		({
-		    			
+			name: ['',Validators.required],
+			description: ['', Validators.required]		
 		})    
 	}
 
@@ -48,10 +53,22 @@ export class DevicesComponent
 		{				
 			this.devices = data['devices']
 			this.totalUsr = this.devices.length
+			$(document).ready(function(){
+				$('.chosen-select-ws').chosen({width: "80%"})		
+			})
 		},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
 			});
+
+		this.deviceService.getRemoteDesign()
+		.subscribe( data =>
+		{
+			this.remote_design = data['remote_design']
+		},(error: HttpErrorResponse) =>
+			{
+				this.errorHandlerService.handleError(error)
+			})
 	}
 
 	getData()
@@ -63,14 +80,18 @@ export class DevicesComponent
 		({
 			name: ['',Validators.required],
 			description: ['', Validators.required]
-		})    		   	
+		})
+		this.initializeSelect('destroy')
+		this.initializeSelect({width: '80%'})  		   	
 	}
 
 	addDevice()
 	{
 		if ( this.modalForm.status == "VALID")
-		{								
-			this.deviceService.AddDevice(this.modalForm.value,"devices").subscribe( response =>
+		{			
+			var data = this.modalForm.value
+			data['remote_design_id'] = document.getElementById('remote_design')['value']					
+			this.deviceService.AddDevice(data,"devices").subscribe( response =>
 			{				
 				this.message = ""
 				this.ngOnInit()			
@@ -115,18 +136,23 @@ export class DevicesComponent
 	{
 		if (this.modalForm.status == "VALID")
 		{
-			this.deviceService.UpdateDevice(this.modalForm.value,"device")
+			console.log(document.getElementById('remote_design'))
+			var data = this.modalForm.value
+			data['remote_design_id'] = document.getElementById('remote_design')['value']
+			console.log(data)
+			this.deviceService.UpdateDevice(data,"device")
 			.subscribe( data => 
-    		{    			
-    			if(data['message'])
-				{
-					this.message = data['message']
-				}
-				else
-				{
+    		{    			    			
+    			if(data == null)
+    			{    				
 					this.message = ""
 					this.ngOnInit()
-				}		
+    			}
+    			if(data['message'])
+				{
+					console.log("yes")
+					this.message = data['message']
+				}				
     		},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
@@ -158,17 +184,45 @@ export class DevicesComponent
 		{
 			this.row = this.totalUsr
 		}		
+		this.selecTag()
 	}
 	p: number = 1;
 
 
 	private mapData(data: object)
-	{		
+	{				
+		this.set_select(data['remote_design_id'],data['remote_design'])
 		this.modalForm = this.formBuilder.group
 		({
 			name: [data["name"],Validators.required],
 			description: [data["description"], Validators.required]
 		})
 		this.update = "updateDevice"	   
-	}	
+	}
+
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
+	}
+
+	initializeSelect(parameter: any)
+	{    
+		$(document).ready(function(){
+			$('.chosen-select-ws').chosen(parameter);
+		});  
+	}
+
+	set_select(id:string, name: string)
+	{			
+		document.getElementById("remote_design")['value'] = id		
+		document.getElementsByName("chosen")[0]['textContent'] = name
+	}
 }
