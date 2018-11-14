@@ -152,15 +152,15 @@ export class AdminRoomStatusComponent implements OnInit
 	}
 
 	selecTag()
-	{
-		var class_name = document.getElementById("selectList").className
+	{	
+		var class_name = document.getElementById("rt-selectList").className		
 		if(class_name == "dropdown-menu")
 		{
-			document.getElementById("selectList").className += " show"
+			document.getElementById("rt-selectList").className += " show"
 		}
 		if(class_name == "dropdown-menu show")
 		{
-			document.getElementById("selectList").className = "dropdown-menu"
+			document.getElementById("rt-selectList").className = "dropdown-menu"
 		}
 	}
 }
