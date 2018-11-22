@@ -25,6 +25,10 @@ export class AdminGroupComponent
 	update: string
 	modalAnimation:string
 
+	filter: string
+	row = 9
+	p = 1
+
 	constructor( private groupService: AdminGroupService, private errorHandlerService: ErrorHandlerService,
 				 private formBuilder: FormBuilder, private router: Router ){ this.createForm()}
 
@@ -159,12 +163,26 @@ export class AdminGroupComponent
 	choosePermission(permission_id: string, permission_name: string)
 	{				
 		this.choosenPermission = {permission_id: permission_id}
-		this.permission = permission_name		
+		this.permission = permission_name
+		this.selecTag()		
 	}
 
 	showMember(id: string)
 	{
 		this.router.navigate(['/home/admin/groupMember',id])
+	}
+
+	selecTag()
+	{		
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
 	}
 
 	private mapData(data: object)

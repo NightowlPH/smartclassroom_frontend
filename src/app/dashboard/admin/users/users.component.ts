@@ -220,6 +220,7 @@ export class AdminUsersComponent
 	selecTag()
 	{
 		var class_name = document.getElementById("selectList").className
+		console.log(class_name)
 		if(class_name == "dropdown-menu")
 		{
 			document.getElementById("selectList").className += " show"

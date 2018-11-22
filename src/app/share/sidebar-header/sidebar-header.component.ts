@@ -42,14 +42,15 @@ export class SidebarHeaderComponent
 
 	selecTag()
 	{
-		var class_name = document.getElementById("selectList").className
+		var class_name = document.getElementById("selectList-sd").className
 		if(class_name == "dropdown-menu animated fadeInRight m-t-xs")
 		{
-			document.getElementById("selectList").className += " show"
+			document.getElementById("selectList-sd").className += " show"
 		}
 		if(class_name == "dropdown-menu animated fadeInRight m-t-xs show")
 		{
-			document.getElementById("selectList").className = "dropdown-menu animated fadeInRight m-t-xs"
+			document.getElementById("selectList-sd").className = "dropdown-menu animated fadeInRight m-t-xs"
 		}
-	}	
+	}
+	
 }

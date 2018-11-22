@@ -2,107 +2,107 @@
 <div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
-
-		<div *ngFor = "let room of rooms">
+		<div *ngFor = "let room of rooms  | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">
 			<div class="col-lg-4">
-			    <div class="grow">
-			        <div class="contact-box">                       
-			            <div class="col-lg-4">
-			                <div class="text-center">
-			                    <img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.name[0]}}.png">
-			                    <div class="m-t-xs font-bold">Room: {{room.id}}</div>
-			                </div>
-			                <dir class="form-horizontal">
-				                <div class="form-group">  
-				                    <button type="submit" class="btn btn-danger btn-xs" (click)="deleteRoom(room.id)">
-				                    <span class="glyphicon glyphicon-trash"></span></button>					
-					                <button class="btn btn-primary btn-xs" (click) = "getUpdateData(room.id)" data-toggle="modal" href="#modal-rooms"><span class="glyphicon glyphicon-pencil"></span></button> 
-						        </div> 
-				            </dir> 
-			            </div>
-			            <a (click)=GroupAccess(room.id)>
-			                <div class="col-sm-8">                    
-			                    <h3><strong>{{room.name}}</strong></h3>                    
-			                    <strong>Description</strong><br>
-			                     <p>{{room.description}}</p><br>
-			                    <strong>Number of groups:</strong>&nbsp;{{room.groups}}<br>			                                    
-			                </div>
-			                <div class="clearfix"></div>
-			            </a>
-			        </div>
-			    </div>
+				<div class="grow">
+					<div class="contact-box">                       
+						<div class="col-lg-4">
+							<div class="text-center">
+								<img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.name[0]}}.png">
+								<div class="m-t-xs font-bold">Room: {{room.id}}</div>
+							</div>
+							<dir class="form-horizontal">
+								<div class="form-group">  
+									<button type="submit" class="btn btn-danger btn-xs" (click)="deleteRoom(room.id)">
+										<span class="glyphicon glyphicon-trash"></span></button>					
+										<button class="btn btn-primary btn-xs" (click) = "getUpdateData(room.id)" data-toggle="modal" href="#modal-rooms"><span class="glyphicon glyphicon-pencil"></span></button> 
+									</div> 
+								</dir> 
+							</div>
+							<a (click)=GroupAccess(room.id)>
+								<div class="col-sm-8">                    
+									<h3><strong>{{room.name}}</strong></h3>                    
+									<strong>Description</strong><br>
+									<p>{{room.description}}</p><br>
+									<ng-container *ngIf = "room.description.length <= 25"><br></ng-container>
+									<strong>Number of groups:</strong>&nbsp;{{room.groups}}<br>			                                    
+								</div>
+								<div class="clearfix"></div>
+							</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	</div>            
 
-    </div>
-</div>            
+	<div class="footer fixed">
+		<div class="pull-right">
+			<div class="form-group form-horizontal">
+				<label class="col-lg-2 control-label">Search:</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="search" [(ngModel)]="filter">
+				</div>
+			</div>   
+		</div>
+		<div>
+			<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#modal-rooms" (click) = "getData()">Add</button>
+		</div>
+	</div>
 
- <div class="footer fixed">
-    <div class="pull-right">
-        <div class="form-group form-horizontal">
-        	<label class="col-lg-2 control-label">Search:</label>
-			<div class="col-lg-10">
-				<input type="text" class="form-control" name="search">
+
+	<div id="modal-rooms" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content animated {{modalAnimation}}">
+				<div class="modal-body">
+					<p></p>
+					<div class="row">
+						<div class="col-sm-11">              
+							<div class="col-sm-1">
+							</div>               
+							<form [formGroup]="modalForm"  novalidate>        
+								<div class="col-sm-11">
+									<div *ngIf = "add == 'addRoom' || update == 'updateRoom'" class="form-horizontal"> 
+										<div class="form-group">
+											<label class="col-lg-2 control-label">Name:</label>
+											<div class="col-lg-10">
+												<input type="text" class="form-control" placeholder="Name" formControlName="name" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-lg-2 control-label">Description:</label>                          
+											<div class="col-lg-10">
+												<textarea class="form-control" formControlName="description" placeholder="Enter description ..." ></textarea>
+											</div>
+										</div>
+									</div>                                          
+
+									<div *ngIf = "add == 'addRoom' && modalForm.status == 'VALID'">
+										<div class="col-sm-6"></div>                        
+										<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+										<button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addRoom()" >Add</button>
+									</div> 
+
+									<div *ngIf = "add == 'addRoom' && modalForm.status == 'INVALID'">
+										<div class="col-sm-6"></div>                        
+										<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+										<button class="btn btn-primary btn-sm" data-dismiss = "modal" disabled="">Add</button>
+									</div>                
+
+									<div *ngIf = "update == 'updateRoom'">
+										<div class="col-sm-6"></div>                        
+										<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+										<button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "updateRoom()" >Save</button>                      
+									</div>                      
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
-      </div>   
-    </div>
-    <div>
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#modal-rooms" (click) = "getData()">Add</button>
-    </div>
-</div>
-
-
-<div id="modal-rooms" class="modal fade" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content animated {{modalAnimation}}">
-          <div class="modal-body">
-          	<p></p>
-              <div class="row">
-                <div class="col-sm-11">              
-                  <div class="col-sm-1">
-                  </div>               
-                  <form [formGroup]="modalForm"  novalidate>        
-                    <div class="col-sm-11">
-                      <div *ngIf = "add == 'addRoom' || update == 'updateRoom'" class="form-horizontal"> 
-                       <div class="form-group">
-                        <label class="col-lg-2 control-label">Name:</label>
-                          <div class="col-lg-10">
-                            <input type="text" class="form-control" placeholder="Name" formControlName="name" >
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-lg-2 control-label">Description:</label>                          
-                          <div class="col-lg-10">
-                            <textarea class="form-control" formControlName="description" placeholder="Enter description ..." ></textarea>
-                          </div>
-                        </div>
-                      </div>                                          
-
-                      <div *ngIf = "add == 'addRoom' && modalForm.status == 'VALID'">
-                        <div class="col-sm-6"></div>                        
-                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addRoom()" >Add</button>
-                      </div> 
-
-                      <div *ngIf = "add == 'addRoom' && modalForm.status == 'INVALID'">
-                        <div class="col-sm-6"></div>                        
-                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" disabled="">Add</button>
-                      </div>                
-
-                      <div *ngIf = "update == 'updateRoom'">
-                        <div class="col-sm-6"></div>                        
-                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "updateRoom()" >Save</button>                      
-                      </div>                      
-
-                      </div>
-                    </form>
-                </div>
-          </div>
-      </div>
-      </div>
-  </div>
-</div>
+		</div>
+	</div>
 
 

@@ -23,6 +23,10 @@ export class AdminRoomComponent
 	update: string
 	modalAnimation: string
 
+	filter: string
+	row = 9
+	p = 1
+
 	constructor( private roomService: AdminRoomService,private router: Router, private errorHandlerService: ErrorHandlerService, 
 		         private formBuilder: FormBuilder){this.createForm()}
 
@@ -40,8 +44,7 @@ export class AdminRoomComponent
 		this.roomService.getRooms()
 		.subscribe( data =>
 		{			
-			this.rooms  = data['rooms']
-			console.log(this.rooms)
+			this.rooms  = data['rooms']			
 		},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)

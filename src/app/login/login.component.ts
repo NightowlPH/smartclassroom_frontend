@@ -45,13 +45,21 @@ export class LoginComponent
 				{										
 					if(data['userType'] == "Admin")
 					{
-						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/admin/users';						
+						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/admin/users';
+						if(data['url'])
+						{
+							redirect = data['url']
+						}						
 						this.sessionService.updateToken(data['token'])			
 						this.router.navigate([redirect]);
 					}
 					else if(data['userType'] == "User")
 					{
 						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/users';
+						if(data['url'])
+						{
+							redirect = data['url']
+						}
 						this.sessionService.updateToken(data['token'])					
 						this.router.navigate([redirect]);
 					}														

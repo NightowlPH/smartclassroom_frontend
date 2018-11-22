@@ -24,4 +24,19 @@ export class ContentHeaderComponent
 			this.router.navigate(['/login']);
 		})
   	}
+
+  	manage_sidebar()
+  	{
+  		var body_class_name = document.getElementById("index-body").className
+  		console.log("<<",body_class_name,">>")
+  		if(body_class_name.indexOf("mini-navbar") == -1)
+  		{
+  			document.getElementById("index-body").className = "mini-navbar body-small"
+  		}  		
+  		if(body_class_name.indexOf("mini-navbar") == 0)
+  		{
+  			console.log("YES")
+  			document.getElementById("index-body").className = "body-small"
+  		}
+  	}
 }

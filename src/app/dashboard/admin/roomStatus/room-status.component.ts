@@ -33,6 +33,10 @@ export class AdminRoomStatusComponent implements OnInit
 	filter2: string
 	p2: number = 1;
 
+	filter: string
+	row = 9
+	p = 1
+
 	ngOnInit()
 	{				
 		this.adminRoomStatusServcie.GetRoomStatus()
@@ -46,23 +50,19 @@ export class AdminRoomStatusComponent implements OnInit
 					if(device['remote_design'] == "Temperature Slider")
 					{
 						$(document).ready(function(){
-							$("#"+room['room_id']+"-"+device['device_id']).ionRangeSlider({					
+							$("#"+device['room_status_id']).ionRangeSlider({					
 					            min: 16,
 					            max: 30,
 					            from: 24,
 					            postfix: "°",
 					            prettify: false,
 					            hasGrid: true,
-					            disable: false,
-					            room_id: room['room_id'],
-					            device_id: device['device_id'],
+					            disable: false,					           
 					            onFinish: function(data)
-					            {					            	
-					            	var room_id = data['input'][0]['id'].slice(0,data['input'][0]['id'].indexOf('-'))
-					            	var device_id = data['input'][0]['id'].slice(data['input'][0]['id'].indexOf('-')+1,data['input'][0]['id'].length)
-					            	var temperature = data['fromNumber']
-														            	
-					            }		           
+					            {									            	     
+					            	var room_status_id = data['input'][0]['id']					            	
+					            	var temperature = data['fromNumber']									       	
+					            }
 					        });
 						})
 					}					
@@ -122,6 +122,11 @@ export class AdminRoomStatusComponent implements OnInit
 				{
 					this.errorHandlerService.handleError(error)
 				})
+	}
+
+	valuechange(value: any)
+	{
+		console.log(value['target']['checked'],value['target']['id'])
 	}
 
 	sort(key, id: number)
