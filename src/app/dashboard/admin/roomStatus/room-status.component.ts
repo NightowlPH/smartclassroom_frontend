@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 
 import { ErrorHandlerService } from '../../../error-handler.service';
-import { AdminRoomStatusServcie } from './room-status.service';
+import { AdminRoomStatusService } from './room-status.service';
 
 import * as $ from 'jquery'
 
@@ -18,7 +18,7 @@ declare var $: any;
 export class AdminRoomStatusComponent implements OnInit
 {
 
-	constructor(private adminRoomStatusServcie: AdminRoomStatusServcie, private errorHandlerService: ErrorHandlerService){}
+	constructor(private adminRoomStatusService: AdminRoomStatusService, private errorHandlerService: ErrorHandlerService){}
 
 	room_status: object[]
 	devices: object[]
@@ -39,7 +39,7 @@ export class AdminRoomStatusComponent implements OnInit
 
 	ngOnInit()
 	{				
-		this.adminRoomStatusServcie.GetRoomStatus()
+		this.adminRoomStatusService.GetRoomStatus()
 		.subscribe( data =>
 		{						
 			this.room_status = data['room_status']
@@ -61,7 +61,9 @@ export class AdminRoomStatusComponent implements OnInit
 					            onFinish: function(data)
 					            {									            	     
 					            	var room_status_id = data['input'][0]['id']					            	
-					            	var temperature = data['fromNumber']									       	
+					            	var temperature = data['fromNumber']
+					            	console.log("yes")
+					            	console.log("->",this.adminRoomStatusService.GetRoomStatus())									       	
 					            }
 					        });
 						})
@@ -73,8 +75,8 @@ export class AdminRoomStatusComponent implements OnInit
 
 	getRoomDevice(room_id)
 	{
-		this.adminRoomStatusServcie.room_id = room_id
-		this.adminRoomStatusServcie.GetAllDevice()
+		this.adminRoomStatusService.room_id = room_id
+		this.adminRoomStatusService.GetAllDevice()
 		.subscribe( data =>
 		{
 			// this.sessionService.updateToken(data['token'])
@@ -101,7 +103,7 @@ export class AdminRoomStatusComponent implements OnInit
 		console.log(data)
 		if(data.length != 0)
 		{
-			this.adminRoomStatusServcie.AddRoomDevice(data)
+			this.adminRoomStatusService.AddRoomDevice(data)
 			.subscribe( data =>
 			{
 				this.ngOnInit()
@@ -114,7 +116,7 @@ export class AdminRoomStatusComponent implements OnInit
 
 	deleteRoomDevice(id: string)
 	{
-		this.adminRoomStatusServcie.deleteRoomDevice(id)
+		this.adminRoomStatusService.deleteRoomDevice(id)
 		.subscribe( data =>
 		{
 			this.ngOnInit()
@@ -125,8 +127,14 @@ export class AdminRoomStatusComponent implements OnInit
 	}
 
 	valuechange(value: any)
-	{
-		console.log(value['target']['checked'],value['target']['id'])
+	{		
+		var room_status_id = value['target']['id']
+		var data = {value: value['target']['checked']}
+		this.adminRoomStatusService.ControlDevice(data,room_status_id)
+		.subscribe( data =>
+		{
+			console.log(data)
+		})
 	}
 
 	sort(key, id: number)

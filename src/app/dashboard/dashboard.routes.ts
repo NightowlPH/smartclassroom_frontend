@@ -30,7 +30,7 @@ import { AdminMembersService } from './admin/member/member.service';
 import { AdminRoomService } from './admin/room/room.service';
 import { AdminRoomAccessService } from './admin/roomAccess/room-access.service';
 import { DevicesService } from './admin/devices/devices.service';
-import { AdminRoomStatusServcie } from './admin/roomStatus/room-status.service';
+import { AdminRoomStatusService } from './admin/roomStatus/room-status.service';
 import { AdminAuditTrailService } from './admin/auditTrail/audit-trail.service';
 import { AdminAppLogsService } from './admin/appLogs/app-logs.service';
 
@@ -91,7 +91,7 @@ const routes: Routes = [
     AdminRoomService,
     AdminRoomAccessService,
     DevicesService,
-    AdminRoomStatusServcie,
+    AdminRoomStatusService,
     AdminAuditTrailService,
     AdminAppLogsService,
 

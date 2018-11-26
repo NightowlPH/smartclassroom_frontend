@@ -25,10 +25,10 @@
   											<td style="width: 40px; padding-right: 20px; padding-left: 5px">                         
   												<div class="switch">
   													<div class="onoffswitch{{device.class_name}}">
-  														<ng-container *ngIf = "device.device_status == 'on' || device.device_status == 'open'">
+  														<ng-container *ngIf = "device.device_status == 'True' || device.device_status == 'true'">
   															<input type="checkbox"  class="onoffswitch-checkbox" id="{{device.room_status_id}}" checked (change)="valuechange($event)">
   														</ng-container>															
-  														<ng-container *ngIf = "device.device_status == 'off' || device.device_status == 'close'">
+  														<ng-container *ngIf = "device.device_status == 'False' || device.device_status == 'false'">
   															<input type="checkbox"  class="onoffswitch-checkbox" id="{{device.room_status_id}}" (change)="valuechange($event)">
   														</ng-container>					                                    
   														<label class="onoffswitch-label" for="{{device.room_status_id}}">
