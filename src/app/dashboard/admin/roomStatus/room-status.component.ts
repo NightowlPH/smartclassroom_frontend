@@ -9,6 +9,10 @@ import * as $ from 'jquery'
 
 declare var $: any;
 
+var temp_change: boolean = false
+var room_status_id: string
+var temperature: number
+
 @Component
 ({
 	selector: 'room-status-cmp',
@@ -60,10 +64,11 @@ export class AdminRoomStatusComponent implements OnInit
 					            disable: false,					           
 					            onFinish: function(data)
 					            {									            	     
-					            	var room_status_id = data['input'][0]['id']					            	
-					            	var temperature = data['fromNumber']
-					            	console.log("yes")
-					            	console.log("->",this.adminRoomStatusService.GetRoomStatus())									       	
+					            	var room_status_id1 = data['input'][0]['id']					            	
+					            	var temperature1 = data['fromNumber']
+					            	temperature = temperature1
+					            	room_status_id = room_status_id1
+					            	temp_change = true								       	
 					            }
 					        });
 						})
@@ -133,7 +138,7 @@ export class AdminRoomStatusComponent implements OnInit
 		this.adminRoomStatusService.ControlDevice(data,room_status_id)
 		.subscribe( data =>
 		{
-			console.log(data)
+			this.ngOnInit()
 		})
 	}
 
@@ -174,6 +179,20 @@ export class AdminRoomStatusComponent implements OnInit
 		if(class_name == "dropdown-menu show")
 		{
 			document.getElementById("rt-selectList").className = "dropdown-menu"
+		}
+	}	
+
+	ngDoCheck()
+	{
+		if(temp_change == true)
+		{
+			var data = {value: temperature}
+			this.adminRoomStatusService.ControlDevice(data,room_status_id)
+			.subscribe( data =>
+			{
+				this.ngOnInit()
+			})
+			temp_change = false
 		}
 	}
 }
