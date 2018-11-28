@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Router }    from '@angular/router';
-import { environment, environmentMqtt } from './../../../../environments/environment'
+import { environment } from './../../../../environments/environment'
 
 @Injectable()
 export class AdminRoomStatusService
 {
 	constructor ( private http: HttpClient, private cookieService: CookieService, private router: Router ){}
-	private baseUrl = environment.backend_uri
-	private baseUrl2 = environmentMqtt.backend_uri
+	private baseUrl = environment.backend_uri	
 
 	room_id: string
 
@@ -31,7 +30,7 @@ export class AdminRoomStatusService
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 	AddRoomDevice(data: number[])
 	{
-		return this.http.post(`${this.baseUrl2}/mqtt/addRoomDevice/${this.room_id}`,data,
+		return this.http.post(`${this.baseUrl}/addRoomDevice/${this.room_id}`,data,
 		{
 			headers: this.Headers()
 		})
@@ -39,7 +38,7 @@ export class AdminRoomStatusService
 
 	ControlDevice(data: object, room_status_id: string)
 	{
-		return this.http.put(`${this.baseUrl2}/mqtt/roomStatus/${room_status_id}`,data,
+		return this.http.put(`${this.baseUrl}/roomStatusByID/${room_status_id}`,data,
 		{
 			headers: this.Headers()
 		})
@@ -47,7 +46,7 @@ export class AdminRoomStatusService
 
 	deleteRoomDevice(id: string)
 	{
-		return this.http.delete(`${this.baseUrl2}/mqtt/roomStatus/${id}`,
+		return this.http.delete(`${this.baseUrl}/roomStatusByID/${id}`,
 		{
 			headers: this.Headers()
 		})

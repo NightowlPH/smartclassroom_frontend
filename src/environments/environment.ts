@@ -7,8 +7,3 @@ export const environment = {
   production: false,
   backend_uri: 'http://localhost:5000'
 };
-
-export const environmentMqtt = {
-  production: false,
-  backend_uri: 'http://localhost:5001'
-};

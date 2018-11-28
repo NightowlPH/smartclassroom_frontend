@@ -66,9 +66,10 @@ export class AdminRoomStatusComponent implements OnInit
 					            {									            	     
 					            	var room_status_id1 = data['input'][0]['id']					            	
 					            	var temperature1 = data['fromNumber']
-					            	temperature = temperature1
-					            	room_status_id = room_status_id1
-					            	temp_change = true								       	
+					            	console.log(temperature1)
+					            	// temperature = temperature1
+					            	// room_status_id = room_status_id1
+					            	// temp_change = true								       	
 					            }
 					        });
 						})
