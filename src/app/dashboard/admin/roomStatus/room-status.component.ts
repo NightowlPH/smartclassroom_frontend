@@ -134,7 +134,7 @@ export class AdminRoomStatusComponent implements OnInit
 
 	valuechange(value: any)
 	{		
-		var room_status_id = value['target']['id']
+		var room_status_id = value['target']['id']		
 		var data = {value: value['target']['checked']}
 		this.adminRoomStatusService.ControlDevice(data,room_status_id)
 		.subscribe( data =>
