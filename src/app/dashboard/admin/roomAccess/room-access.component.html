@@ -52,8 +52,8 @@
                       <td style="width: 266px" >{{group.name}}</td>
                       <td style="width: 200px" >
                         <div class="input-group-btn">
-                          <button data-toggle="dropdown" class="btn btn-primary btn-table dropdown-toggle" type="button">{{CB_Status['a'+group.id]}} <span class="caret"></span></button>
-                           <ul class="dropdown-menu">
+                          <button data-toggle="dropdown" class="btn btn-primary btn-table dropdown-toggle" type="button" (click)="selecTag()">{{CB_Status['a'+group.id]}} <span class="caret"></span></button>
+                           <ul id="selectList" class="dropdown-menu">
                               <ng-container *ngFor = "let permission of permissions">
                                 <li><a (click)="addPermission(group.id,permission.id,permission.name)">{{permission.name}}</a></li> 
                               </ng-container>                               

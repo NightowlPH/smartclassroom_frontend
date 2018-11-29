@@ -89,7 +89,8 @@ export class AdminRoomAccessComponent implements OnInit
 	{		
 		this.addAccess[0].push('a'+groupID)
 		this.addAccess[1].push({group_id: groupID, permission_id: permissionID})		
-		this.CB_Status['a'+groupID] = permissionName		
+		this.CB_Status['a'+groupID] = permissionName
+		this.selecTag()		
 	}
 
 	unCheck_CB(groupID: number)
@@ -115,5 +116,18 @@ export class AdminRoomAccessComponent implements OnInit
 	{		
 		this.router.navigate(['home/admin/rooms'])
 	}	
+
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
+	}
 	
 }
