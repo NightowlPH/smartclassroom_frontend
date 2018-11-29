@@ -3791,6 +3791,16 @@ ol.unstyled {
   position: absolute;
   right: 0;
 }
+.footer-ibox {
+    background: none repeat scroll 0 0 white;   
+    bottom: 0;
+    left: 0;
+    padding: 10px 20px;
+    position: absolute;
+    right: 16px;
+    margin-bottom: 4%;
+    left: 17px;
+}
 .footer.fixed_full {
   position: fixed;
   bottom: 0;

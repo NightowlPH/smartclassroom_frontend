@@ -3,8 +3,11 @@
 		<ng-container *ngFor="let room of room_status  | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">
 			<div class="col-lg-4">
 				<div class="grow">
-					<div class="contact-box" style="height: 270px">
-						<div class="col-lg-4">
+          <div class="ibox-title">             
+              <h5>ID-{{room.room_id}} - {{room.room_name}}</h5>
+          </div>
+					<div class="contact-box" style="height: 240px">
+						<!-- <div class="col-md-4">
 							<div class="text-center">			                    
 								<img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.room_name[0]}}.png">                          
 								<div class="m-t-xs font-bold">Room: {{room.room_id}}</div><br>
@@ -12,10 +15,9 @@
 									<button class="btn btn-primary btn-xs" data-toggle="modal" href="#modal-add-devies" (click) = "getRoomDevice(room.room_id)">Add Device</button>
 								</ng-container>
 							</div>
-						</div>
+						</div> -->
 						<a>
-							<div class="col-sm-8">
-								<h3><strong>{{room.room_name}}</strong></h3>                    			                   
+							<div class="col-sm-12">								                  			                 
 								<strong>Devices:</strong><br><br>
 								<table>
 									<tbody>
@@ -37,7 +39,8 @@
   														</label>
   													</div>
   												</div>
-  											</td>											
+  											</td>
+                        <td></td>                        									
   											<td align="center">								                                        
   												<button type="submit" class="btn btn-danger btn-xs" (click)="deleteRoomDevice(device.room_status_id)">
   													<span class="glyphicon glyphicon-trash"></span>
@@ -47,7 +50,8 @@
                       <ng-container *ngIf = "device.remote_design == 'Temperature Slider'">
                         <td style="width: 150px ; padding-right: 5px; padding-left: 5px">{{device.device_name}}</td>
                         <td style="width: 1000px"><input type="text" id="{{device.room_status_id}}"></td>
-                        <td align="center">                                                       
+                        <td style="width: 100px"></td>
+                        <td align="center">                                                      
                           <button type="submit" class="btn btn-danger btn-xs" (click)="deleteRoomDevice(device.room_status_id)">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
@@ -55,9 +59,14 @@
                       </ng-container>                    									
 										</tr>
 									</tbody>
-								</table>								
+								</table>                			
 							</div>
 						</a>
+            <div class="footer-ibox text-right">
+              <ng-container *ngIf = "room.add_device">
+                <button class="btn btn-primary btn-xs" data-toggle="modal" href="#modal-add-devies" (click) = "getRoomDevice(room.room_id)">Add Device</button>
+            </ng-container>
+            </div>       
 					</div>
 				</div>
 			</div>				

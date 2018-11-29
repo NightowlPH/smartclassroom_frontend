@@ -53,7 +53,7 @@ export class DashboardComponent implements DoCheck
 
 	ngDoCheck()
 	{
-		if (location.hash.slice(1,location.hash.length) == "/home/groups" || location.hash.slice(1,location.hash.length) == "/home/rooms" || location.hash.slice(1,location.hash.length) == "/home/admin/groups" || location.hash.slice(1,location.hash.length) == "/home/admin/rooms" || location.hash.slice(1,location.hash.length) == "/home/appLogs" || location.hash.slice(1,location.hash.length) == "/home/admin/roomStatus")
+		if (location.hash.slice(1,location.hash.length) == "/home/groups" || location.hash.slice(1,location.hash.length) == "/home/rooms" || location.hash.slice(1,location.hash.length) == "/home/appLogs" || location.hash.slice(1,location.hash.length) == "/home/admin/roomStatus")
 		{
 			this.class = ""		
 			this.class3 = ""

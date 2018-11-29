@@ -55,21 +55,21 @@ export class AdminRoomStatusComponent implements OnInit
 					{
 						$(document).ready(function(){
 							$("#"+device['room_status_id']).ionRangeSlider({					
-					            min: 16,
-					            max: 30,
-					            from: 24,
-					            postfix: "°",
-					            prettify: false,
-					            hasGrid: true,
-					            disable: false,					           
+					            min: device['min'],
+					            max: device['max'],
+					            from: device['device_status'],
+					            postfix: device['postfix'],
+					            prettify: device['prettify'],
+					            hasGrid: device['hasGrid'],
+					            disable: device['disable'],					           
 					            onFinish: function(data)
 					            {									            	     
 					            	var room_status_id1 = data['input'][0]['id']					            	
 					            	var temperature1 = data['fromNumber']
 					            	console.log(temperature1)
-					            	// temperature = temperature1
-					            	// room_status_id = room_status_id1
-					            	// temp_change = true								       	
+					            	temperature = temperature1
+					            	room_status_id = room_status_id1
+					            	temp_change = true								       	
 					            }
 					        });
 						})
@@ -188,6 +188,7 @@ export class AdminRoomStatusComponent implements OnInit
 		if(temp_change == true)
 		{
 			var data = {value: temperature}
+			console.log(data)
 			this.adminRoomStatusService.ControlDevice(data,room_status_id)
 			.subscribe( data =>
 			{

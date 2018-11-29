@@ -25,6 +25,11 @@ export class AdminGroupComponent
 	update: string
 	modalAnimation:string
 
+	class = [["","","",""],["","","",""]]
+	tempID
+	key: string = 'id'
+	reverse: boolean = false
+	totalUsr: number
 	filter: string
 	row = 9
 	p = 1
@@ -46,6 +51,7 @@ export class AdminGroupComponent
 		.subscribe( data => 
 		{			
 			this.groups  = data['groups']
+			this.totalUsr = this.groups.length
 		},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
@@ -171,6 +177,34 @@ export class AdminGroupComponent
 	{
 		this.router.navigate(['/home/admin/groupMember',id])
 	}
+
+	manageRow(length: number)
+	{		
+		this.row = length
+		if(length == 200)
+		{
+			this.row = this.totalUsr
+		}		
+		this.selecTag()
+	}
+
+	sort(key, id: number)
+	{				
+		this.key = key;
+		this.reverse = !this.reverse;
+		if(this.class[0][id] == "" || this.class[0][id] == "-asc")
+		{
+			this.class[0][id] = "-desc"
+		}
+		else if(this.class[0][id] == "-desc")
+		{
+			this.class[0][id] = "-asc"
+		}		
+		this.class[1][this.tempID] = ""
+		this.class[1][id] = "active"
+		this.tempID = id		
+	}
+
 
 	selecTag()
 	{		
