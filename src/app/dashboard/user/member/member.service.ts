@@ -18,31 +18,8 @@ export class MembersService
 		{
 			headers: this.Headers()
 		})			
-	}
-
-	DeleteMember(group_id: string, user_id: string)
-	{				
-		return this.http.delete(`${this.baseUrl}/deleteMember/${group_id}/${user_id}`,
-		{
-			headers: this.Headers()
-		})			
-	}
-
-	getAllNotMem(id: string)
-	{
-		return this.http.get(`${this.baseUrl}/shwNotMem/${id}`,
-		{
-			headers: this.Headers()
-		})			  
-	}
-
-	AddMember(body: object, extensUrl: string, id: string)
-	{		
-        return this.http.post(`${this.baseUrl}/${extensUrl}/${id}`,body, 
-        {
-        	headers: this.Headers()
-        })      
-	}
+	}	
+	
 
 
 	private Headers()

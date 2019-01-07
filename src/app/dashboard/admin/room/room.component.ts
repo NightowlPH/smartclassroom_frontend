@@ -28,7 +28,7 @@ export class AdminRoomComponent
 	reverse: boolean = false
 	totalUsr: number
 	filter: string
-	row = 9
+	row = 10
 	p = 1
 	tempID
 

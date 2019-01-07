@@ -3968,6 +3968,10 @@ img.circle-border {
   border: 6px solid #FFFFFF;
   border-radius: 50%;
 }
+img.circle-border2 {
+  border: 4px solid #EAE6E6;
+  border-radius: 50%;
+}
 .branding {
   float: left;
   color: #FFFFFF;
@@ -5154,12 +5158,14 @@ a.compose-mail {
   margin-right: 10px;
 }
 .profile-image {
-  width: 120px;
+  width: 100px;
   float: left;
 }
 .profile-image img {
-  width: 96px;
-  height: 96px;
+  width: 100px;
+  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
 }
 .profile-info {
   margin-left: 120px;
@@ -8676,4 +8682,32 @@ body.md-skin {
   #page-wrapper {
     margin: 0;
   }
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.text-center {
+    text-align: center!important
+}
+
+.img-circle.sidebar-header{
+  max-width: 70px;
+  max-height: 70px;
+}
+.room-status.col-lg-3{
+  padding: 0 7px
+}
+tbody.room-status{
+  font-size: 12px;
 }

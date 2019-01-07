@@ -1,12 +1,12 @@
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
 		<ng-container *ngFor="let room of room_status  | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">
-			<div class="col-lg-4">
+			<div class="room-status col-lg-3">
 				<div class="grow">
           <div class="ibox-title">             
               <h5>ID-{{room.room_id}} - {{room.room_name}}</h5>
           </div>
-					<div class="contact-box" style="height: 240px">
+					<div class="contact-box" style="height: 220px">
 						<!-- <div class="col-md-4">
 							<div class="text-center">			                    
 								<img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.room_name[0]}}.png">                          
@@ -17,10 +17,10 @@
 							</div>
 						</div> -->
 						<a>
-							<div class="col-sm-12">								                  			                 
+							<div class="">								                  			                 
 								<strong>Devices:</strong><br><br>
 								<table>
-									<tbody>
+									<tbody class="room-status">
 										<tr *ngFor="let device of room.devices" >
                       <ng-container *ngIf = "device.remote_design != 'Temperature Slider'">
   											<td style="width: 150px ; padding-right: 5px; padding-left: 5px">{{device.device_name}}</td>

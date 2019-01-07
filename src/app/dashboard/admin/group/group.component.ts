@@ -31,7 +31,7 @@ export class AdminGroupComponent
 	reverse: boolean = false
 	totalUsr: number
 	filter: string
-	row = 9
+	row = 10
 	p = 1
 
 	constructor( private groupService: AdminGroupService, private errorHandlerService: ErrorHandlerService,
@@ -170,7 +170,7 @@ export class AdminGroupComponent
 	{				
 		this.choosenPermission = {permission_id: permission_id}
 		this.permission = permission_name
-		this.selecTag()		
+		this.selecTag2()		
 	}
 
 	showMember(id: string)
@@ -216,6 +216,19 @@ export class AdminGroupComponent
 		if(class_name == "dropdown-menu show")
 		{
 			document.getElementById("selectList").className = "dropdown-menu"
+		}
+	}
+
+	selecTag2()
+	{		
+		var class_name = document.getElementById("selectList2").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList2").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList2").className = "dropdown-menu"
 		}
 	}
 

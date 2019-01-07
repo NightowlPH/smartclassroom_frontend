@@ -41,9 +41,13 @@ import { MembersService } from './user/member/member.service';
 import { RoomService } from './user/room/room.service';
 import { RoomAccessService } from './user/roomAccess/room-access.service';
 import { AuditTrailService } from './user/auditTrail/audit-trail.service';
+import { RoomStatusService } from './user/roomStatus/room-status.service';
+
 import { SessionService } from '.././session.service';
 import { ErrorHandlerService } from '.././error-handler.service';
 import { DashboardService } from './dashboard.service';
+
+import { SidebarHeaderComponent } from '../share/sidebar-header/sidebar-header.component';
 
 const routes: Routes = [
   {
@@ -101,10 +105,14 @@ const routes: Routes = [
     MembersService,
     RoomService,
     RoomAccessService,
-    AuditTrailService, 
+    AuditTrailService,
+    RoomStatusService,
+
     SessionService,
     ErrorHandlerService,     
-    DashboardService     
+    DashboardService,
+
+    SidebarHeaderComponent  
   ]
 })
 

@@ -47,7 +47,7 @@ export class AdminUsersService
 		})			
 	}
 
-	UpdateUser(body: Object)
+	UpdateUser(body: FormData)
 	{				
         
 		return this.http.put(`${this.baseUrl}/user/${this.routeID}`,body,

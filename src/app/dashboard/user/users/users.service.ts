@@ -23,32 +23,6 @@ export class UsersService
 		})			
 	}
 
-
-	UpdateUser(body: Object)
-	{				
-        
-		return this.http.put(`${this.baseUrl}/user/${this.routeID}`,body,
-		{
-			headers: this.Headers()
-		})			
-	}
-
-	EditProfile()
-	{
-		return this.http.get(`${this.baseUrl}/editProfile`,
-		{
-			headers: this.Headers()
-		})
-	}
-
-	ChangePassword(body: object)
-	{
-		return this.http.post(`${this.baseUrl}/changeUserPassword`,body,
-		{
-			headers: this.Headers()
-		})
-	}
-
 	private Headers()
 	{
 		if(this.cookieService.get('token'))

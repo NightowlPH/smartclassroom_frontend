@@ -76,7 +76,8 @@ export class AdminRoomStatusComponent implements OnInit
 					}					
 				})				 
 			})					
-		})		       
+		})
+		this.test()		       
 	}
 
 	getRoomDevice(room_id)
@@ -132,7 +133,7 @@ export class AdminRoomStatusComponent implements OnInit
 				})
 	}
 
-	valuechange(value: any)
+	valuechange(value: any) // CONTROLL DEVICE
 	{		
 		var room_status_id = value['target']['id']		
 		var data = {value: value['target']['checked']}
@@ -196,5 +197,14 @@ export class AdminRoomStatusComponent implements OnInit
 			})
 			temp_change = false
 		}
+	}
+
+	test()
+	{		
+		setInterval(function()
+		{
+			console.log("YESS")
+		},1500)
+		
 	}
 }

@@ -51,6 +51,14 @@ export class AdminRoomStatusService
 			headers: this.Headers()
 		})
 	}
+
+	CheckRoomControlData()
+	{
+		return this.http.get(`${this.baseUrl}/checkRoomControl`,
+		{
+			headers: this.Headers()
+		})
+	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	private Headers()
 	{

@@ -33,11 +33,10 @@ export class NavbarComponent implements DoCheck
 				this.breadcrumb = [{'name': 'Home', path: 'users'}]	
 			}					
 			if(url.indexOf('groupMember') != -1)
-			{												
-
+			{																
 				if(url.indexOf('home/admin') != -1)
 				{					
-					this.navbarService.GetGroupDetail(url.slice(25,url.length))
+					this.navbarService.GetGroupDetail(url.slice(26,url.length))
 					.subscribe( data =>
 					{					
 						console.log(data)								
@@ -50,7 +49,7 @@ export class NavbarComponent implements DoCheck
 				}
 				else
 				{
-					this.navbarService.GetGroupDetail(url.slice(18,url.length))
+					this.navbarService.GetGroupDetail(url.slice(19,url.length))
 					.subscribe( data =>
 					{																	
 						this.breadcrumb.push({'name': 'Groups', 'path': 'groups'}, {'name': data['data'].name, 'path': ''})
@@ -122,7 +121,7 @@ export class NavbarComponent implements DoCheck
 			{
 				if(url.indexOf('home/admin') != -1)
 				{
-					this.navbarService.GetGroupDetail(url.slice(24,url.length))
+					this.navbarService.GetGroupDetail(url.slice(25,url.length))
 					.subscribe( data =>
 					{													
 						this.breadcrumb.push({'name': 'Groups', 'path': 'admin/groups'}, {'name': data['data'].name, 'path': ''})
@@ -134,7 +133,7 @@ export class NavbarComponent implements DoCheck
 				}
 				else
 				{
-					this.navbarService.GetGroupDetail(url.slice(18,url.length))
+					this.navbarService.GetGroupDetail(url.slice(19,url.length))
 					.subscribe( data =>
 					{																	
 						this.breadcrumb.push({'name': 'Groups', 'path': 'groups'}, {'name': data['data'].name, 'path': ''})

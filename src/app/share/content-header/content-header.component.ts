@@ -27,8 +27,7 @@ export class ContentHeaderComponent
 
   	manage_sidebar()
   	{
-  		var body_class_name = document.getElementById("index-body").className
-  		console.log("<<",body_class_name,">>")
+  		var body_class_name = document.getElementById("index-body").className  		
   		if(body_class_name.indexOf("mini-navbar") == -1)
   		{
   			document.getElementById("index-body").className = "mini-navbar body-small"

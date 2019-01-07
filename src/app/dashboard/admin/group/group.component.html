@@ -145,8 +145,8 @@
 											<div class="col-lg-2"></div>
 											<div class="col-lg-10"> 
 												<div class="input-group-btn">                            
-													<button data-toggle="dropdown" class="btn btn-primary btn-table dropdown-toggle" type="button" (click)="selecTag()">{{permission}}&emsp;<span class="caret"></span></button>
-													<ul id="selectList" class="dropdown-menu">
+													<button data-toggle="dropdown" class="btn btn-primary btn-table dropdown-toggle" type="button" (click)="selecTag2()">{{permission}}&emsp;<span class="caret"></span></button>
+													<ul id="selectList2" class="dropdown-menu">
 														<ng-container *ngFor = "let permission of permissions">
 															<li><a (click)="choosePermission(permission.id,permission.name)">{{permission.name}}</a></li> 
 														</ng-container>                               

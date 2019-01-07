@@ -40,7 +40,7 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let permission of permissions | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">				
-				<td>{{permission.id}}</td>
+				<td class="text-center" style="padding: 6px 0">{{permission.id}}</td>
 				<td>{{permission.name}}</td>
 				<td>{{permission.description}}</td>				
 			</tr>

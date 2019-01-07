@@ -45,7 +45,7 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let user of users | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">				
-				<td>{{user.id}}</td>
+				<td class="text-center" style="padding: 6px 0">{{user.id}}</td>
 				<td>{{user.username}}</td>
 				<td>{{user.Lname}}</td>
 				<td>{{user.Fname}}</td>

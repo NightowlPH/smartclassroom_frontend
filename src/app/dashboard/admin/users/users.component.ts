@@ -161,9 +161,15 @@ export class AdminUsersComponent
 	}
 
 	updateUser()
-	{		
-		var usrFrmData = this.modalForm.value
-		this.usersService.UpdateUser(usrFrmData)
+	{				
+
+		const formData: FormData = new FormData();		
+		formData.append('Fname', this.modalForm.value['Fname']);		
+		formData.append('Lname', this.modalForm.value['Lname']);
+		formData.append('username', this.modalForm.value['username']);
+		formData.append('cardID', this.modalForm.value['cardID']);
+
+		this.usersService.UpdateUser(formData)
 		.subscribe( data => 
 		{				
 			if(data['message'])

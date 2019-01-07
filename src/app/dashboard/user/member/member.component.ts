@@ -33,8 +33,7 @@ export class MemberComponent
 
 	ngOnInit()
 	{		
-		var id = this.route.snapshot.paramMap.get('id')		
-		console.log("member",this.route)
+		var id = this.route.snapshot.paramMap.get('id')				
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
 		{			
