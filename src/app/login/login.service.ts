@@ -16,6 +16,7 @@ export class LoginService
 
 	login(data: Object)
 	{
+		console.log(this.baseUrl,"------------------------------------->>>>>>>>>>>>>>>>>")
         return this.http.post(`${this.baseUrl}/login`, data)      
 	}
 
