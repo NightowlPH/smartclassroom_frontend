@@ -21,6 +21,8 @@ export class AdminRoomAccessComponent implements OnInit
 	CB_Status = {}	
 	addAccess = [[],[]]
 
+	group_id:string
+
 	constructor(private roomAccessService: AdminRoomAccessService, private errorHandlerService: ErrorHandlerService,
 		        private route: ActivatedRoute, private router: Router ){}
 
@@ -49,7 +51,7 @@ export class AdminRoomAccessComponent implements OnInit
 				var id = 'a'+data['id']
 				var obj = {}
 				obj[id] = "Permission"
-				this.CB_Status = Object.assign(this.CB_Status,obj)					
+				this.CB_Status = Object.assign(this.CB_Status,obj)						
 			},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
@@ -87,10 +89,11 @@ export class AdminRoomAccessComponent implements OnInit
 
 	addPermission(groupID: number, permissionID: number, permissionName: string)
 	{		
+		console.log("Group ID: ",groupID)
 		this.addAccess[0].push('a'+groupID)
 		this.addAccess[1].push({group_id: groupID, permission_id: permissionID})		
-		this.CB_Status['a'+groupID] = permissionName
-		this.selecTag()		
+		this.CB_Status['a'+this.group_id] = permissionName		
+		this.selecTag(null)		
 	}
 
 	unCheck_CB(groupID: number)
@@ -117,8 +120,9 @@ export class AdminRoomAccessComponent implements OnInit
 		this.router.navigate(['home/admin/rooms'])
 	}	
 
-	selecTag()
+	selecTag(group_id)
 	{
+		this.group_id = group_id
 		var class_name = document.getElementById("selectList").className
 		if(class_name == "dropdown-menu")
 		{

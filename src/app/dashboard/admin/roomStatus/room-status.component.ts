@@ -204,6 +204,7 @@ export class AdminRoomStatusComponent implements OnInit
 		setInterval(function()
 		{
 			console.log("YESS")
+			
 		},1500)
 		
 	}
