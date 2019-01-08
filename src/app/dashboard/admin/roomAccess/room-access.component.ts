@@ -88,10 +88,9 @@ export class AdminRoomAccessComponent implements OnInit
 	}
 
 	addPermission(groupID: number, permissionID: number, permissionName: string)
-	{		
-		console.log("Group ID: ",groupID)
-		this.addAccess[0].push('a'+groupID)
-		this.addAccess[1].push({group_id: groupID, permission_id: permissionID})		
+	{				
+		this.addAccess[0].push('a'+this.group_id)
+		this.addAccess[1].push({group_id: this.group_id, permission_id: permissionID})		
 		this.CB_Status['a'+this.group_id] = permissionName		
 		this.selecTag(null)		
 	}
