@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core'
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import {Observable} from 'rxjs/Rx';
 
 import { ErrorHandlerService } from '../../../error-handler.service';
 import { AdminRoomStatusService } from './room-status.service';
@@ -22,7 +23,21 @@ var temperature: number
 export class AdminRoomStatusComponent implements OnInit
 {
 
-	constructor(private adminRoomStatusService: AdminRoomStatusService, private errorHandlerService: ErrorHandlerService){}
+	constructor(private adminRoomStatusService: AdminRoomStatusService, private errorHandlerService: ErrorHandlerService){
+		Observable.interval(4000).subscribe( x =>
+		{
+			this.adminRoomStatusService.CheckRoomControlData()
+			.subscribe( data =>
+			{
+				console.log(data)
+				if(data['room_control_updated'] == false)
+				{
+					console.log("UPDATE")
+					this.ngOnInit()
+				}
+			})
+		})
+	}
 
 	room_status: object[]
 	devices: object[]
@@ -76,8 +91,7 @@ export class AdminRoomStatusComponent implements OnInit
 					}					
 				})				 
 			})					
-		})
-		this.test()		       
+		})		
 	}
 
 	getRoomDevice(room_id)
@@ -197,15 +211,5 @@ export class AdminRoomStatusComponent implements OnInit
 			})
 			temp_change = false
 		}
-	}
-
-	test()
-	{		
-		setInterval(function()
-		{
-			console.log("YESS")
-			
-		},1500)
-		
-	}
+	}	
 }
