@@ -154,7 +154,7 @@ export class AdminRoomStatusComponent implements OnInit
 		this.adminRoomStatusService.ControlDevice(data,room_status_id)
 		.subscribe( data =>
 		{
-			this.ngOnInit()
+						
 		})
 	}
 
