@@ -127,7 +127,7 @@ export class AdminUsersComponent
 			Fname: ['', Validators.required],
 			username: ['', Validators.required],
 			userpassword: ['', Validators.required],
-			cardID: ['', Validators.required]
+			cardID: ''
 		})
 		this.update = ""    		
 		this.add = "addUser"    		
