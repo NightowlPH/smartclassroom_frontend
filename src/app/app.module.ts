@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -15,11 +16,14 @@ import { InternalServerErrorModule } from './internalServerError/internal-server
 import { PageNotFoundModule } from './PageNotFound/page-not-found.module';
 
 
+import { TokenRegistrationService } from './tokenRegistration.service';
+
 @NgModule({
   imports: 
   [
     BrowserModule,
     HttpModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     LoginModule,
@@ -28,6 +32,9 @@ import { PageNotFoundModule } from './PageNotFound/page-not-found.module';
     PageNotFoundModule,
     AppRoutingModule,
 
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenRegistrationService, multi: true}
   ],
   declarations: 
   [

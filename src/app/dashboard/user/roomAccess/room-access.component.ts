@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { RoomAccessService } from './room-access.service';
 
@@ -22,7 +21,7 @@ export class RoomAccessComponent implements OnInit
 	addAccess = [[],[]]
 
 	constructor(private roomAccessService: RoomAccessService,
-		        private cookieService: CookieService, private route: ActivatedRoute, private router: Router ){}
+		    private route: ActivatedRoute, private router: Router ){}
 
 	ngOnInit()
 	{
@@ -30,7 +29,6 @@ export class RoomAccessComponent implements OnInit
 		this.roomAccessService.getGroupAccess(id)
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.groupAccess = data['group']			
 		},(error: HttpErrorResponse) =>
 			{
@@ -59,9 +57,4 @@ export class RoomAccessComponent implements OnInit
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

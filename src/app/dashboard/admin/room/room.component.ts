@@ -2,7 +2,6 @@ import { Component, OnInit, DoCheck } from '@angular/core'
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminRoomService } from './room.service';
 
@@ -24,7 +23,7 @@ export class AdminRoomComponent
 	modalAnimation: string
 
 	constructor( private roomService: AdminRoomService,private router: Router, 
-		         private cookieService: CookieService, private formBuilder: FormBuilder){this.createForm()}
+		     private formBuilder: FormBuilder){this.createForm()}
 
 
 	createForm()
@@ -40,7 +39,6 @@ export class AdminRoomComponent
 		this.roomService.getRooms()
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.rooms  = data['rooms']
 			console.log(this.rooms)
 		},(error: HttpErrorResponse) =>
@@ -67,7 +65,6 @@ export class AdminRoomComponent
 		{								
 			this.roomService.AddRoom(this.modalForm.value,"rooms").subscribe( response =>
 			{	
-				this.updateToken(response['token'])			
 				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
@@ -86,7 +83,6 @@ export class AdminRoomComponent
 		this.roomService.DeleteRoom(id)
 		.subscribe( room =>
 		{
-			this.updateToken(room['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -101,7 +97,6 @@ export class AdminRoomComponent
 		this.modalAnimation = "fadeInDown"
 		this.roomService.GetRoom("room").subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
@@ -116,7 +111,6 @@ export class AdminRoomComponent
 			this.roomService.UpdateRoom(this.modalForm.value,"room")
 			.subscribe( data => 
 			{
-				this.updateToken(data['token'])
 				if(data['message'])
 				{
 					this.message = data['message']
@@ -165,9 +159,4 @@ export class AdminRoomComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

@@ -4,7 +4,6 @@ import { Route } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { MembersService } from './member.service'
 
@@ -31,7 +30,7 @@ export class MemberComponent
 	
 
 	constructor( private route: ActivatedRoute, private membersService: MembersService,
-				 private cookieService: CookieService, private router: Router ){}
+		     private router: Router ){}
 
 	ngOnInit()
 	{		
@@ -40,7 +39,6 @@ export class MemberComponent
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])			
 			this.groupMember = data['members']
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
@@ -99,10 +97,5 @@ export class MemberComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 
 }

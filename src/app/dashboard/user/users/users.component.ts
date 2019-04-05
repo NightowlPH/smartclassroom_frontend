@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 import { UsersService} from './users.service';
 import { Profile } from './users.metadata';
@@ -38,7 +37,7 @@ export class UsersComponent
 	profile: Profile = {Fname: '', Lname: '', username: '', cardID: ''}
 	user_id: string
 
-	constructor(private usersService: UsersService, private formBuilder: FormBuilder, private cookieService: CookieService,
+	constructor(private usersService: UsersService, private formBuilder: FormBuilder,
 			    private route: Router ){ this.createForm() }
 
 
@@ -67,7 +66,6 @@ export class UsersComponent
 		.getAll()
 		.subscribe( data => 
 			{				
-				this.updateToken(data['token'])				
 				this.users = data['users']
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
@@ -85,7 +83,6 @@ export class UsersComponent
 		this.usersService.UpdateUser(this.profile)
 		.subscribe( data => 
 		{	
-			this.updateToken(data['token'])
 			if(data['message'])
 			{
 				this.message = data['message']
@@ -106,7 +103,6 @@ export class UsersComponent
 		this.usersService.ChangePassword(this.modalForm.value)
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			if(data['message'] != 'your password is successfully change')
 			{
 				this.message = data['message']
@@ -159,9 +155,4 @@ export class UsersComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

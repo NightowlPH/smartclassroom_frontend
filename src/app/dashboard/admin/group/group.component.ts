@@ -2,7 +2,6 @@ import { Component, OnInit} from '@angular/core'
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminGroupService } from './group.service';
 
@@ -26,7 +25,7 @@ export class AdminGroupComponent
 	modalAnimation:string
 
 	constructor( private groupService: AdminGroupService, private router: Router, 
-				 private cookieService: CookieService, private formBuilder: FormBuilder){ this.createForm()}
+		     private formBuilder: FormBuilder){ this.createForm()}
 
 	createForm()
 	{
@@ -41,7 +40,6 @@ export class AdminGroupComponent
 		this.groupService.getGroups()
 		.subscribe( data => 
 		{
-			this.updateToken(data['token'])
 			this.groups  = data['groups']
 		},(error: HttpErrorResponse) =>
 			{
@@ -65,7 +63,6 @@ export class AdminGroupComponent
 			}) 
 		this.groupService.GetGroup("group").subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.permission = data['data'].permission_name
 			this.choosenPermission = {permission_id: data['data'].permission_id}
 			this.mapData(data['data'])
@@ -84,7 +81,6 @@ export class AdminGroupComponent
 			this.groupService.UpdateGroup(data,"group")
 			.subscribe( data =>
 			{
-				this.updateToken(data['token'])
 				if(data['message'])
 				{
 					this.message = data['message']
@@ -106,7 +102,6 @@ export class AdminGroupComponent
 		this.groupService.DeleteGroup(id)
 		.subscribe( group =>
 		{
-			this.updateToken(group['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -144,7 +139,6 @@ export class AdminGroupComponent
 			this.groupService.AddGroup(data,"groups").subscribe( response =>
 			{
 				this.message = ""
-				this.updateToken(response['token'])
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
 				{
@@ -196,12 +190,6 @@ export class AdminGroupComponent
 		{
 			this.router.navigate(['/PageNotFound'])
 		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
 	}
 
 }

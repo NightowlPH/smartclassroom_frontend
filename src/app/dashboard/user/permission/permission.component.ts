@@ -2,7 +2,6 @@ import { Component, OnInit, DoCheck} from '@angular/core'
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 import { PermissionService } from './permission.service';
 
@@ -31,7 +30,7 @@ export class PermissionComponent
 	filter: string
 
 	constructor( private permissionService: PermissionService, 
-		         private cookieService: CookieService, private route: Router ){}
+		     private route: Router ){}
 	
 
 	ngOnInit()
@@ -40,7 +39,6 @@ export class PermissionComponent
 		.getAll()
 		.subscribe(data => 
 		{
-			this.updateToken(data['token'])
 			this.permissions = data['permissions']
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
@@ -95,10 +93,4 @@ export class PermissionComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
-	
 }

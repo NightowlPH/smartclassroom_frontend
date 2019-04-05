@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core'
 import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AuditTrailService } from './audit-trail.service';
 
@@ -24,15 +23,13 @@ export class AuditTrailComponent implements OnInit
 	tempID	
 	filter: string
 
-	constructor(private auditTrailService: AuditTrailService, private route: Router, 
-		        private cookieService: CookieService){}
+	constructor(private auditTrailService: AuditTrailService, private route: Router){}
 
 	ngOnInit()
 	{
 		this.auditTrailService.GetAuditTrails()
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.auditTrail = data['auditTrail']
 			this.totalUsr = this.auditTrail.length
 		},(error: HttpErrorResponse) =>
@@ -89,9 +86,4 @@ export class AuditTrailComponent implements OnInit
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

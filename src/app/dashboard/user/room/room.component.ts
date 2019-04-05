@@ -1,7 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core'
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { RoomService } from './room.service';
 
@@ -19,8 +18,7 @@ export class RoomComponent
 
 	modalAnimation: string
 
-	constructor( private roomService: RoomService,private router: Router, 
-		         private cookieService: CookieService){}
+	constructor( private roomService: RoomService,private router: Router){}
 
 
 	ngOnInit()
@@ -28,7 +26,6 @@ export class RoomComponent
 		this.roomService.getRooms()
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.rooms  = data['rooms']
 			console.log(this.rooms)
 		},(error: HttpErrorResponse) =>
@@ -60,9 +57,4 @@ export class RoomComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminUsersService} from './users.service';
 import { Profile } from './users.metadata';
@@ -38,8 +37,8 @@ export class AdminUsersComponent
 	profile: Profile = {Fname: '', Lname: '', username: '', cardID: ''}
 	user_id: string
 
-	constructor(private usersService: AdminUsersService, private formBuilder: FormBuilder, private cookieService: CookieService, 
-				private route: Router ){ this.createForm() }
+	constructor(private usersService: AdminUsersService, private formBuilder: FormBuilder,
+		    private route: Router ){ this.createForm() }
 
 
 	createForm()
@@ -67,7 +66,6 @@ export class AdminUsersComponent
 		.getAll()
 		.subscribe( data => 
 			{				
-				this.updateToken(data['token'])				
 				this.users = data['users']
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
@@ -89,7 +87,6 @@ export class AdminUsersComponent
 					this.usersService.deleteUser(user["id"])
 						.subscribe( data =>
 						{
-							this.updateToken(data['token'])							
 							this.ngOnInit()
 							if(data['message'])
 							{
@@ -106,7 +103,6 @@ export class AdminUsersComponent
 		{			
 			this.usersService.deleteUser(id).subscribe( data => 
 			{
-				this.updateToken(data['token'])
 				this.ngOnInit()				
 				if(data['message'])
 				{
@@ -142,7 +138,6 @@ export class AdminUsersComponent
 			this.addDetails = this.modalForm.value			
 			this.usersService.AddUser(this.addDetails,"users").subscribe( response => 
 				{
-					this.updateToken(response['token'])				
 					if ( response['message'] == "success")
 					{		
 						if( this.counter == false)// SHOW THE LATEST ADDED USER
@@ -170,7 +165,6 @@ export class AdminUsersComponent
 		this.usersService.routeID = id 		    		 	    		  		    	    	
 		this.usersService.GetUser().subscribe( data => 
 		{				
-			this.updateToken(data['token'])
 			this.mapData(data['data'])					
 		},(error: HttpErrorResponse) =>
 			{
@@ -184,7 +178,6 @@ export class AdminUsersComponent
 		this.usersService.UpdateUser(usrFrmData)
 		.subscribe( data => 
 		{	
-			this.updateToken(data['token'])
 			if(data['message'])
 			{
 				this.message = data['message']
@@ -206,7 +199,6 @@ export class AdminUsersComponent
 		this.usersService.UpdateUser(this.profile)
 		.subscribe( data => 
 		{	
-			this.updateToken(data['token'])
 			if(data['message'])
 			{
 				this.message = data['message']
@@ -227,7 +219,6 @@ export class AdminUsersComponent
 		this.usersService.ChangePassword(this.modalForm.value)
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			if(data['message'] != 'your password is successfully change')
 			{
 				this.message = data['message']
@@ -291,9 +282,4 @@ export class AdminUsersComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

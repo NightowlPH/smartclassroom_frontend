@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminPermissionService } from './permission.service';
 
@@ -32,7 +31,7 @@ export class AdminPermissionComponent
 	filter: string
 
 	constructor( private permissionService: AdminPermissionService, private formBuilder: FormBuilder, 
-		         private cookieService: CookieService, private route: Router ){ this.createForm() }
+		     private route: Router ){ this.createForm() }
 
 	createForm()
 	{
@@ -48,7 +47,6 @@ export class AdminPermissionComponent
 		.getAll()
 		.subscribe(data => 
 		{
-			this.updateToken(data['token'])
 			this.permissions = data['permissions']
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
@@ -75,7 +73,6 @@ export class AdminPermissionComponent
 		{								
 			this.permissionService.AddPermission(this.modalForm.value,"permissions").subscribe( response =>
 			{
-				this.updateToken(response['token'])
 				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
@@ -94,7 +91,6 @@ export class AdminPermissionComponent
 				
 		this.permissionService.deletePermission(id).subscribe( permission => 
 		{
-			this.updateToken(permission['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -109,7 +105,6 @@ export class AdminPermissionComponent
 		this.modalAnimation = "fadeInDown"    		
 		this.permissionService.GetPermission("permission").subscribe( data => 
 		{
-			this.updateToken(data['token'])    			
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
@@ -125,7 +120,6 @@ export class AdminPermissionComponent
 			.subscribe( data => 
     		{
     			console.log(data)
-    			this.updateToken(data['token'])
     			if(data['message'])
 				{
 					this.message = data['message']
@@ -196,10 +190,4 @@ export class AdminPermissionComponent
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
-	
 }

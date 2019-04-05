@@ -2,7 +2,6 @@ import { Component, OnInit} from '@angular/core'
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { GroupService } from './group.service';
 
@@ -19,8 +18,7 @@ export class GroupComponent
 		
 	modalAnimation: string
 
-	constructor( private groupService: GroupService, private router: Router, 
-				 private cookieService: CookieService){}
+	constructor( private groupService: GroupService, private router: Router){}
 	
 
 	ngOnInit()
@@ -28,7 +26,6 @@ export class GroupComponent
 		this.groupService.getGroups()
 		.subscribe( data => 
 		{
-			this.updateToken(data['token'])
 			this.groups  = data['groups']
 		},(error: HttpErrorResponse) =>
 			{
@@ -57,12 +54,6 @@ export class GroupComponent
 		{
 			this.router.navigate(['/PageNotFound'])
 		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
 	}
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core'
 import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminAuditTrailService } from './audit-trail.service';
 
@@ -24,15 +23,13 @@ export class AdminAuditTrailComponent implements OnInit
 	tempID	
 	filter: string
 
-	constructor(private auditTrailService: AdminAuditTrailService, private route: Router, 
-		        private cookieService: CookieService){}
+	constructor(private auditTrailService: AdminAuditTrailService, private route: Router){}
 
 	ngOnInit()
 	{
 		this.auditTrailService.GetAuditTrails()
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.auditTrail = data['auditTrail']
 			this.totalUsr = this.auditTrail.length
 		},(error: HttpErrorResponse) =>
@@ -46,7 +43,6 @@ export class AdminAuditTrailComponent implements OnInit
 		this.auditTrailService.DeleteAuditTrail(id)
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -59,7 +55,6 @@ export class AdminAuditTrailComponent implements OnInit
 		this.auditTrailService.DelAllAuditTrail()
 		.subscribe( data => 
 		{
-			this.updateToken(data['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -114,9 +109,4 @@ export class AdminAuditTrailComponent implements OnInit
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

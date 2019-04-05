@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core'
 import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminAppLogsService } from './app-logs.service';
 
@@ -27,14 +26,13 @@ export class AdminAppLogsComponent implements OnInit
 	filter: string
 	
 
-	constructor(private appLogsService: AdminAppLogsService, private route: Router, private cookieService: CookieService){}
+	constructor(private appLogsService: AdminAppLogsService, private route: Router){}
 
 	ngOnInit()
 	{
 		this.appLogsService.GetActiveUsers()
 		.subscribe( data =>
 		{			
-			this.updateToken(data['token'])	
 			this.activeUsers = data['users']
 			this.totalUsr = this.activeUsers.length
 		},(error: HttpErrorResponse) =>
@@ -50,7 +48,6 @@ export class AdminAppLogsComponent implements OnInit
 		.subscribe( data =>
 		{
 			console.log(data['token'])
-			this.updateToken(data['token'])
 			this.ngOnInit()
 		})
 	}
@@ -105,9 +102,4 @@ export class AdminAppLogsComponent implements OnInit
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }

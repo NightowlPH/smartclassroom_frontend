@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AdminRoomAccessService } from './room-access.service';
 
@@ -22,7 +21,7 @@ export class AdminRoomAccessComponent implements OnInit
 	addAccess = [[],[]]
 
 	constructor(private roomAccessService: AdminRoomAccessService,
-		        private cookieService: CookieService, private route: ActivatedRoute, private router: Router ){}
+		    private route: ActivatedRoute, private router: Router ){}
 
 	ngOnInit()
 	{
@@ -30,7 +29,6 @@ export class AdminRoomAccessComponent implements OnInit
 		this.roomAccessService.getGroupAccess(id)
 		.subscribe( data =>
 		{
-			this.updateToken(data['token'])
 			this.groupAccess = data['group']			
 		},(error: HttpErrorResponse) =>
 			{
@@ -60,7 +58,6 @@ export class AdminRoomAccessComponent implements OnInit
 		this.roomAccessService.getPermissions()
 		.subscribe( data =>
 		{			
-			this.updateToken(data['token'])
 			this.permissions = data['permissions']		
 		},(error: HttpErrorResponse) =>
 			{
@@ -80,7 +77,6 @@ export class AdminRoomAccessComponent implements OnInit
 		this.roomAccessService.AddGroupAccess(this.route.snapshot.paramMap.get('id'),all_data)
 		.subscribe( response =>
 		{
-			this.updateToken(response['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -107,7 +103,6 @@ export class AdminRoomAccessComponent implements OnInit
 		this.roomAccessService.DeleteGroupAccess(id)
 		.subscribe( response =>
 		{
-			this.updateToken(response['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -136,9 +131,4 @@ export class AdminRoomAccessComponent implements OnInit
 		}
 	}
 
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
 }
