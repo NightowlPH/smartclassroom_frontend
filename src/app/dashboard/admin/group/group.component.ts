@@ -1,10 +1,10 @@
 import { Component, OnInit} from '@angular/core'
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 import { AdminGroupService } from './group.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -25,8 +25,17 @@ export class AdminGroupComponent
 	update: string
 	modalAnimation:string
 
-	constructor( private groupService: AdminGroupService, private router: Router, 
-				 private cookieService: CookieService, private formBuilder: FormBuilder){ this.createForm()}
+	class = [["","","",""],["","","",""]]
+	tempID
+	key: string = 'id'
+	reverse: boolean = false
+	totalUsr: number
+	filter: string
+	row = 10
+	p = 1
+
+	constructor( private groupService: AdminGroupService, private errorHandlerService: ErrorHandlerService,
+				 private formBuilder: FormBuilder, private router: Router ){ this.createForm()}
 
 	createForm()
 	{
@@ -40,12 +49,12 @@ export class AdminGroupComponent
 	{			
 		this.groupService.getGroups()
 		.subscribe( data => 
-		{
-			this.updateToken(data['token'])
+		{			
 			this.groups  = data['groups']
+			this.totalUsr = this.groups.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -61,17 +70,16 @@ export class AdminGroupComponent
 			this.permissions = data['permissions']
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			}) 
 		this.groupService.GetGroup("group").subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.permission = data['data'].permission_name
 			this.choosenPermission = {permission_id: data['data'].permission_id}
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})		
 	}
 
@@ -83,8 +91,7 @@ export class AdminGroupComponent
 			data = Object.assign(this.modalForm.value,this.choosenPermission)
 			this.groupService.UpdateGroup(data,"group")
 			.subscribe( data =>
-			{
-				this.updateToken(data['token'])
+			{				
 				if(data['message'])
 				{
 					this.message = data['message']
@@ -96,7 +103,7 @@ export class AdminGroupComponent
 				}		
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 		}		
 	}
@@ -105,12 +112,11 @@ export class AdminGroupComponent
 	{
 		this.groupService.DeleteGroup(id)
 		.subscribe( group =>
-		{
-			this.updateToken(group['token'])
+		{			
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -131,7 +137,7 @@ export class AdminGroupComponent
 			this.permissions = data['permissions']
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})   		   	
 	}
 
@@ -143,8 +149,7 @@ export class AdminGroupComponent
 			data = Object.assign(this.modalForm.value,this.choosenPermission)
 			this.groupService.AddGroup(data,"groups").subscribe( response =>
 			{
-				this.message = ""
-				this.updateToken(response['token'])
+				this.message = ""				
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
 				{
@@ -152,7 +157,7 @@ export class AdminGroupComponent
 				}
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})			
 		}
 		else if(this.permission == "Permission")
@@ -164,12 +169,67 @@ export class AdminGroupComponent
 	choosePermission(permission_id: string, permission_name: string)
 	{				
 		this.choosenPermission = {permission_id: permission_id}
-		this.permission = permission_name		
+		this.permission = permission_name
+		this.selecTag2()		
 	}
 
 	showMember(id: string)
 	{
 		this.router.navigate(['/home/admin/groupMember',id])
+	}
+
+	manageRow(length: number)
+	{		
+		this.row = length
+		if(length == 200)
+		{
+			this.row = this.totalUsr
+		}		
+		this.selecTag()
+	}
+
+	sort(key, id: number)
+	{				
+		this.key = key;
+		this.reverse = !this.reverse;
+		if(this.class[0][id] == "" || this.class[0][id] == "-asc")
+		{
+			this.class[0][id] = "-desc"
+		}
+		else if(this.class[0][id] == "-desc")
+		{
+			this.class[0][id] = "-asc"
+		}		
+		this.class[1][this.tempID] = ""
+		this.class[1][id] = "active"
+		this.tempID = id		
+	}
+
+
+	selecTag()
+	{		
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
+	}
+
+	selecTag2()
+	{		
+		var class_name = document.getElementById("selectList2").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList2").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList2").className = "dropdown-menu"
+		}
 	}
 
 	private mapData(data: object)
@@ -180,28 +240,5 @@ export class AdminGroupComponent
 			description: [data["description"], Validators.required]
 		})
 		this.update = "updateGroup"
-	}
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.router.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.router.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
-	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
-
+	}	
 }

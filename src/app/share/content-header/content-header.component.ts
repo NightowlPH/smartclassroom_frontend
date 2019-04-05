@@ -1,7 +1,8 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+
 import { ContentHeaderService } from './content-header.service';
+import { SessionService } from '../../session.service';
 
 @Component
 ({
@@ -11,7 +12,7 @@ import { ContentHeaderService } from './content-header.service';
 
 export class ContentHeaderComponent 
 {
-	constructor(private router: Router, private contentHeaderService: ContentHeaderService, private cookieService: CookieService) { }
+	constructor(private router: Router, private contentHeaderService: ContentHeaderService, private sessionService: SessionService) { }
 
 	Logout() 
 	{
@@ -19,12 +20,22 @@ export class ContentHeaderComponent
 		this.contentHeaderService.logout(data)
 		.subscribe( () =>
 		{
-			this.cookieService.deleteAll()
-			this.cookieService.delete('token')
-			this.cookieService.deleteAll('/')
-			this.cookieService.deleteAll('/home/')
-			this.cookieService.deleteAll('/home/admin')			
+			this.sessionService.deleteToken()		
 			this.router.navigate(['/login']);
 		})
+  	}
+
+  	manage_sidebar()
+  	{
+  		var body_class_name = document.getElementById("index-body").className  		
+  		if(body_class_name.indexOf("mini-navbar") == -1)
+  		{
+  			document.getElementById("index-body").className = "mini-navbar body-small"
+  		}  		
+  		if(body_class_name.indexOf("mini-navbar") == 0)
+  		{
+  			console.log("YES")
+  			document.getElementById("index-body").className = "body-small"
+  		}
   	}
 }

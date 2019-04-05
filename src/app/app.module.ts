@@ -33,7 +33,7 @@ import { PageNotFoundModule } from './PageNotFound/page-not-found.module';
   [
     AppComponent,  
   ],
-  
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

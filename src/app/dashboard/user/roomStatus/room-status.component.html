@@ -1,0 +1,71 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<ng-container *ngFor="let room of room_status  | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">
+			<div class="room-status col-lg-3">
+				<div class="grow">
+          <div class="ibox-title">             
+              <h5>ID-{{room.room_id}} - {{room.room_name}}</h5>
+          </div>
+					<div class="contact-box" style="height: 220px">
+						<!-- <div class="col-md-4">
+							<div class="text-center">			                    
+								<img alt="image" class="img-circle m-t-xs img-responsive" src="assets/img/letters/{{room.room_name[0]}}.png">                          
+								<div class="m-t-xs font-bold">Room: {{room.room_id}}</div><br>
+								<ng-container *ngIf = "room.add_device">
+									<button class="btn btn-primary btn-xs" data-toggle="modal" href="#modal-add-devies" (click) = "getRoomDevice(room.room_id)">Add Device</button>
+								</ng-container>
+							</div>
+						</div> -->
+						<a>
+							<div class="">								                  			                 
+								<strong>Devices:</strong><br><br>
+								<table>
+									<tbody class="room-status">
+										<tr *ngFor="let device of room.devices" >
+                      <ng-container *ngIf = "device.remote_design != 'Temperature Slider'">
+  											<td style="width: 150px ; padding-right: 5px; padding-left: 5px">{{device.device_name}}</td>
+  											<td style="width: 40px; padding-right: 20px; padding-left: 5px">                         
+  												<div class="switch">
+  													<div class="onoffswitch{{device.class_name}}">
+  														<ng-container *ngIf = "device.device_status == 'True' || device.device_status == 'true'">
+  															<input type="checkbox"  class="onoffswitch-checkbox" id="{{device.room_status_id}}" checked (change)="valuechange($event)">
+  														</ng-container>															
+  														<ng-container *ngIf = "device.device_status == 'False' || device.device_status == 'false'">
+  															<input type="checkbox"  class="onoffswitch-checkbox" id="{{device.room_status_id}}" (change)="valuechange($event)">
+  														</ng-container>					                                    
+  														<label class="onoffswitch-label" for="{{device.room_status_id}}">
+  															<span class="onoffswitch-inner{{device.class_name}}"></span>
+  															<span class="onoffswitch-switch{{device.class_name}}"></span>
+  														</label>
+  													</div>
+  												</div>
+  											</td>                        
+                      </ng-container>                     
+                      <ng-container *ngIf = "device.remote_design == 'Temperature Slider'">
+                        <td style="width: 150px ; padding-right: 5px; padding-left: 5px">{{device.device_name}}</td>
+                        <td style="width: 1000px"><input type="text" id="{{device.room_status_id}}"></td>
+                        <td style="width: 100px"></td>                        
+                      </ng-container>                    									
+										</tr>
+									</tbody>
+								</table>                			
+							</div>
+						</a>            
+					</div>
+				</div>
+			</div>				
+		</ng-container>
+	</div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+  <div class="footer fixed">
+    <div class="pull-right">
+      <div class="form-group form-horizontal">
+        <label class="col-lg-2 control-label">Search:</label>
+        <div class="col-lg-10">
+          <input type="text" class="form-control" name="search" [(ngModel)]="filter" style="height: 30px">
+        </div>
+      </div>   
+    </div>    
+  </div>

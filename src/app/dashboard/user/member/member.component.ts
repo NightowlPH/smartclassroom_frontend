@@ -1,12 +1,10 @@
 import { Component, OnInit, DoCheck } from '@angular/core'
 import { Location } from '@angular/common';
-import { Route } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
-import { MembersService } from './member.service'
+import { MembersService } from './member.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 
 @Component
@@ -31,21 +29,19 @@ export class MemberComponent
 	
 
 	constructor( private route: ActivatedRoute, private membersService: MembersService,
-				 private cookieService: CookieService, private router: Router ){}
+				 private errorHandlerService: ErrorHandlerService, private router: Router){}
 
 	ngOnInit()
 	{		
-		var id = this.route.snapshot.paramMap.get('id')		
-		console.log("member",this.route)
+		var id = this.route.snapshot.paramMap.get('id')				
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])			
+		{			
 			this.groupMember = data['members']
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -79,30 +75,20 @@ export class MemberComponent
 		if(length == 200)
 		{
 			this.row = this.totalUsr
-		}		
+		}
+		this.selecTag()	
 	}
 
-	
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.router.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.router.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
+	selecTag()
 	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
-	}
-
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
+	}	
 }

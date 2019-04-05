@@ -1,31 +1,139 @@
-<div id="wrapper">
-	<nav class="navbar-default navbar-static-side" role="navigation">
-		<div class="sidebar-collapse">
-			<ul class="nav" id="side-menu">
-				<sidebar-header-cmp></sidebar-header-cmp>
-				<sidebar-cmp></sidebar-cmp>
-			</ul>
-		</div>
-	</nav>
-	<div id="page-wrapper" class="gray-bg">
-		<div class="row border-bottom">
-			<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-				<content-header-cmp></content-header-cmp>
-			</nav>
-		</div>
-		<navbar-cmp></navbar-cmp>
-		<div class="{{class}}">
-		    <div class="row">
-			    <div class="col-lg-12">
-				    <div class="ibox float-e-margins">
-				    	<table-header-cmp></table-header-cmp>
-				    	<div class = "{{class3}}">				  				    		
-				    		<router-outlet></router-outlet>		    		
-				    	</div>
-				    </div>
-			    </div>
-		    </div>
-	    </div>
-	    <footer-cmp></footer-cmp>             
+<nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+		<ul class="nav" id="side-menu">
+			<sidebar-header-cmp></sidebar-header-cmp>
+			<sidebar-cmp></sidebar-cmp>
+		</ul>
 	</div>
+</nav>
+<div id="page-wrapper" class="gray-bg">
+	<div class="row border-bottom">
+		<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+			<content-header-cmp></content-header-cmp>
+		</nav>
+	</div>
+	<navbar-cmp></navbar-cmp>
+	<div class="{{class}}">
+   <div class="row">
+    <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <table-header-cmp></table-header-cmp>
+      <div class = "{{class3}}">				  				    		
+       <router-outlet></router-outlet>		    		
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+<footer-cmp></footer-cmp>             
+</div>
+
+<div id="modal-users" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated {{modalAnimation}}">
+      <div class="modal-body">
+        <p></p>
+        <div class="row">
+          <div class="col-sm-11">              
+            <div class="col-sm-1">
+            </div>               
+            <form #heroForm="ngForm">
+              <div class="col-sm-11">               
+                <div  class="form-horizontal">
+                  <div class="form-group">
+                    <label class="col-lg-4 control-label" style="margin-top: 15%">Profile picture: &emsp;</label>
+                    <div class="col-lg-8">
+                      <div class="row">
+                        <div class="profile-image upload-btn-wrapper">
+                          <img id="user_photo_modal" [src]="image_path" class="img-circle circle-border2" alt="profile">
+                          <h5 class="text-center">Edit</h5>
+                          <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">                  
+                        </div>
+                        <div style="margin-top: 15%" class="upload-btn-wrapper">
+                          <input type="file" #Image accept="image/*" (change)="handleFileInput($event.target.files)">
+                          
+                        </div>
+                      </div>
+                    </div>       
+                  </div>                                                               
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Last name:</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="profile.Fname" name = "Fname">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">First name:</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="profile.Lname" name = "Lname">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Username:</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" placeholder="Username" [(ngModel)]="profile.username" name = "username">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Card ID:</label>
+                    <div class="col-lg-9">
+                      <input type="text" class="form-control" placeholder="cardID" [(ngModel)]="profile.cardID" name = "cardID">
+                    </div>
+                  </div>
+                </div>                            
+
+                <div>
+                  <div class="col-sm-6"></div>                
+                  <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                  <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "editProfile()" >Save</button>                      
+                </div>                      
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-users2" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated {{modalAnimation}}">
+      <div class="modal-body">
+        <div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
+        <div class="row">
+          <div class="col-sm-11">              
+            <div class="col-sm-1">
+            </div>               
+            <form [formGroup]="modalForm"  novalidate> 
+              <div class="col-sm-11">               
+                <div  class="form-horizontal">                                                                      
+                 <div class="form-group">
+                  <label class="col-lg-2 control-label">Current Password:</label>
+                  <div class="col-lg-10">
+                    <input type="password" class="form-control" placeholder="Current Password" formControlName="current_password">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">New Password:</label>
+                  <div class="col-lg-10">
+                    <input type="password" class="form-control" placeholder="New Password" formControlName="new_password">
+                  </div>
+                </div>                                            
+              </div>                            
+
+              <div>
+                <div class="col-sm-6"></div>                
+                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "changePassword()" >Save</button>                      
+              </div>                      
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

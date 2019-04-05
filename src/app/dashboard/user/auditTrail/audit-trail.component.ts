@@ -1,9 +1,8 @@
 import { Component, OnInit} from '@angular/core'
-import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 
 import { AuditTrailService } from './audit-trail.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -24,20 +23,19 @@ export class AuditTrailComponent implements OnInit
 	tempID	
 	filter: string
 
-	constructor(private auditTrailService: AuditTrailService, private route: Router, 
-		        private cookieService: CookieService){}
+	constructor(private auditTrailService: AuditTrailService,
+			    private errorHandlerService: ErrorHandlerService ){}
 
 	ngOnInit()
 	{
 		this.auditTrailService.GetAuditTrails()
 		.subscribe( data =>
-		{
-			this.updateToken(data['token'])
+		{			
 			this.auditTrail = data['auditTrail']
 			this.totalUsr = this.auditTrail.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 	
@@ -69,29 +67,20 @@ export class AuditTrailComponent implements OnInit
 	manageRow(length: number)
 	{		
 		this.row = length
+		this.selecTag()
 	}
 	p: number = 1;
 
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
-		{
-			this.route.navigate(['/InternalServerError'])
-		}
-		else if(error['status'] == 404)
-		{
-			this.route.navigate(['/PageNotFound'])
-		}
-	}
-
-	updateToken(token: string)
+	selecTag()
 	{
-		this.cookieService.delete("token")
-		this.cookieService.set('token', token)
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
+		}
 	}
 }

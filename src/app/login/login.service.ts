@@ -15,7 +15,7 @@ export class LoginService
   	private baseUrl = environment.backend_uri;
 
 	login(data: Object)
-	{
+	{		
         return this.http.post(`${this.baseUrl}/login`, data)      
 	}
 

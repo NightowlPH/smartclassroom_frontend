@@ -1,28 +1,28 @@
 <li class="nav-header">
     <div class="dropdown profile-element"> 
         <span>
-            <img alt="image" class="img-circle" src="../assets/img/logo.png" />
+            <img alt="image" class="img-circle sidebar-header" id="user_photo" />
         </span>
-        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+        <a data-toggle="dropdown" class="dropdown-toggle" (click)="selecTag()">
             <span class="clear"> 
                 <span class="block m-t-xs">
-                    <strong class="font-bold">{{Fname}} {{Lname}}</strong>                   
+                    <strong id = "user_name" class="font-bold"></strong>                   
                 </span> 
                 <span class="text-muted text-xs block">
-                    {{group_name}} <b class="caret"></b>
+                    Profile <b class="caret"></b>
                 </span> 
             </span> 
         </a>
-        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+        <ul id="selectList-sd" class="dropdown-menu animated fadeInRight m-t-xs">
             <li>
-                <a data-toggle="modal" href="#modal-users">Edit Profile</a>
+                <a data-toggle="modal" href="#modal-users" (click)="selecTag()">Edit Profile</a>
             </li>
             <li>
-                <a data-toggle="modal" href="#modal-users2">Change Password</a>
+                <a data-toggle="modal" href="#modal-users2" (click)="selecTag()">Change Password</a>
             </li>          
         </ul>
     </div>
     <div class="logo-element">
-    IN+
+    N.S.
     </div>
 </li>
