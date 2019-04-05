@@ -35,7 +35,7 @@ export class RegisterComponent
 	{
 		if(this.modalForm.status == "VALID")
 		{
-			if(this.modalForm.value['userpassword'].length > 10)
+			if(this.modalForm.value['userpassword'].length > 6)
 			{
 				this.message = ""
 				this.modalForm.value['Lname'] = this.modalForm.value['Lname'][0].toUpperCase() + this.modalForm.value['Lname'].slice(1, this.modalForm.value['Lname'].length)
@@ -48,7 +48,7 @@ export class RegisterComponent
 			}
 			else
 			{
-				this.message = "password must be more than 10 characters"
+				this.message = "password must be more than 6 characters"
 			}
 		}
 		else
