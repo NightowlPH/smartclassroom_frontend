@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { AdminRoomAccessService } from './room-access.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 
 @Component
@@ -20,8 +21,10 @@ export class AdminRoomAccessComponent implements OnInit
 	CB_Status = {}	
 	addAccess = [[],[]]
 
-	constructor(private roomAccessService: AdminRoomAccessService,
-		    private route: ActivatedRoute, private router: Router ){}
+	group_id:string
+
+	constructor(private roomAccessService: AdminRoomAccessService, private errorHandlerService: ErrorHandlerService,
+		        private route: ActivatedRoute, private router: Router ){}
 
 	ngOnInit()
 	{
@@ -32,7 +35,7 @@ export class AdminRoomAccessComponent implements OnInit
 			this.groupAccess = data['group']			
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -48,10 +51,10 @@ export class AdminRoomAccessComponent implements OnInit
 				var id = 'a'+data['id']
 				var obj = {}
 				obj[id] = "Permission"
-				this.CB_Status = Object.assign(this.CB_Status,obj)					
+				this.CB_Status = Object.assign(this.CB_Status,obj)						
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})		
 		})
 
@@ -61,7 +64,7 @@ export class AdminRoomAccessComponent implements OnInit
 			this.permissions = data['permissions']		
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -80,15 +83,16 @@ export class AdminRoomAccessComponent implements OnInit
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
 	addPermission(groupID: number, permissionID: number, permissionName: string)
-	{		
-		this.addAccess[0].push('a'+groupID)
-		this.addAccess[1].push({group_id: groupID, permission_id: permissionID})		
-		this.CB_Status['a'+groupID] = permissionName		
+	{				
+		this.addAccess[0].push('a'+this.group_id)
+		this.addAccess[1].push({group_id: this.group_id, permission_id: permissionID})		
+		this.CB_Status['a'+this.group_id] = permissionName		
+		this.selecTag(null)		
 	}
 
 	unCheck_CB(groupID: number)
@@ -106,28 +110,26 @@ export class AdminRoomAccessComponent implements OnInit
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
 	back()
 	{		
 		this.router.navigate(['home/admin/rooms'])
-	}
+	}	
 
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag(group_id)
+	{
+		this.group_id = group_id
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
 		{
-			this.router.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.router.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 

@@ -1,8 +1,8 @@
 import { Component, OnInit} from '@angular/core'
-import { Router }    from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { AdminAppLogsService } from './app-logs.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -26,7 +26,8 @@ export class AdminAppLogsComponent implements OnInit
 	filter: string
 	
 
-	constructor(private appLogsService: AdminAppLogsService, private route: Router){}
+	constructor(private appLogsService: AdminAppLogsService, 
+				private errorHandlerService: ErrorHandlerService){}
 
 	ngOnInit()
 	{
@@ -37,7 +38,7 @@ export class AdminAppLogsComponent implements OnInit
 			this.totalUsr = this.activeUsers.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})		
 	}
 	
@@ -49,7 +50,10 @@ export class AdminAppLogsComponent implements OnInit
 		{
 			console.log(data['token'])
 			this.ngOnInit()
-		})
+		},(error: HttpErrorResponse) =>
+			{
+				this.errorHandlerService.handleError(error)
+			})
 	}
 
 	refresh()
@@ -82,23 +86,20 @@ export class AdminAppLogsComponent implements OnInit
 		if(length == 200)
 		{
 			this.row = this.totalUsr
-		}		
+		}
+		this.selecTag()		
 	}
-	
 
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
 		{
-			this.route.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.route.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 

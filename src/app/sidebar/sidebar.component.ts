@@ -42,8 +42,8 @@ export class SidebarComponent implements OnInit
 				this.router.navigate(['/login'])
 			}
 			this.menuItems.forEach( sidebar =>
-			{
-				if ("/"+sidebar.path == location.pathname )
+			{				
+				if ("#/"+sidebar.path == location.hash )
 				{
 					sidebar.status = "active"
 				}

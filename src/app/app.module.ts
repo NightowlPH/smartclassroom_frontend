@@ -34,13 +34,13 @@ import { TokenRegistrationService } from './tokenRegistration.service';
 
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TokenRegistrationService, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenRegistrationService, multi: true},
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   declarations: 
   [
     AppComponent,  
   ],
-  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

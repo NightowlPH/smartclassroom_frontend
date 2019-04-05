@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
 
 import { UsersService} from './users.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 import { Profile } from './users.metadata';
 
 
@@ -23,45 +24,14 @@ export class UsersComponent
 	row = 10
 	totalUsr: number
 	tempID	
-
-	modalForm: FormGroup
-	addDetails: object	
-	add: string
-	update: string
-	modalAnimation: string
-	message: string
 	filter: string
-	counter = false
-	coutner2 = false
-	
-	profile: Profile = {Fname: '', Lname: '', username: '', cardID: ''}
-	user_id: string
+	message: string
 
-	constructor(private usersService: UsersService, private formBuilder: FormBuilder,
-			    private route: Router ){ this.createForm() }
-
-
-	createForm()
-	{					
-		this.modalForm = this.formBuilder.group
-		({
-			current_password: ['',Validators.required],
-			new_password: ['', Validators.required],
-		})    
-	}
+	constructor(private usersService: UsersService, private errorHandlerService: ErrorHandlerService){}	
 
 	ngOnInit()
 	{		
-		this.message = ""	
-		this.usersService.EditProfile()
-		.subscribe( data =>
-		{		
-			this.profile.Fname = data['Fname']
-			this.profile.Lname = data['Lname']
-			this.profile.username = data['username']
-			this.profile.cardID = data['cardID']	
-			this.user_id = data['id']					
-		})	
+		this.message = ""			
 		this.usersService
 		.getAll()
 		.subscribe( data => 
@@ -70,50 +40,10 @@ export class UsersComponent
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			});				
 	}	
 
-	
-
-	editProfile()
-	{
-		this.usersService.routeID = this.user_id
-		console.log(this.profile)
-		this.usersService.UpdateUser(this.profile)
-		.subscribe( data => 
-		{	
-			if(data['message'])
-			{
-				this.message = data['message']
-			}
-			else
-			{
-				this.message = ""
-				this.ngOnInit()
-			}						
-		},(error: HttpErrorResponse) =>
-			{
-				this.handleError(error)
-			})
-	}
-
-	changePassword()
-	{				
-		this.usersService.ChangePassword(this.modalForm.value)
-		.subscribe( data =>
-		{
-			if(data['message'] != 'your password is successfully change')
-			{
-				this.message = data['message']
-			}
-			else
-			{
-				this.message = ""
-			}
-		})
-	}
-	
 	
 	sort(key, id: number)
 	{				
@@ -135,23 +65,20 @@ export class UsersComponent
 	manageRow(length: number)
 	{		
 		this.row = length
+		this.selecTag()
 	}
 	p: number = 1;
 
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
 		{
-			this.route.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.route.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login.component';
 
 import { LoginService } from './login.service';
+import { SessionService } from '../session.service';
 
 
 @NgModule
@@ -23,7 +24,7 @@ import { LoginService } from './login.service';
 	],
 	declarations: [LoginComponent],
 	exports: [LoginComponent],
-	providers: [LoginService, CookieService]
+	providers: [LoginService, CookieService, SessionService]
 })
 
 export class LoginModule{}

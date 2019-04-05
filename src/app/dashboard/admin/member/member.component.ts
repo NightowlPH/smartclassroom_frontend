@@ -1,11 +1,11 @@
 import { Component, OnInit, DoCheck } from '@angular/core'
 import { Location } from '@angular/common';
-import { Route } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { AdminMembersService } from './member.service'
+import { AdminMembersService } from './member.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 
 @Component
@@ -38,12 +38,11 @@ export class AdminMemberComponent
 	filter2: string
 
 	constructor( private route: ActivatedRoute, private membersService: AdminMembersService,
-				 private router: Router ){}
+				 private router: Router, private errorHandlerService: ErrorHandlerService){}
 
 	ngOnInit()
 	{		
-		var id = this.route.snapshot.paramMap.get('id')		
-		console.log("member",this.route)
+		var id = this.route.snapshot.paramMap.get('id')				
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
 		{
@@ -51,7 +50,7 @@ export class AdminMemberComponent
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -64,7 +63,7 @@ export class AdminMemberComponent
 				this.totalUsr2 = this.notMember.length				
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})	
 	}
 
@@ -77,7 +76,7 @@ export class AdminMemberComponent
 			
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 				
 	}
@@ -100,7 +99,7 @@ export class AdminMemberComponent
 			this.ngOnInit()		
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -151,7 +150,8 @@ export class AdminMemberComponent
 		if(length == 200)
 		{
 			this.row = this.totalUsr
-		}		
+		}
+		this.selecTag()	
 	}
 
 	manageRow2(length: number)
@@ -160,24 +160,34 @@ export class AdminMemberComponent
 		if(length == 200)
 		{
 			this.row2 = this.totalUsr2
-		}		
+		}
+		this.selecTag2()		
 	}
-	
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
 		{
-			this.router.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.router.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 
+	selecTag2()
+	{
+		var class_name = document.getElementById("selectList2").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList2").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList2").className = "dropdown-menu"
+		}
+	}
 
 }

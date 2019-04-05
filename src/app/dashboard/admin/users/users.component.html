@@ -5,9 +5,9 @@
         <div class="form-group2 col2-sm-12">
 			<div class="col2-sm-6">
 				<div class="input-group-btn">
-	               	<button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row}}&emsp;</button>
-	               	<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
-		               <ul class="dropdown-menu">
+	               	<button tabindex="-1" class="btn btn-white btn2-sm" type="button" (click)="selecTag()">&emsp;{{row}}&emsp;</button>
+	               	<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button" (click)="selecTag()"><span class="caret"></span></button>
+		               <ul id="selectList" class="dropdown-menu">
 		               	   <li><a (click)=manageRow(10)>10</a></li>
 		                   <li><a (click)=manageRow(50)>50</a></li>
 		                   <li><a (click)=manageRow(100)>100</a></li>
@@ -16,8 +16,8 @@
            		</div>
 			</div>
 			<div class="col2-sm-6">
-				<div class="col2-sm-6"></div>
-				<div class="col2-sm-6">					
+				<div class="col2-sm-7"></div>
+				<div class="col2-sm-5">					
 					<input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter">
 				</div>
 			</div>
@@ -34,10 +34,10 @@
 					Username<span class="fa fa-sort{{class[0][1]}} pull-right"></span>
 				</th>
 				<th (click)="sort('Lname',2)" class="{{class[1][2]}}">
-					Lname<span class="fa fa-sort{{class[0][2]}} pull-right"></span>
+					Lastname<span class="fa fa-sort{{class[0][2]}} pull-right"></span>
 				</th>
 				<th (click)="sort('Fname',3)" class="{{class[1][3]}}">
-					Fname<span class="fa fa-sort{{class[0][3]}} pull-right"></span>
+					Firstname<span class="fa fa-sort{{class[0][3]}} pull-right"></span>
 				</th>
 				<th (click)="sort('CardID',4)" class="{{class[1][4]}}">
 					CardID<span class="fa fa-sort{{class[0][4]}} pull-right"></span>
@@ -53,7 +53,7 @@
 				<td>{{user.username}}</td>
 				<td>{{user.Lname}}</td>
 				<td>{{user.Fname}}</td>
-				<td>{{user.cardID}}</td>				
+				<td>{{user.cardID }}</td>				
 				<td align="center">									                
                     <button class="btn btn-primary btn-xs" (click) = "update_user(user.id)" data-toggle="modal" href="#modal-userss">
                     	<span class="glyphicon glyphicon-pencil"></span>
@@ -148,96 +148,3 @@
   </div>
 </div>
 
-<div id="modal-users" class="modal fade" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content animated {{modalAnimation}}">
-          <div class="modal-body">
-            <p></p>
-              <div class="row">
-                <div class="col-sm-11">              
-                  <div class="col-sm-1">
-                  </div>               
-                   <form #heroForm="ngForm">
-                    <div class="col-sm-11">               
-                      <div  class="form-horizontal">                                                                      
-                         <div class="form-group">
-                          <label class="col-lg-2 control-label">Lname:</label>
-                            <div class="col-lg-10">
-                              <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="profile.Fname" name = "Fname">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-lg-2 control-label">Fname:</label>
-                            <div class="col-lg-10">
-                              <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="profile.Lname" name = "Lname">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-lg-2 control-label">Username:</label>
-                            <div class="col-lg-10">
-                              <input type="text" class="form-control" placeholder="Username" [(ngModel)]="profile.username" name = "username">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-lg-2 control-label">CardID:</label>
-                            <div class="col-lg-10">
-                              <input type="text" class="form-control" placeholder="cardID" [(ngModel)]="profile.cardID" name = "cardID">
-                            </div>
-                        </div>
-                      </div>                            
-
-                      <div>
-                        <div class="col-sm-6"></div>                
-                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "editProfile()" >Save</button>                      
-                      </div>                      
-
-                      </div>
-                    </form>
-                </div>
-          </div>
-      </div>
-      </div>
-  </div>
-</div>
-
-<div id="modal-users2" class="modal fade" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content animated {{modalAnimation}}">
-          <div class="modal-body">
-            <div class="col2-sm-10"><div class="col-sm-6"></div><p style="color: red">{{message}}</p></div>
-              <div class="row">
-                <div class="col-sm-11">              
-                  <div class="col-sm-1">
-                  </div>               
-                   <form [formGroup]="modalForm"  novalidate> 
-                    <div class="col-sm-11">               
-                      <div  class="form-horizontal">                                                                      
-                         <div class="form-group">
-                          <label class="col-lg-2 control-label">Current Password:</label>
-                            <div class="col-lg-10">
-                              <input type="password" class="form-control" placeholder="Current Password" formControlName="current_password">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="col-lg-2 control-label">New Password:</label>
-                            <div class="col-lg-10">
-                              <input type="password" class="form-control" placeholder="New Password" formControlName="new_password">
-                            </div>
-                        </div>                                            
-                      </div>                            
-
-                      <div>
-                        <div class="col-sm-6"></div>                
-                        <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "changePassword()" >Save</button>                      
-                      </div>                      
-
-                      </div>
-                    </form>
-                </div>
-          </div>
-      </div>
-      </div>
-  </div>
-</div>

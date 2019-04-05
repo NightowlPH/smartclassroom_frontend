@@ -3,7 +3,7 @@ import { FormsModule }    from '@angular/forms';
 import { CommonModule }   from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
-import { Ng2OrderModule } from 'ng2-order-pipe'; //importing the module
+import { OrderModule } from 'ngx-order-pipe'; //importing the module
 import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -24,6 +24,7 @@ import { RoomComponent } from './user/room/room.component';
 import { RoomAccessComponent } from './user/roomAccess/room-access.component';
 import { AuditTrailComponent } from './user/auditTrail/audit-trail.component';
 import { RoomStatusComponent } from './user/roomStatus/room-status.component';
+import { DevicesComponent } from './admin/devices/devices.component'
 import { DashboardComponent } from './dashboard.component';
 
 import { DashboardRoutingModule } from './dashboard.routes';
@@ -50,12 +51,12 @@ import { TokenRegistrationService } from '../tokenRegistration.service';
     FooterModule,   
     SidebarModule,
     Ng2SearchPipeModule, //including into imports
-    Ng2OrderModule, // importing the sorting package here
+    OrderModule, // importing the sorting package here
     NgxPaginationModule,
     HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TokenRegistrationService, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenRegistrationService, multi: true},
   ],
   declarations: 
   [ 
@@ -76,8 +77,10 @@ import { TokenRegistrationService } from '../tokenRegistration.service';
     RoomAccessComponent,
     AuditTrailComponent,
     RoomStatusComponent,
+    DevicesComponent,
     DashboardComponent
   ]
+
 })
 
 export class DashboardModule{}

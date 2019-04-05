@@ -19,6 +19,7 @@ import { RoomAccessComponent } from './user/roomAccess/room-access.component';
 import { AuditTrailComponent } from './user/auditTrail/audit-trail.component';
 import { RoomStatusComponent } from './user/roomStatus/room-status.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { DevicesComponent } from './admin/devices/devices.component';
 
 import { AuthGuard } from '../route-guard';
 
@@ -28,8 +29,11 @@ import { AdminGroupService } from './admin/group/group.service';
 import { AdminMembersService } from './admin/member/member.service';
 import { AdminRoomService } from './admin/room/room.service';
 import { AdminRoomAccessService } from './admin/roomAccess/room-access.service';
+import { DevicesService } from './admin/devices/devices.service';
+import { AdminRoomStatusService } from './admin/roomStatus/room-status.service';
 import { AdminAuditTrailService } from './admin/auditTrail/audit-trail.service';
 import { AdminAppLogsService } from './admin/appLogs/app-logs.service';
+
 import { UsersService } from './user/users/users.service';
 import { PermissionService } from './user/permission/permission.service';
 import { GroupService } from './user/group/group.service';
@@ -37,7 +41,13 @@ import { MembersService } from './user/member/member.service';
 import { RoomService } from './user/room/room.service';
 import { RoomAccessService } from './user/roomAccess/room-access.service';
 import { AuditTrailService } from './user/auditTrail/audit-trail.service';
-import { LoginComponent } from '../login/login.component';
+import { RoomStatusService } from './user/roomStatus/room-status.service';
+
+import { SessionService } from '.././session.service';
+import { ErrorHandlerService } from '.././error-handler.service';
+import { DashboardService } from './dashboard.service';
+
+import { SidebarHeaderComponent } from '../share/sidebar-header/sidebar-header.component';
 
 const routes: Routes = [
   {
@@ -53,6 +63,7 @@ const routes: Routes = [
     	{ path: 'admin/rooms', component: AdminRoomComponent},
     	{ path: 'admin/roomAccess/:id', component: AdminRoomAccessComponent},
     	{ path: 'admin/auditTrials', component: AdminAuditTrailComponent},
+      { path: 'admin/devices', component: DevicesComponent},
     	{ path: 'admin/roomStatus', component: AdminRoomStatusComponent},
       { path: 'admin/appLogs', component: AdminAppLogsComponent},
       { path: 'users', component: UsersComponent},
@@ -62,7 +73,7 @@ const routes: Routes = [
       { path: 'rooms', component: RoomComponent},
       { path: 'roomAccess/:id', component: RoomAccessComponent},
       { path: 'auditTrials', component: AuditTrailComponent},
-      { path: 'roomStatus', component: RoomStatusComponent},     
+      { path: 'roomStatus', component: RoomStatusComponent},          
     ]
   }
 ];
@@ -83,16 +94,25 @@ const routes: Routes = [
     AdminMembersService,
     AdminRoomService,
     AdminRoomAccessService,
+    DevicesService,
+    AdminRoomStatusService,
     AdminAuditTrailService,
     AdminAppLogsService,
+
     UsersService,
     PermissionService,
     GroupService,
     MembersService,
     RoomService,
     RoomAccessService,
-    AuditTrailService,    
-    LoginComponent
+    AuditTrailService,
+    RoomStatusService,
+
+    SessionService,
+    ErrorHandlerService,     
+    DashboardService,
+
+    SidebarHeaderComponent  
   ]
 })
 

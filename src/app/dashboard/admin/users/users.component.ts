@@ -5,8 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
 
 import { AdminUsersService} from './users.service';
-import { Profile } from './users.metadata';
-
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -34,34 +33,22 @@ export class AdminUsersComponent
 	counter = false
 	coutner2 = false
 	
-	profile: Profile = {Fname: '', Lname: '', username: '', cardID: ''}
-	user_id: string
 
-	constructor(private usersService: AdminUsersService, private formBuilder: FormBuilder,
-		    private route: Router ){ this.createForm() }
+	constructor(private usersService: AdminUsersService, private formBuilder: FormBuilder, private errorHandlerService: ErrorHandlerService,
+				private route: Router){ this.createForm() }
 
 
 	createForm()
 	{					
 		this.modalForm = this.formBuilder.group
 		({
-			current_password: ['',Validators.required],
-			new_password: ['', Validators.required],
+
 		})    
 	}
 
 	ngOnInit()
 	{		
 		this.message = ""	
-		this.usersService.EditProfile()
-		.subscribe( data =>
-		{		
-			this.profile.Fname = data['Fname']
-			this.profile.Lname = data['Lname']
-			this.profile.username = data['username']
-			this.profile.cardID = data['cardID']	
-			this.user_id = data['id']					
-		})	
 		this.usersService
 		.getAll()
 		.subscribe( data => 
@@ -70,7 +57,7 @@ export class AdminUsersComponent
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			});				
 	}
 	
@@ -94,7 +81,7 @@ export class AdminUsersComponent
 							}
 						},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})									
 				}			
 			})			
@@ -110,7 +97,7 @@ export class AdminUsersComponent
 				}
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 		}		
 	}
@@ -153,7 +140,7 @@ export class AdminUsersComponent
 					}
 				},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 		}	
 	}
@@ -168,76 +155,46 @@ export class AdminUsersComponent
 			this.mapData(data['data'])					
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
 	updateUser()
-	{		
-		var usrFrmData = this.modalForm.value
-		this.usersService.UpdateUser(usrFrmData)
-		.subscribe( data => 
-		{	
-			if(data['message'])
-			{
-				this.message = data['message']
-			}
-			else
-			{
-				this.message = ""
-				this.ngOnInit()
-			}						
-		},(error: HttpErrorResponse) =>
-			{
-				this.handleError(error)
-			})		
-	}
 
-	editProfile()
-	{
-		this.usersService.routeID = this.user_id
-		this.usersService.UpdateUser(this.profile)
-		.subscribe( data => 
-		{	
-			if(data['message'])
-			{
-				this.message = data['message']
-			}
-			else
-			{
-				this.message = ""
-				this.ngOnInit()
-			}						
-		},(error: HttpErrorResponse) =>
-			{
-				this.handleError(error)
-			})
-	}
-
-	changePassword()
 	{				
-		this.usersService.ChangePassword(this.modalForm.value)
-		.subscribe( data =>
-		{
-			if(data['message'] != 'your password is successfully change')
+
+		const formData: FormData = new FormData();		
+		formData.append('Fname', this.modalForm.value['Fname']);		
+		formData.append('Lname', this.modalForm.value['Lname']);
+		formData.append('username', this.modalForm.value['username']);
+		formData.append('cardID', this.modalForm.value['cardID']);
+
+		this.usersService.UpdateUser(formData)
+		.subscribe( data => 
+		{	
+			if(data['message'])
 			{
 				this.message = data['message']
 			}
 			else
 			{
 				this.message = ""
-			}
-		})
+				this.ngOnInit()
+			}						
+		},(error: HttpErrorResponse) =>
+			{
+				this.errorHandlerService.handleError(error)
+			})		
 	}
 
 	private mapData(data: object)
 	{		
-		this.modalForm = this.formBuilder.group
+    this.modalForm = this.formBuilder.group
 		({
 			Lname: [data['Lname'],Validators.required],
 			Fname: [data['Fname'], Validators.required],
 			username: [data['username'], Validators.required],
-			cardID: [data['cardID'], Validators.required]
+			cardID: data['cardID']
 		})
 		this.update = "updateUser"	
 	}	
@@ -262,23 +219,21 @@ export class AdminUsersComponent
 	manageRow(length: number)
 	{		
 		this.row = length
+		this.selecTag()
 	}
 	p: number = 1;
 
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		console.log(class_name)
+		if(class_name == "dropdown-menu")
 		{
-			this.route.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.route.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 

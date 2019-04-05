@@ -20,26 +20,26 @@ export class NavbarComponent implements DoCheck
 	title: string
 
 	ngDoCheck()
-	{			
+	{					
 		if(this.path == '')
-		{
-			var url = location.pathname	
+		{						
+			var url = location.hash	
 			if(url.indexOf('home/admin') != -1)
-			{
-				this.breadcrumb = [{'name': 'Home', path: 'admin/users'}]	
+			{				
+				this.breadcrumb = [{'name': 'Home', path: 'admin/users'}]				
 			}						
 			else
-			{
+			{				
 				this.breadcrumb = [{'name': 'Home', path: 'users'}]	
 			}					
 			if(url.indexOf('groupMember') != -1)
-			{												
-
+			{																
 				if(url.indexOf('home/admin') != -1)
-				{
-					this.navbarService.GetGroupDetail(url.slice(24,url.length))
+				{					
+					this.navbarService.GetGroupDetail(url.slice(26,url.length))
 					.subscribe( data =>
-					{													
+					{					
+						console.log(data)								
 						this.breadcrumb.push({'name': 'Groups', 'path': 'admin/groups'}, {'name': data['data'].name, 'path': ''})
 						this.title = data['data'].name											
 					},(error: HttpErrorResponse) =>
@@ -49,7 +49,7 @@ export class NavbarComponent implements DoCheck
 				}
 				else
 				{
-					this.navbarService.GetGroupDetail(url.slice(18,url.length))
+					this.navbarService.GetGroupDetail(url.slice(19,url.length))
 					.subscribe( data =>
 					{																	
 						this.breadcrumb.push({'name': 'Groups', 'path': 'groups'}, {'name': data['data'].name, 'path': ''})
@@ -77,6 +77,7 @@ export class NavbarComponent implements DoCheck
 				}
 				else
 				{
+
 					this.navbarService.GetRoomDetail(url.slice(23,url.length))
 					.subscribe( data =>
 					{													
@@ -90,24 +91,23 @@ export class NavbarComponent implements DoCheck
 				}				
 			}
 			else
-			{
+			{				
 				if(url.indexOf('home/admin') != -1)
 				{					
-					this.breadcrumb.push({'name': url.slice(12,url.length)[0].toUpperCase() + url.slice(13,url.length), 'path': url.slice(6, url.length)})
-					this.title = url.slice(6,url.length)[0].toUpperCase() + url.slice(7,url.length)
-					console.log(this.breadcrumb)
+					this.breadcrumb.push({'name': url.slice(13,url.length)[0].toUpperCase() + url.slice(14,url.length), 'path': url.slice(7, url.length)})
+					this.title = url.slice(13,url.length)[0].toUpperCase() + url.slice(14,url.length)					
 				}
 				else
-				{					
-					this.breadcrumb.push({'name': url.slice(6,url.length)[0].toUpperCase() + url.slice(7,url.length), 'path': url.slice(6, url.length)})
-					this.title = url.slice(6,url.length)[0].toUpperCase() + url.slice(7,url.length)
+				{								
+					this.breadcrumb.push({'name': url.slice(7,url.length)[0].toUpperCase() + url.slice(8,url.length), 'path': url.slice(7, url.length)})
+					this.title = url.slice(7,url.length)[0].toUpperCase() + url.slice(8,url.length)					
 				}				
 			}
-			this.path = location.pathname
-		}
-		else if( this.path != location.pathname)
+			this.path = location.hash
+		}		
+		else if(this.path != location.hash)
 		{
-			var url = location.pathname	
+			var url = location.hash	
 			if(url.indexOf('home/admin') != -1)
 			{
 				this.breadcrumb = [{'name': 'Home', path: 'admin/users'}]	
@@ -121,7 +121,7 @@ export class NavbarComponent implements DoCheck
 			{
 				if(url.indexOf('home/admin') != -1)
 				{
-					this.navbarService.GetGroupDetail(url.slice(24,url.length))
+					this.navbarService.GetGroupDetail(url.slice(25,url.length))
 					.subscribe( data =>
 					{													
 						this.breadcrumb.push({'name': 'Groups', 'path': 'admin/groups'}, {'name': data['data'].name, 'path': ''})
@@ -133,7 +133,7 @@ export class NavbarComponent implements DoCheck
 				}
 				else
 				{
-					this.navbarService.GetGroupDetail(url.slice(18,url.length))
+					this.navbarService.GetGroupDetail(url.slice(19,url.length))
 					.subscribe( data =>
 					{																	
 						this.breadcrumb.push({'name': 'Groups', 'path': 'groups'}, {'name': data['data'].name, 'path': ''})
@@ -177,17 +177,16 @@ export class NavbarComponent implements DoCheck
 			{
 				if(url.indexOf('home/admin') != -1)
 				{					
-					this.breadcrumb.push({'name': url.slice(12,url.length)[0].toUpperCase() + url.slice(13,url.length), 'path': url.slice(6, url.length)})
-					this.title = url.slice(6,url.length)[0].toUpperCase() + url.slice(7,url.length)
-					console.log(this.breadcrumb)
+					this.breadcrumb.push({'name': url.slice(13,url.length)[0].toUpperCase() + url.slice(14,url.length), 'path': url.slice(7, url.length)})
+					this.title = url.slice(13,url.length)[0].toUpperCase() + url.slice(14,url.length)					
 				}
 				else
 				{					
-					this.breadcrumb.push({'name': url.slice(6,url.length)[0].toUpperCase() + url.slice(7,url.length), 'path': url.slice(6, url.length)})
-					this.title = url.slice(6,url.length)[0].toUpperCase() + url.slice(7,url.length)
+					this.breadcrumb.push({'name': url.slice(7,url.length)[0].toUpperCase() + url.slice(8,url.length), 'path': url.slice(7, url.length)})
+					this.title = url.slice(7,url.length)[0].toUpperCase() + url.slice(8,url.length)
 				}
 			}
-			this.path = location.pathname
+			this.path = location.hash
 		}
 	}
 

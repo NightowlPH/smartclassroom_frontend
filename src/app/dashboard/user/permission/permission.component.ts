@@ -1,9 +1,8 @@
 import { Component, OnInit, DoCheck} from '@angular/core'
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router }    from '@angular/router';
-
 import { PermissionService } from './permission.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -30,7 +29,7 @@ export class PermissionComponent
 	filter: string
 
 	constructor( private permissionService: PermissionService, 
-		     private route: Router ){}
+  		         private errorHandlerService: ErrorHandlerService){}
 	
 
 	ngOnInit()
@@ -43,7 +42,7 @@ export class PermissionComponent
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			});
 	}
 	
@@ -71,26 +70,21 @@ export class PermissionComponent
 		if(length == 200)
 		{
 			this.row = this.totalUsr
-		}		
+		}
+		this.selecTag()	
 	}
 	p: number = 1;
 
-	
-
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag()
+	{		
+		var class_name = document.getElementById("selectList").className		
+		if(class_name == "dropdown-menu")
 		{
-			this.route.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.route.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
-
 }

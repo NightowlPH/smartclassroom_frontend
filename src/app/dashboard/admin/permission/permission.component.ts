@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
 
 import { AdminPermissionService } from './permission.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -31,7 +32,7 @@ export class AdminPermissionComponent
 	filter: string
 
 	constructor( private permissionService: AdminPermissionService, private formBuilder: FormBuilder, 
-		     private route: Router ){ this.createForm() }
+		           private route: Router,  private errorHandlerService: ErrorHandlerService ){ this.createForm() }
 
 	createForm()
 	{
@@ -51,7 +52,7 @@ export class AdminPermissionComponent
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			});
 	}
 
@@ -81,7 +82,7 @@ export class AdminPermissionComponent
 				}
 			},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})				
 		}		
 	}
@@ -94,7 +95,7 @@ export class AdminPermissionComponent
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -108,7 +109,7 @@ export class AdminPermissionComponent
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -131,7 +132,7 @@ export class AdminPermissionComponent
 				}		
     		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 		}
 	}	
@@ -159,7 +160,8 @@ export class AdminPermissionComponent
 		if(length == 200)
 		{
 			this.row = this.totalUsr
-		}		
+		}
+		this.selecTag()		
 	}
 	p: number = 1;
 
@@ -174,19 +176,16 @@ export class AdminPermissionComponent
 		this.update = "updatePermission"	   
 	}
 
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.route.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
 		{
-			this.route.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.route.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 

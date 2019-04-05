@@ -1,9 +1,10 @@
 import { Component, OnInit} from '@angular/core'
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { GroupService } from './group.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 @Component
 ({
@@ -18,7 +19,17 @@ export class GroupComponent
 		
 	modalAnimation: string
 
-	constructor( private groupService: GroupService, private router: Router){}
+	class = [["","","",""],["","","",""]]
+	tempID
+	key: string = 'id'
+	reverse: boolean = false
+	totalUsr: number
+	filter: string
+	row = 9
+	p = 1
+
+	constructor( private groupService: GroupService, 
+				 private errorHandlerService: ErrorHandlerService, private router: Router ){}
 	
 
 	ngOnInit()
@@ -27,9 +38,10 @@ export class GroupComponent
 		.subscribe( data => 
 		{
 			this.groups  = data['groups']
+			this.totalUsr = this.groups.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -39,20 +51,44 @@ export class GroupComponent
 	{
 		this.router.navigate(['/home/groupMember',id])
 	}
-	
-	handleError(error: object)
+
+	manageRow(length: number)
+	{		
+		this.row = length
+		if(length == 200)
+		{
+			this.row = this.totalUsr
+		}		
+		this.selecTag()
+	}
+
+	sort(key, id: number)
 	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+		this.key = key;
+		this.reverse = !this.reverse;
+		if(this.class[0][id] == "" || this.class[0][id] == "-asc")
 		{
-			this.router.navigate(['/InternalServerError'])
+			this.class[0][id] = "-desc"
 		}
-		else if(error['status'] == 404)
+		else if(this.class[0][id] == "-desc")
 		{
-			this.router.navigate(['/PageNotFound'])
+			this.class[0][id] = "-asc"
+		}		
+		this.class[1][this.tempID] = ""
+		this.class[1][id] = "active"
+		this.tempID = id		
+	}
+
+	selecTag()
+	{		
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
+		{
+			document.getElementById("selectList").className += " show"
+		}
+		if(class_name == "dropdown-menu show")
+		{
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
 

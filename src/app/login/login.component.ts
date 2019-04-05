@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { LoginService } from "./login.service";
+import { SessionService } from '../session.service';
 
 @Component
 ({
@@ -25,7 +26,8 @@ export class LoginComponent
  	 		private location:Location,
  	 		private router: Router,
  	 		private loginService:LoginService,
- 	 		private cookieService:CookieService
+ 	 		private cookieService:CookieService,
+ 	 		private sessionService: SessionService
  	 	) {} 	
 
 
@@ -44,15 +46,21 @@ export class LoginComponent
 					if(data['userType'] == "Admin")
 					{
 						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/admin/users';
-						this.cookieService.deleteAll()					
-						this.cookieService.set('token', data['token']);					
+						if(data['url'])
+						{
+							redirect = data['url']
+						}						
+						this.sessionService.updateToken(data['token'])			
 						this.router.navigate([redirect]);
 					}
 					else if(data['userType'] == "User")
 					{
 						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/users';
-						this.cookieService.deleteAll()					
-						this.cookieService.set('token', data['token']);					
+						if(data['url'])
+						{
+							redirect = data['url']
+						}
+						this.sessionService.updateToken(data['token'])					
 						this.router.navigate([redirect]);
 					}														
 				}
@@ -83,15 +91,13 @@ export class LoginComponent
 					if(data['userType'] == "Admin")
 					{
 						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/admin/users';
-						this.cookieService.deleteAll()					
-						this.cookieService.set('token', data['token']);					
+						this.sessionService.updateToken(data['token'])				
 						this.router.navigate([redirect]);
 					}
 					else if(data['userType'] == "User")
 					{
 						let redirect = this.loginService.redirectUrl ? this.loginService.redirectUrl : '/home/users';
-						this.cookieService.deleteAll()					
-						this.cookieService.set('token', data['token']);					
+						this.sessionService.updateToken(data['token'])					
 						this.router.navigate([redirect]);
 					}					
 				}			

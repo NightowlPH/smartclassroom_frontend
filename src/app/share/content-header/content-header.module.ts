@@ -6,13 +6,14 @@ import { CookieService } from 'ngx-cookie-service';
 import { ContentHeaderService } from './content-header.service';
 
 import { ContentHeaderComponent } from './content-header.component';
+import { SessionService } from '../../session.service';
 
 @NgModule
 ({
     imports: [ RouterModule, CommonModule ],
     declarations: [ ContentHeaderComponent ],
     exports: [ ContentHeaderComponent ],
-    providers: [CookieService, ContentHeaderService]
+    providers: [CookieService, ContentHeaderService,SessionService]
 })
 
 export class ContentHeaderModule {}

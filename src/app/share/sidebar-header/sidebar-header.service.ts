@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Router }    from '@angular/router';
 import { environment } from '../../../environments/environment'
+import { Observable } from 'rxjs';
 
 
 
@@ -19,6 +20,15 @@ export class SidebarHeadersService
 		return this.http.get(`${this.baseUrl}/getUserProfile`,
 		{
 			headers: this.Headers()
+		})
+	}
+
+	Get_user_photo(): Observable<Blob> 
+	{
+		return this.http.put(`${this.baseUrl}/account/photo`,{data:null},
+		{
+			headers: this.Headers(),
+			responseType: 'blob' 
 		})
 	}
 

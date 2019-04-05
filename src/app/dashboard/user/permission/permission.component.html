@@ -5,9 +5,9 @@
         <div class="form-group2 col2-sm-12">
 			<div class="col2-sm-6">
 				<div class="input-group-btn">
-               <button tabindex="-1" class="btn btn-white btn2-sm" type="button">&emsp;{{row}}&emsp;</button>
-               <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button"><span class="caret"></span></button>
-               <ul class="dropdown-menu">
+               <button tabindex="-1" class="btn btn-white btn2-sm" type="button" (click)="selecTag()" >&emsp;{{row}}&emsp;</button>
+               <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn2-sm" type="button" (click)="selecTag()"><span class="caret"></span></button>
+               <ul id="selectList" class="dropdown-menu">
                	   <li><a (click)=manageRow(10)>10</a></li>
                    <li><a (click)=manageRow(50)>50</a></li>
                    <li><a (click)=manageRow(100)>100</a></li>
@@ -16,8 +16,8 @@
            </div>
 			</div>
 			<div class="col2-sm-6">
-				<div class="col2-sm-6"></div>
-				<div class="col2-sm-6">					
+				<div class="col2-sm-7"></div>
+				<div class="col2-sm-5">					
 					<input type="text" placeholder="Search for something..." class="form-control pull-right input-sm" name="search" [(ngModel)]="filter"> 				
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let permission of permissions | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: row, currentPage: p };">				
-				<td>{{permission.id}}</td>
+				<td class="text-center" style="padding: 6px 0">{{permission.id}}</td>
 				<td>{{permission.name}}</td>
 				<td>{{permission.description}}</td>				
 			</tr>

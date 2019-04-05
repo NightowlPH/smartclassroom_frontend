@@ -1,11 +1,10 @@
 import { Component, OnInit, DoCheck } from '@angular/core'
 import { Location } from '@angular/common';
-import { Route } from '@angular/router';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { MembersService } from './member.service'
+import { MembersService } from './member.service';
+import { ErrorHandlerService } from '../../../error-handler.service';
 
 
 @Component
@@ -30,12 +29,11 @@ export class MemberComponent
 	
 
 	constructor( private route: ActivatedRoute, private membersService: MembersService,
-		     private router: Router ){}
+      				 private errorHandlerService: ErrorHandlerService, private router: Router){}
 
 	ngOnInit()
 	{		
-		var id = this.route.snapshot.paramMap.get('id')		
-		console.log("member",this.route)
+		var id = this.route.snapshot.paramMap.get('id')				
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
 		{
@@ -43,7 +41,7 @@ export class MemberComponent
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
 			{
-				this.handleError(error)
+				this.errorHandlerService.handleError(error)
 			})
 	}
 
@@ -77,25 +75,21 @@ export class MemberComponent
 		if(length == 200)
 		{
 			this.row = this.totalUsr
-		}		
+		}
+		this.selecTag()	
 	}
 
-	
-	handleError(error: object)
-	{				
-		if(error['error'].message == "your token has been expired" && error['status'] == 500)
-		{			
-			this.router.navigate(['/login'])		
-		}
-		else if(error['status'] == 500 && error['error'].message == "Internal Server Error")
+	selecTag()
+	{
+		var class_name = document.getElementById("selectList").className
+		if(class_name == "dropdown-menu")
 		{
-			this.router.navigate(['/InternalServerError'])
+			document.getElementById("selectList").className += " show"
 		}
-		else if(error['status'] == 404)
+		if(class_name == "dropdown-menu show")
 		{
-			this.router.navigate(['/PageNotFound'])
+			document.getElementById("selectList").className = "dropdown-menu"
 		}
-	}
 
-
+	}	
 }
