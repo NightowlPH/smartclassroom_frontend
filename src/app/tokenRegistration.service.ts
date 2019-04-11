@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
