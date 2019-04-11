@@ -1,0 +1,11 @@
+patterns/shattered.png
+../img/landing/header_one.jpg
+../img/landing/header_two.jpg
+../img/landing/avatar_all.png
+../img/landing/word_map.png
+patterns/header-profile-skin-3.png
+patterns/3.png
+patterns/4.png
+patterns/header-profile-skin-2.png
+patterns/header-profile-skin-3.png
+patterns/4.png

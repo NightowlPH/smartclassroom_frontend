@@ -6,6 +6,7 @@ import { DashboardService } from './dashboard.service';
 import { ErrorHandlerService } from './../error-handler.service';
 import { SidebarHeaderComponent } from '../share/sidebar-header/sidebar-header.component';
 import { Profile } from './dashboard.metadata';
+declare var $: any;
 
 @Component
 ({
@@ -129,17 +130,19 @@ export class DashboardComponent implements DoCheck
 		this.dashboardService.UpdateUser(usrFrmData)
 		.subscribe( data => 
 		{				
-			if(data['message'])
+			if(data!=null && data['message'])
 			{
 				this.message = data['message']
 			}
 			else
 			{
-				this.message = ""
+        this.message = ""
+        $("#modal-users").modal("hide");
 				this.ngOnInit()
 			}						
 		},(error: HttpErrorResponse) =>
-			{
+      {
+        this.message = error.error['message'];
 				this.errorHandlerService.handleError(error)
 			})		
 	}
@@ -166,6 +169,7 @@ export class DashboardComponent implements DoCheck
 			{				
 				this.message = ""
 				this.ngOnInit()
+        $("#modal-users").modal("hide");
 				this.sidebarHeaderComponent.ngOnInit()
 			}	
 			else if(data['message'])
@@ -174,6 +178,7 @@ export class DashboardComponent implements DoCheck
 			}								
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error['message'];
 				this.errorHandlerService.handleError(error)
 			})
 	}
@@ -206,14 +211,20 @@ export class DashboardComponent implements DoCheck
 		this.dashboardService.ChangePassword(this.modalForm.value)
 		.subscribe( data =>
 		{			
-			if(data['message'] != 'your password is successfully change')
+			if(data['message'] != 'your password is successfully changed')
 			{
 				this.message = data['message']
 			}
 			else
 			{
 				this.message = ""
+        $("#modal-users2").modal("hide");
 			}
-		})
+		},(error: HttpErrorResponse) =>
+      {
+        this.message = error.error['message'];
+				this.errorHandlerService.handleError(error);
+      }
+    )
 	}
 }

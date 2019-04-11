@@ -1,0 +1,13 @@
+--2019-04-11 22:54:29--  http://webapplayers.com/inspinia_admin-v2.8/img/landing/header_one.jpg
+Resolving webapplayers.com (webapplayers.com)... 89.161.209.63
+Connecting to webapplayers.com (webapplayers.com)|89.161.209.63|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 142245 (139K) [image/jpeg]
+Saving to: ‘header_one.jpg’
+
+     0K .......... .......... .......... .......... .......... 35% 47.5K 2s
+    50K .......... .......... .......... .......... .......... 71% 49.5K 1s
+   100K .......... .......... .......... ........             100% 48.4K=2.9s
+
+2019-04-11 22:54:34 (48.4 KB/s) - ‘header_one.jpg’ saved [142245/142245]
+
