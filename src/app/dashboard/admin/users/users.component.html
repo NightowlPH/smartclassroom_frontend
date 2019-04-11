@@ -80,6 +80,9 @@
 <div id="modal-userss" class="modal fade" aria-hidden="true">
   <div class="modal-dialog">
       <div class="modal-content animated {{modalAnimation}}">
+          <div class="modal-header">
+            <div class="col-sm-12"><p style="text-align:center;color: red">{{message}}</p></div>
+          </div>
           <div class="modal-body">
           	<p></p>
               <div class="row">
@@ -124,19 +127,19 @@
                       <div *ngIf = "add == 'addUser' && modalForm.status == 'VALID'">
                         <div class="col-sm-6"></div>                        
                         <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addUser()" >Add</button>
+                        <button class="btn btn-primary btn-sm" (click) = "addUser()" >Add</button>
                       </div>   
 
                       <div *ngIf = "add == 'addUser' && modalForm.status == 'INVALID'">
                         <div class="col-sm-6"></div>                        
                         <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" disabled="">Add</button>
+                        <button class="btn btn-primary btn-sm" disabled="">Add</button>
                       </div>                 
 
                       <div *ngIf = "update == 'updateUser'">
                         <div class="col-sm-6"></div>                
                         <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "updateUser()" >Save</button>                      
+                        <button class="btn btn-primary btn-sm" (click) = "updateUser()" >Save</button>                      
                       </div>                      
 
                       </div>

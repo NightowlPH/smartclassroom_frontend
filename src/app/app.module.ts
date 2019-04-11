@@ -13,6 +13,7 @@ import { LoginModule } from './login/login.module';
 import { RegisterModule } from './register/register.module';
 import { InternalServerErrorModule } from './internalServerError/internal-serverError.module';
 import { PageNotFoundModule } from './PageNotFound/page-not-found.module';
+import * as $ from 'jquery';
 
 
 import { TokenRegistrationService } from './tokenRegistration.service';
