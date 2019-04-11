@@ -1,0 +1,12 @@
+--2019-04-11 22:54:42--  http://webapplayers.com/inspinia_admin-v2.8/img/landing/word_map.png
+Resolving webapplayers.com (webapplayers.com)... 89.161.209.63
+Connecting to webapplayers.com (webapplayers.com)|89.161.209.63|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 89439 (87K) [image/png]
+Saving to: ‘word_map.png’
+
+     0K .......... .......... .......... .......... .......... 57% 41.2K 1s
+    50K .......... .......... .......... .......              100% 44.7K=2.0s
+
+2019-04-11 22:54:46 (42.7 KB/s) - ‘word_map.png’ saved [89439/89439]
+
