@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this fileand also import other style files */
+
+@import url("assets/css/bootstrap.min.css");
+@import url("assets/css/style.css");
+/*@import url("assets/css/animate.css");
+@import url("assets/font-awesome/css/font-awesome.css");
+@import url("assets/css/plugins/toastr/toastr.min.css");
+@import url("assets/css/plugins/select2/select2.min.css");
+@import url("assets/css/plugins/dataTables/datatables.min.css");
+@import url("assets/css/plugins/iCheck/custom.css");
+@import url("assets/css/plugins/chosen/bootstrap-chosen.css");
+@import url("assets/css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css");
+@import url("assets/css/plugins/colorpicker/bootstrap-colorpicker.min.css");
+@import url("assets/css/plugins/cropper/cropper.min.css");
+@import url("assets/css/plugins/switchery/switchery.css");
+@import url("assets/css/plugins/jasny/jasny-bootstrap.min.css");
+@import url("assets/css/plugins/nouslider/jquery.nouislider.css");
+@import url("assets/css/plugins/datapicker/datepicker3.css");
+@import url("assets/css/plugins/ionRangeSlider/ion.rangeSlider.css");
+@import url("assets/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css");
+@import url("assets/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css");
+@import url("assets/css/plugins/clockpicker/clockpicker.css");
+@import url("assets/css/plugins/daterangepicker/daterangepicker-bs3.css");
+@import url("assets/css/plugins/touchspin/jquery.bootstrap-touchspin.min.css");
+@import url("assets/css/plugins/dualListbox/bootstrap-duallistbox.min.css");*/
