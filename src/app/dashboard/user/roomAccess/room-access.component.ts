@@ -22,14 +22,14 @@ export class RoomAccessComponent implements OnInit
 	addAccess = [[],[]]
 
 	constructor(private roomAccessService: RoomAccessService, private errorHandlerService: ErrorHandlerService,
-		         private route: ActivatedRoute, private router: Router){}
+              private route: ActivatedRoute, private router: Router){}
 
 	ngOnInit()
 	{
 		var id = this.route.snapshot.paramMap.get('id')
 		this.roomAccessService.getGroupAccess(id)
 		.subscribe( data =>
-		{			
+		{
 			this.groupAccess = data['group']			
 		},(error: HttpErrorResponse) =>
 			{

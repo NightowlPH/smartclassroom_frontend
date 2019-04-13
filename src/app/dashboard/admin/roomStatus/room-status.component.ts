@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core'
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import {Observable} from 'rxjs/Rx';
+import { interval } from 'rxjs';
 
 import { ErrorHandlerService } from '../../../error-handler.service';
 import { AdminRoomStatusService } from './room-status.service';
@@ -24,7 +24,7 @@ export class AdminRoomStatusComponent implements OnInit
 {
 
 	constructor(private adminRoomStatusService: AdminRoomStatusService, private errorHandlerService: ErrorHandlerService){
-		Observable.interval(4000).subscribe( x =>
+		interval(4000).subscribe( x =>
 		{
 			this.adminRoomStatusService.CheckRoomControlData()
 			.subscribe( data =>

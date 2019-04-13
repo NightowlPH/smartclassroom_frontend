@@ -36,7 +36,7 @@ export class GroupComponent
 	{
 		this.groupService.getGroups()
 		.subscribe( data => 
-		{		
+		{
 			this.groups  = data['groups']
 			this.totalUsr = this.groups.length
 		},(error: HttpErrorResponse) =>
@@ -79,7 +79,6 @@ export class GroupComponent
 		this.tempID = id		
 	}
 
-
 	selecTag()
 	{		
 		var class_name = document.getElementById("selectList").className
@@ -92,6 +91,5 @@ export class GroupComponent
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
-		
 
 }

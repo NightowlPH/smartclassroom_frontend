@@ -30,7 +30,7 @@ export class AdminAuditTrailComponent implements OnInit
 	{
 		this.auditTrailService.GetAuditTrails()
 		.subscribe( data =>
-		{			
+		{
 			this.auditTrail = data['auditTrail']
 			this.totalUsr = this.auditTrail.length
 		},(error: HttpErrorResponse) =>
@@ -43,7 +43,7 @@ export class AdminAuditTrailComponent implements OnInit
 	{
 		this.auditTrailService.DeleteAuditTrail(id)
 		.subscribe( data =>
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -55,7 +55,7 @@ export class AdminAuditTrailComponent implements OnInit
 	{
 		this.auditTrailService.DelAllAuditTrail()
 		.subscribe( data => 
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -106,5 +106,5 @@ export class AdminAuditTrailComponent implements OnInit
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
-	
+
 }

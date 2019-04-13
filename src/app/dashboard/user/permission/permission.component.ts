@@ -1,7 +1,6 @@
 import { Component, OnInit, DoCheck} from '@angular/core'
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-
 import { PermissionService } from './permission.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
 
@@ -30,7 +29,7 @@ export class PermissionComponent
 	filter: string
 
 	constructor( private permissionService: PermissionService, 
-		         private errorHandlerService: ErrorHandlerService){}
+  		         private errorHandlerService: ErrorHandlerService){}
 	
 
 	ngOnInit()
@@ -38,7 +37,7 @@ export class PermissionComponent
 		this.permissionService
 		.getAll()
 		.subscribe(data => 
-		{			
+		{
 			this.permissions = data['permissions']
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
@@ -87,5 +86,5 @@ export class PermissionComponent
 		{
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
-	}	
+	}
 }

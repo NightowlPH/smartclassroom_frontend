@@ -32,7 +32,7 @@ export class AdminPermissionComponent
 	filter: string
 
 	constructor( private permissionService: AdminPermissionService, private formBuilder: FormBuilder, 
-		         private route: Router,  private errorHandlerService: ErrorHandlerService ){ this.createForm() }
+		           private route: Router,  private errorHandlerService: ErrorHandlerService ){ this.createForm() }
 
 	createForm()
 	{
@@ -47,7 +47,7 @@ export class AdminPermissionComponent
 		this.permissionService
 		.getAll()
 		.subscribe(data => 
-		{			
+		{
 			this.permissions = data['permissions']
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
@@ -73,7 +73,7 @@ export class AdminPermissionComponent
 		if ( this.modalForm.status == "VALID")
 		{								
 			this.permissionService.AddPermission(this.modalForm.value,"permissions").subscribe( response =>
-			{				
+			{
 				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
@@ -91,7 +91,7 @@ export class AdminPermissionComponent
 	{
 				
 		this.permissionService.deletePermission(id).subscribe( permission => 
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -105,7 +105,7 @@ export class AdminPermissionComponent
 		this.permissionService.routeID = id		
 		this.modalAnimation = "fadeInDown"    		
 		this.permissionService.GetPermission("permission").subscribe( data => 
-		{			
+		{
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
@@ -119,7 +119,8 @@ export class AdminPermissionComponent
 		{
 			this.permissionService.UpdatePermission(this.modalForm.value,"permission")
 			.subscribe( data => 
-    		{    			
+    		{
+    			console.log(data)
     			if(data['message'])
 				{
 					this.message = data['message']
@@ -186,6 +187,6 @@ export class AdminPermissionComponent
 		{
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
-	}	
-	
+	}
+
 }

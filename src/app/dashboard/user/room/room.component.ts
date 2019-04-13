@@ -29,7 +29,7 @@ export class RoomComponent
 	tempID
 
 	constructor( private roomService: RoomService,private router: Router, 
-		         private errorHandlerService: ErrorHandlerService){}
+  		         private errorHandlerService: ErrorHandlerService){}
 
 
 	ngOnInit()

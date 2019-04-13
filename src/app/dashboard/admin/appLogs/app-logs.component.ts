@@ -33,7 +33,7 @@ export class AdminAppLogsComponent implements OnInit
 	{
 		this.appLogsService.GetActiveUsers()
 		.subscribe( data =>
-		{						
+		{			
 			this.activeUsers = data['users']
 			this.totalUsr = this.activeUsers.length
 		},(error: HttpErrorResponse) =>
@@ -47,7 +47,8 @@ export class AdminAppLogsComponent implements OnInit
 	{
 		this.appLogsService.DelActiveUsers(id)
 		.subscribe( data =>
-		{			
+		{
+			console.log(data['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -101,5 +102,5 @@ export class AdminAppLogsComponent implements OnInit
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
-	
+
 }

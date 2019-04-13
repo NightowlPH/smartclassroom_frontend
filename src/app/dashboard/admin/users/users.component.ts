@@ -6,7 +6,7 @@ import { Router }    from '@angular/router';
 
 import { AdminUsersService} from './users.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
-
+declare var $: any;
 
 @Component
 ({
@@ -14,7 +14,7 @@ import { ErrorHandlerService } from '../../../error-handler.service';
 	templateUrl: 'users.component.html'
 })
 
-export class AdminUsersComponent 
+export class AdminUsersComponent implements OnInit
 {
 	users: object[]	
 	class = [["","","","",""],["","","","",""]]
@@ -53,13 +53,13 @@ export class AdminUsersComponent
 		this.usersService
 		.getAll()
 		.subscribe( data => 
-			{								
+			{				
 				this.users = data['users']
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
-			});				
+			});
 	}
 	
 	deleteUser(input: NgForm ,id: any)
@@ -74,7 +74,7 @@ export class AdminUsersComponent
 				{					
 					this.usersService.deleteUser(user["id"])
 						.subscribe( data =>
-						{											
+						{
 							this.ngOnInit()
 							if(data['message'])
 							{
@@ -90,9 +90,9 @@ export class AdminUsersComponent
 		else
 		{			
 			this.usersService.deleteUser(id).subscribe( data => 
-			{				
+			{
 				this.ngOnInit()				
-				if(data['message'])
+				if(data!=null && data['message'])
 				{
 					this.message = data['message']
 				}
@@ -111,7 +111,7 @@ export class AdminUsersComponent
 			Fname: ['', Validators.required],
 			username: ['', Validators.required],
 			userpassword: ['', Validators.required],
-			cardID: ['', Validators.required]
+			cardID: ''
 		})
 		this.update = ""    		
 		this.add = "addUser"    		
@@ -125,14 +125,18 @@ export class AdminUsersComponent
 			this.message = ""						
 			this.addDetails = this.modalForm.value			
 			this.usersService.AddUser(this.addDetails,"users").subscribe( response => 
-				{					
+        {
+          console.log("Reponse", response)
 					if ( response['message'] == "success")
-					{		
+          {	
+            console.log("Added user successfully")
 						if( this.counter == false)// SHOW THE LATEST ADDED USER
 						{
 							this.sort('id',0) 									
 							this.counter = true
-						}
+            }
+            console.log("Hiding user modal");
+            $("#modal-userss").modal('hide');
 						this.ngOnInit()
 					}
 					else
@@ -140,9 +144,11 @@ export class AdminUsersComponent
 						this.message = response['message']
 					}
 				},(error: HttpErrorResponse) =>
-			{
-				this.errorHandlerService.handleError(error)
-			})
+        {
+          console.error("Error occured", error);
+          this.message = error.error["message"];
+				  this.errorHandlerService.handleError(error)
+			  })
 		}	
 	}
 
@@ -152,15 +158,17 @@ export class AdminUsersComponent
 		this.modalAnimation = "fadeInDown"  
 		this.usersService.routeID = id 		    		 	    		  		    	    	
 		this.usersService.GetUser().subscribe( data => 
-		{							
+		{				
 			this.mapData(data['data'])					
 		},(error: HttpErrorResponse) =>
 			{
+        console.error("Error occured", error);
 				this.errorHandlerService.handleError(error)
 			})
 	}
 
 	updateUser()
+
 	{				
 
 		const formData: FormData = new FormData();		
@@ -171,13 +179,14 @@ export class AdminUsersComponent
 
 		this.usersService.UpdateUser(formData)
 		.subscribe( data => 
-		{				
-			if(data['message'])
+		{	
+			if(data!=null && data['message'])
 			{
 				this.message = data['message']
 			}
 			else
 			{
+        $("#modal-userss").modal('hide');
 				this.message = ""
 				this.ngOnInit()
 			}						
@@ -189,12 +198,12 @@ export class AdminUsersComponent
 
 	private mapData(data: object)
 	{		
-		this.modalForm = this.formBuilder.group
+    this.modalForm = this.formBuilder.group
 		({
 			Lname: [data['Lname'],Validators.required],
 			Fname: [data['Fname'], Validators.required],
 			username: [data['username'], Validators.required],
-			cardID: [data['cardID'], Validators.required]
+			cardID: data['cardID']
 		})
 		this.update = "updateUser"	
 	}	
@@ -236,4 +245,5 @@ export class AdminUsersComponent
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
+
 }

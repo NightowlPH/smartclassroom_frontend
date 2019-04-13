@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } 	from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router }    from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 import { UsersService} from './users.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
@@ -26,7 +25,6 @@ export class UsersComponent
 	totalUsr: number
 	tempID	
 	filter: string
-
 	message: string
 
 	constructor(private usersService: UsersService, private errorHandlerService: ErrorHandlerService){}	
@@ -37,7 +35,7 @@ export class UsersComponent
 		this.usersService
 		.getAll()
 		.subscribe( data => 
-			{									
+			{				
 				this.users = data['users']
 				this.totalUsr = this.users.length
 			},(error: HttpErrorResponse) =>
@@ -45,6 +43,7 @@ export class UsersComponent
 				this.errorHandlerService.handleError(error)
 			});				
 	}	
+
 	
 	sort(key, id: number)
 	{				
@@ -81,5 +80,6 @@ export class UsersComponent
 		{
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
-	}		
+	}
+
 }

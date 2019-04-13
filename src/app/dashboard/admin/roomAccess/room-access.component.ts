@@ -31,7 +31,7 @@ export class AdminRoomAccessComponent implements OnInit
 		var id = this.route.snapshot.paramMap.get('id')
 		this.roomAccessService.getGroupAccess(id)
 		.subscribe( data =>
-		{			
+		{
 			this.groupAccess = data['group']			
 		},(error: HttpErrorResponse) =>
 			{
@@ -60,7 +60,7 @@ export class AdminRoomAccessComponent implements OnInit
 
 		this.roomAccessService.getPermissions()
 		.subscribe( data =>
-		{						
+		{			
 			this.permissions = data['permissions']		
 		},(error: HttpErrorResponse) =>
 			{
@@ -79,7 +79,7 @@ export class AdminRoomAccessComponent implements OnInit
 		})
 		this.roomAccessService.AddGroupAccess(this.route.snapshot.paramMap.get('id'),all_data)
 		.subscribe( response =>
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -106,7 +106,7 @@ export class AdminRoomAccessComponent implements OnInit
 	{
 		this.roomAccessService.DeleteGroupAccess(id)
 		.subscribe( response =>
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -132,5 +132,5 @@ export class AdminRoomAccessComponent implements OnInit
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
-	
+
 }

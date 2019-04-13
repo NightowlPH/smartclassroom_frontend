@@ -45,7 +45,7 @@ export class AdminMemberComponent
 		var id = this.route.snapshot.paramMap.get('id')				
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
-		{					
+		{
 			this.groupMember = data['members']
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
@@ -58,7 +58,7 @@ export class AdminMemberComponent
 	{			
 		this.membersService.getAllNotMem(this.route.snapshot.paramMap.get('id')	)
 			.subscribe( data =>
-			{						
+			{	
 				this.notMember = data['members']
 				this.totalUsr2 = this.notMember.length				
 			},(error: HttpErrorResponse) =>
@@ -71,7 +71,7 @@ export class AdminMemberComponent
 	{			
 		var group_id = this.route.snapshot.paramMap.get('id')
 		this.membersService.DeleteMember(group_id, id).subscribe( data => 
-		{			
+		{
 			this.ngOnInit()	
 			
 		},(error: HttpErrorResponse) =>
@@ -95,7 +95,7 @@ export class AdminMemberComponent
 		console.log(body)
 		this.membersService.AddMember(body,"groupMember",this.route.snapshot.paramMap.get('id'))
 		.subscribe( response =>
-		{			
+		{
 			this.ngOnInit()		
 		},(error: HttpErrorResponse) =>
 			{

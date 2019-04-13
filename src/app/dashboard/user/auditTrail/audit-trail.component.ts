@@ -30,7 +30,7 @@ export class AuditTrailComponent implements OnInit
 	{
 		this.auditTrailService.GetAuditTrails()
 		.subscribe( data =>
-		{			
+		{
 			this.auditTrail = data['auditTrail']
 			this.totalUsr = this.auditTrail.length
 		},(error: HttpErrorResponse) =>
@@ -83,4 +83,5 @@ export class AuditTrailComponent implements OnInit
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
 	}
+
 }

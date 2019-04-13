@@ -48,7 +48,7 @@ export class AdminRoomComponent
 	{
 		this.roomService.getRooms()
 		.subscribe( data =>
-		{			
+		{
 			this.rooms  = data['rooms']
 			this.totalUsr = this.rooms.length		
 		},(error: HttpErrorResponse) =>
@@ -74,7 +74,7 @@ export class AdminRoomComponent
 		if ( this.modalForm.status == "VALID")
 		{								
 			this.roomService.AddRoom(this.modalForm.value,"rooms").subscribe( response =>
-			{					
+			{	
 				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
@@ -92,7 +92,7 @@ export class AdminRoomComponent
 	{
 		this.roomService.DeleteRoom(id)
 		.subscribe( room =>
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -106,7 +106,7 @@ export class AdminRoomComponent
 		this.add = ""    		
 		this.modalAnimation = "fadeInDown"
 		this.roomService.GetRoom("room").subscribe( data =>
-		{			
+		{
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
@@ -120,7 +120,7 @@ export class AdminRoomComponent
 		{
 			this.roomService.UpdateRoom(this.modalForm.value,"room")
 			.subscribe( data => 
-			{				
+			{
 				if(data['message'])
 				{
 					this.message = data['message']

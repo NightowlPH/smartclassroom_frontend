@@ -29,14 +29,14 @@ export class MemberComponent
 	
 
 	constructor( private route: ActivatedRoute, private membersService: MembersService,
-				 private errorHandlerService: ErrorHandlerService, private router: Router){}
+      				 private errorHandlerService: ErrorHandlerService, private router: Router){}
 
 	ngOnInit()
 	{		
 		var id = this.route.snapshot.paramMap.get('id')				
 		this.membersService.getAllMem(id)
 		.subscribe( data =>
-		{			
+		{
 			this.groupMember = data['members']
 			this.totalUsr = this.groupMember.length
 		},(error: HttpErrorResponse) =>
@@ -90,5 +90,6 @@ export class MemberComponent
 		{
 			document.getElementById("selectList").className = "dropdown-menu"
 		}
+
 	}	
 }

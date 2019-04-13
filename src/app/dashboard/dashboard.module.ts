@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; //importing the module
 import { OrderModule } from 'ngx-order-pipe'; //importing the module
 import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminPermissionComponent } from './admin/permission/permission.component';
@@ -34,48 +34,53 @@ import { NavbarModule } from '../share/navbar/navbar.module';
 import { TableHeaderModule } from '../share/table-header/table-header.module';
 import { FooterModule } from '../share/footer/footer.module';
 import { SidebarModule } from '../sidebar/sidebar.module';
+import { TokenRegistrationService } from '../tokenRegistration.service';
 
 
 @NgModule({
-    imports: 
-    [      
-        FormsModule,
-        CommonModule,
-        ReactiveFormsModule,
-        DashboardRoutingModule,
-        SidebarHeaderModule,
-		ContentHeaderModule,
-		NavbarModule,
-		TableHeaderModule,
-		FooterModule,   
-		SidebarModule,
-        Ng2SearchPipeModule, //including into imports
-        OrderModule, // importing the sorting package here
-        NgxPaginationModule,
-        HttpClientModule
-    ],
-    declarations: 
-    [ 
-    	AdminUsersComponent,
-    	AdminPermissionComponent,
-    	AdminGroupComponent,
-    	AdminMemberComponent,
-    	AdminRoomComponent,
-    	AdminRoomAccessComponent,
-    	AdminAuditTrailComponent,
-    	AdminRoomStatusComponent,
-        AdminAppLogsComponent,
-        UsersComponent,
-        PermissionComponent,
-        GroupComponent,
-        MemberComponent,
-        RoomComponent,
-        RoomAccessComponent,
-        AuditTrailComponent,
-        RoomStatusComponent,
-        DevicesComponent,
-    	DashboardComponent
-    ]
+  imports: 
+  [      
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    DashboardRoutingModule,
+    SidebarHeaderModule,
+    ContentHeaderModule,
+    NavbarModule,
+    TableHeaderModule,
+    FooterModule,   
+    SidebarModule,
+    Ng2SearchPipeModule, //including into imports
+    OrderModule, // importing the sorting package here
+    NgxPaginationModule,
+    HttpClientModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenRegistrationService, multi: true},
+  ],
+  declarations: 
+  [ 
+    AdminUsersComponent,
+    AdminPermissionComponent,
+    AdminGroupComponent,
+    AdminMemberComponent,
+    AdminRoomComponent,
+    AdminRoomAccessComponent,
+    AdminAuditTrailComponent,
+    AdminRoomStatusComponent,
+    AdminAppLogsComponent,
+    UsersComponent,
+    PermissionComponent,
+    GroupComponent,
+    MemberComponent,
+    RoomComponent,
+    RoomAccessComponent,
+    AuditTrailComponent,
+    RoomStatusComponent,
+    DevicesComponent,
+    DashboardComponent
+  ]
+
 })
 
 export class DashboardModule{}

@@ -49,7 +49,7 @@ export class AdminGroupComponent
 	{			
 		this.groupService.getGroups()
 		.subscribe( data => 
-		{			
+		{
 			this.groups  = data['groups']
 			this.totalUsr = this.groups.length
 		},(error: HttpErrorResponse) =>
@@ -73,7 +73,7 @@ export class AdminGroupComponent
 				this.errorHandlerService.handleError(error)
 			}) 
 		this.groupService.GetGroup("group").subscribe( data =>
-		{			
+		{
 			this.permission = data['data'].permission_name
 			this.choosenPermission = {permission_id: data['data'].permission_id}
 			this.mapData(data['data'])
@@ -91,7 +91,7 @@ export class AdminGroupComponent
 			data = Object.assign(this.modalForm.value,this.choosenPermission)
 			this.groupService.UpdateGroup(data,"group")
 			.subscribe( data =>
-			{				
+			{
 				if(data['message'])
 				{
 					this.message = data['message']
@@ -112,7 +112,7 @@ export class AdminGroupComponent
 	{
 		this.groupService.DeleteGroup(id)
 		.subscribe( group =>
-		{			
+		{
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
@@ -149,7 +149,7 @@ export class AdminGroupComponent
 			data = Object.assign(this.modalForm.value,this.choosenPermission)
 			this.groupService.AddGroup(data,"groups").subscribe( response =>
 			{
-				this.message = ""				
+				this.message = ""
 				this.ngOnInit()			
 				if (response['message'] == "already exist")
 				{
