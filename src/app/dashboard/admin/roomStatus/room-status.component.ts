@@ -17,7 +17,8 @@ var temperature: number
 @Component
 ({
 	selector: 'room-status-cmp',
-	templateUrl: 'room-status.component.html'
+  templateUrl: 'room-status.component.html',
+  styleUrls: ['./room-status.component.css']
 })
 
 export class AdminRoomStatusComponent implements OnInit
