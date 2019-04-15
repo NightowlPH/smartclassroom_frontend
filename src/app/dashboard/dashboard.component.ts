@@ -11,7 +11,8 @@ declare var $: any;
 @Component
 ({
 	selector: 'dashboard-cmp',
-	templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 
 export class DashboardComponent implements DoCheck

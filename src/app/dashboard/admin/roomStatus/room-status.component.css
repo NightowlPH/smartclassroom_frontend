@@ -1,0 +1,12 @@
+.room-status .grow{
+  min-height: 280px;
+  margin-bottom: 10px;
+}
+.room-status .contact-box{
+  min-height: 250px;
+  margin-bottom: 0px;
+}
+
+.row.searchbar{
+  margin-bottom: 10px;
+}
