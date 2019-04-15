@@ -391,11 +391,15 @@ body.fixed-nav.fixed-nav-basic.fixed-sidebar.mini-navbar.body-small .navbar-fixe
 body.mini-navbar .navbar-static-side {
   width: 70px;
 }
-body.mini-navbar .profile-element,
-body.mini-navbar .nav-label,
-body.mini-navbar .navbar-default .nav li a span {
+body.body-small .profile-element #user_photo,
+body.body-small .profile-element #user_name,
+body.body-small .nav-label,
+body.body-small .profile-element .dropdown-toggle .text-muted .text,
+body:not(.body-small) .profile-element .dropdown-toggle .text-muted .icon
+{
   display: none;
 }
+
 body.canvas-menu .profile-element {
   display: block;
 }
@@ -411,9 +415,8 @@ body.mini-navbar .logo-element {
 body.canvas-menu .logo-element {
   display: none;
 }
-body.mini-navbar .nav-header {
-  padding: 0;
-  background-color: #1ab394;
+body.body-small .nav-header {
+  padding: 33px 20px;
 }
 body.canvas-menu .nav-header {
   padding: 33px 25px;
@@ -7731,7 +7734,7 @@ body.rtls.top-navigation .footer.fixed {
   }
   .body-small.rtls #page-wrapper {
     position: inherit;
-    margin: 0 0 0 0;
+    margin: 0 0 0 70px;
     min-height: 1000px;
   }
   .body-small.rtls .navbar-static-side {
@@ -8576,7 +8579,7 @@ body.md-skin {
 @media (max-width: 768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 0;
+    margin: 0 0 0 70px;
     min-height: 100vh;
   }
   .body-small .navbar-static-side {
@@ -8631,7 +8634,7 @@ body.md-skin {
     -o-transition: background-color 500ms linear;
     -ms-transition: background-color 500ms linear;
     transition: background-color 500ms linear;
-    background-color: #f3f3f4;
+    background-color: #2f4050;
   }
 }
 @media (max-width: 350px) {
