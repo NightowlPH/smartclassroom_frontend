@@ -6,3 +6,7 @@
   min-height: 250px;
   margin-bottom: 0px;
 }
+
+.row.searchbar{
+  margin-bottom: 10px;
+}
