@@ -6,6 +6,7 @@ import { DashboardService } from './dashboard.service';
 import { ErrorHandlerService } from './../error-handler.service';
 import { SidebarHeaderComponent } from '../share/sidebar-header/sidebar-header.component';
 import { Profile } from './dashboard.metadata';
+import * as $ from 'jquery'
 declare var $: any;
 
 @Component
@@ -68,7 +69,7 @@ export class DashboardComponent implements DoCheck
 				this.createImageFromBlob(data)
 			}
 			else{
-				document.getElementById("user_photo_modal")['src'] = "../assets/img/logo.png"
+				$("user_photo_modal")['src'] = "../assets/img/logo.png"
 			}
 		})
 

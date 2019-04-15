@@ -4,3 +4,11 @@
 #sidebar.active{
   display: block;
 }
+
+#page-wrapper.nomenu{
+  margin-left: 0px;
+}
+
+.body-small #page-wrapper{
+  margin-left: 70px;
+}
