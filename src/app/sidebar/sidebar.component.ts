@@ -11,7 +11,7 @@ import { SidebarService } from './sidebar.service';
 @Component
 ({
 	selector: 'sidebar-cmp',
-	templateUrl: 'sidebar.component.html'
+  templateUrl: 'sidebar.component.html',
 })
 
 export class SidebarComponent implements OnInit

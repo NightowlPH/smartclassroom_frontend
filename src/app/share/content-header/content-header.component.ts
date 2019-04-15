@@ -29,5 +29,6 @@ export class ContentHeaderComponent
   manage_sidebar()
   {
     $("#sidebar").toggleClass('active');
+    $("#page-wrapper").toggleClass('nomenu');
   }
 }
