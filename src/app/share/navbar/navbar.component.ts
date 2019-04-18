@@ -64,7 +64,7 @@ export class NavbarComponent implements DoCheck
 			{
 				if(url.indexOf('home/admin') != -1)
 				{
-					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					this.navbarService.GetRoomDetail(url.slice(24,url.length))
 					.subscribe( data =>
 					{									
 						this.breadcrumb.push({'name': 'Rooms', 'path': 'admin/rooms'}, {'name': data['data'].name, 'path': ''})
@@ -78,7 +78,7 @@ export class NavbarComponent implements DoCheck
 				else
 				{
 
-					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					this.navbarService.GetRoomDetail(url.slice(24,url.length))
 					.subscribe( data =>
 					{													
 						this.breadcrumb.push({'name': 'Rooms', 'path': 'rooms'}, {'name': data['data'].name, 'path': ''})
@@ -148,7 +148,7 @@ export class NavbarComponent implements DoCheck
 			{
 				if(url.indexOf('home/admin') != -1)
 				{
-					this.navbarService.GetRoomDetail(url.slice(23,url.length))
+					this.navbarService.GetRoomDetail(url.slice(24,url.length))
 					.subscribe( data =>
 					{									
 						this.breadcrumb.push({'name': 'Rooms', 'path': 'admin/rooms'}, {'name': data['data'].name, 'path': ''})
@@ -161,7 +161,7 @@ export class NavbarComponent implements DoCheck
 				}
 				else
 				{					
-					this.navbarService.GetRoomDetail(url.slice(17,url.length))
+					this.navbarService.GetRoomDetail(url.slice(18,url.length))
 					.subscribe( data =>
 					{													
 						this.breadcrumb.push({'name': 'Rooms', 'path': 'rooms'}, {'name': data['data'].name, 'path': ''})
