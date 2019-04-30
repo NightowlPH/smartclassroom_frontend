@@ -54,26 +54,178 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: 
     [
-    	{ path: 'admin/users', component: AdminUsersComponent},
-    	{ path: 'admin/permissions', component: AdminPermissionComponent},
-    	{ path: 'admin/groups', component: AdminGroupComponent},
-    	{ path: 'admin/groupMember/:id', component: AdminMemberComponent},
-    	{ path: 'admin/rooms', component: AdminRoomComponent},
-    	{ path: 'admin/roomAccess/:id', component: AdminRoomAccessComponent},
-    	{ path: 'admin/auditTrials', component: AdminAuditTrailComponent},
-      { path: 'admin/devices', component: DevicesComponent},
-    	{ path: 'admin/roomStatus', component: AdminRoomStatusComponent},
-      { path: 'admin/appLogs', component: AdminAppLogsComponent},
-      { path: 'users', component: UsersComponent},
-      { path: 'permissions', component: PermissionComponent},
-      { path: 'groups', component: GroupComponent},
-      { path: 'groupMember/:id', component: MemberComponent},
-      { path: 'rooms', component: RoomComponent},
-      { path: 'roomAccess/:id', component: RoomAccessComponent},
-      { path: 'auditTrials', component: AuditTrailComponent},
-      { path: 'roomStatus', component: RoomStatusComponent},          
+      {
+        path: 'admin/users',
+        component: AdminUsersComponent,
+        data: {
+          inMenu: true,
+          icon: 'fa fa-user',
+          class: 'nav-label',
+          title: 'Users',
+          status: '',
+          accessUrl: '/users'
+        }
+      },
+      {
+        path: 'admin/groups',
+        component: AdminGroupComponent,
+        data: {
+          inMenu: true,
+          icon: 'fa fa-group',
+          class: 'nav-label',
+          title: 'Groups',
+          status: '',
+          accessUrl: '/groups'
+        }
+      },
+      {
+        path: 'admin/permissions',
+        component: AdminPermissionComponent,
+        data: {
+          inMenu: true,
+          icon: 'fa fa-unlock-alt',
+          class: 'nav-label',
+          title: 'Permissions',
+          status: '',
+          accessUrl: '/permissions'
+        }
+      },
+      {
+        path: 'admin/rooms',
+        component: AdminRoomComponent,
+        data: {
+          inMenu: true,
+          icon: 'fa fa-bank',
+          class: 'nav-label',
+          title: 'Rooms',
+          status: '',
+          accessUrl: '/rooms'
+        }
+      },
+      {
+        path: 'admin/roomStatus',
+        component: AdminRoomStatusComponent,
+        data: {
+          inMenu: true,
+          icon: 'fa fa-sliders',
+          class: 'nav-label',
+          title: 'Room Control',
+          status: '',
+          accessUrl: '/RoomStatus'
+        }
+      },
+      {
+        path: 'admin/auditTrials',
+        component: AdminAuditTrailComponent,
+        data: {
+          inMenu: true,
+          icon: 'fa fa-table',
+          class: 'nav-label',
+          title: 'Audit Trails',
+          status: '/auditTrail'
+        }
+      },
+      { 
+        path: 'admin/groupMember/:id',
+        component: AdminMemberComponent,
+        data:{
+          inMenu: false
+        }
+      },
+      { path: 'admin/roomAccess/:id', component: AdminRoomAccessComponent},
+      {
+        path: 'admin/devices',
+        component: DevicesComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-th-list',
+          class: 'nav-label',
+          title: "Devices",
+          status: ''
+        }
+      },
+      {
+        path: 'admin/appLogs',
+        component: AdminAppLogsComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-tasks',
+          class: 'nav-label',
+          title: 'App Logs',
+          status: ''
+        }
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-user',
+          class: 'nav-label',
+          title: 'Users',
+          status: ''
+        }
+      },
+      {
+        path: 'groups',
+        component: GroupComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-group',
+          class: 'nav-label',
+          title: 'Groups',
+          status: ''
+        }
+      },
+      {
+        path: 'permissions',
+        component: PermissionComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-unlock-alt',
+          class: 'nav-label',
+          title: 'Permissions',
+          status: ''
+        }
+      },
+      { path: 'groupMember/:id', component: MemberComponent },
+      {
+        path: 'rooms',
+        component: RoomComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-bank',
+          class: 'nav-label',
+          title: 'Rooms',
+          status: ''
+        }
+      },
+      {path: 'roomAccess/:id', component: RoomAccessComponent},
+      {
+        path: 'roomStatus',
+        component: RoomStatusComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-sliders',
+          class: 'nav-label',
+          title: 'Room Status',
+          status: ''
+        }
+      },
+      {
+        path: 'auditTrials',
+        component: AuditTrailComponent,
+        data: {
+          inMenu: false,
+          icon: 'fa fa-table',
+          class: 'nav-label',
+          title: 'Audit Trails',
+          status: ''
+        }
+      }
     ]
   }
 ];

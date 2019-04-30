@@ -4,13 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { SidebarComponent } from './sidebar.component';
 
-import { SidebarService } from './sidebar.service';
-
 @NgModule({
     imports: [ RouterModule, CommonModule ],
     declarations: [ SidebarComponent ],
-    exports: [ SidebarComponent ],
-    providers: [SidebarService ]
+    exports: [ SidebarComponent ]
 })
 
 export class SidebarModule {}

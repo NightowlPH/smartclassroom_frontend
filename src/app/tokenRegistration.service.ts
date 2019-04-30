@@ -21,9 +21,7 @@ export class TokenRegistrationService implements HttpInterceptor {
       .pipe(
         tap((ev: HttpEvent<any>) => {
           if (ev instanceof HttpResponse) {
-            console.log('processing response headers', ev.headers.keys());
             let token = ev.headers.get('x-access-token')
-            console.log('token', ev.headers.get('x-access-token'));
             if(token != undefined){
               this.cookieService.deleteAll()
               this.cookieService.set('token', token, undefined, '/')
