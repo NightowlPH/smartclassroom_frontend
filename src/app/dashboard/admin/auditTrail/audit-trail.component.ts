@@ -3,6 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { AdminAuditTrailService } from './audit-trail.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
+import * as $ from 'jquery'
+declare var $: any;
 
 @Component
 ({
@@ -29,10 +31,11 @@ export class AdminAuditTrailComponent implements OnInit
 	ngOnInit()
 	{
 		this.auditTrailService.GetAuditTrails()
-		.subscribe( data =>
-		{
-			this.auditTrail = data['auditTrail']
-			this.totalUsr = this.auditTrail.length
+		.subscribe( data => {
+      if(data != undefined){
+        this.auditTrail = data['auditTrail']
+	  		this.totalUsr = this.auditTrail.length
+      }
 		},(error: HttpErrorResponse) =>
 			{
 				this.errorHandlerService.handleError(error)
@@ -96,14 +99,14 @@ export class AdminAuditTrailComponent implements OnInit
 
 	selecTag()
 	{
-		var class_name = document.getElementById("selectList").className
+		var class_name = $("#selectList").attr('class')
 		if(class_name == "dropdown-menu")
 		{
-			document.getElementById("selectList").className += " show"
+			$("#selectList").addClass("show")
 		}
 		if(class_name == "dropdown-menu show")
 		{
-			document.getElementById("selectList").className = "dropdown-menu"
+      $("#selectList").attr({'class': "dropdown-menu"})
 		}
 	}
 

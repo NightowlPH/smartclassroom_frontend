@@ -117,7 +117,7 @@ export class DashboardComponent implements DoCheck
 			else if(location.hash.slice(1,location.hash.length) != "/home/roomStatus" || location.hash.slice(1,location.hash.length) != "/home/admin/roomStatus")
 			{
 				var body_class_name = $("#index-body").attr('class')
-				if(body_class_name.indexOf("mini-navbar") == 0)
+				if(body_class_name == undefined || body_class_name.indexOf("mini-navbar") == 0)
 		  		{
 		  			console.log("YES")
             $("#index-body").attr({'class': "body-small"})
