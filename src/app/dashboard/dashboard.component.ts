@@ -77,7 +77,7 @@ export class DashboardComponent implements DoCheck
 		{
 			console.log("MINI")
 			var body_class_name = $("index-body").attr("class")
-	  		if(body_class_name.indexOf("mini-navbar") == -1)
+	  		if(body_class_name == undefined || body_class_name.indexOf("mini-navbar") == -1)
 	  		{
           $("#index-body").attr({'class': "mini-navbar body-small"})
 	  		} 
@@ -109,10 +109,10 @@ export class DashboardComponent implements DoCheck
 			{
 				console.log("MINI")
 				var body_class_name = $("#index-body").attr('class')  		
-		  		if(body_class_name.indexOf("mini-navbar") == -1)
-		  		{
-            $("#index-body").attr({'class': "mini-navbar body-small"});
-		  		} 
+        if(body_class_name == undefined || body_class_name.indexOf("mini-navbar") == -1)
+        {
+          $("#index-body").attr({'class': "mini-navbar body-small"});
+        } 
 			}
 			else if(location.hash.slice(1,location.hash.length) != "/home/roomStatus" || location.hash.slice(1,location.hash.length) != "/home/admin/roomStatus")
 			{
