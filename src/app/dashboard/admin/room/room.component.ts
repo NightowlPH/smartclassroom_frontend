@@ -122,7 +122,7 @@ export class AdminRoomComponent
 			{
 				this.message = ""
         $("#modal-rooms").modal('hide');
-				his.ngOnInit()
+				this.ngOnInit()
       },(error: HttpErrorResponse) => {
         console.error(error);
         this.message = error.error.message;
