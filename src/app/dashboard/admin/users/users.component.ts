@@ -145,7 +145,6 @@ export class AdminUsersComponent implements OnInit
 					}
 				},(error: HttpErrorResponse) =>
         {
-          console.error("Error occured", error);
           this.message = error.error["message"];
 				  this.errorHandlerService.handleError(error)
 			  })

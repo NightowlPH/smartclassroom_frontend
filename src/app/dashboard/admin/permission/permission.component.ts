@@ -6,6 +6,7 @@ import { Router }    from '@angular/router';
 
 import { AdminPermissionService } from './permission.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
+declare var $: any;
 
 @Component
 ({
@@ -52,6 +53,7 @@ export class AdminPermissionComponent
 			this.totalUsr = this.permissions.length
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			});
 	}
@@ -75,13 +77,11 @@ export class AdminPermissionComponent
 			this.permissionService.AddPermission(this.modalForm.value,"permissions").subscribe( response =>
 			{
 				this.message = ""
+        $("#modal-permissions").modal('hide');
 				this.ngOnInit()			
-				if (response['message'] == "already exist")
-				{
-					this.message = "permission already exist"
-				}
 			},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})				
 		}		
@@ -95,6 +95,7 @@ export class AdminPermissionComponent
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})
 	}
@@ -109,6 +110,7 @@ export class AdminPermissionComponent
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})
 	}
@@ -120,18 +122,12 @@ export class AdminPermissionComponent
 			this.permissionService.UpdatePermission(this.modalForm.value,"permission")
 			.subscribe( data => 
     		{
-    			console.log(data)
-    			if(data['message'])
-				{
-					this.message = data['message']
-				}
-				else
-				{
+          $("#modal-permissions").modal('hide');
 					this.message = ""
 					this.ngOnInit()
-				}		
     		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})
 		}
