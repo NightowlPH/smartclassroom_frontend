@@ -89,7 +89,7 @@
 					<button class="btn btn-primary btn-xs" (click) = "getUpdateData(group.id)" data-toggle="modal" href="#modal-groups"><span class="glyphicon glyphicon-pencil"></span></button>
 				</td>
 				<td align="center">								                                        
-					<button type="submit" class="btn btn-danger btn-xs" (click)="deletegroup(group.id)">
+					<button type="submit" class="btn btn-danger btn-xs" (click)="deleteGroup(group.id)">
 						<span class="glyphicon glyphicon-trash"></span>
 					</button>
 				</td>
@@ -120,8 +120,11 @@
 		<div class="modal-dialog">
 			<div class="modal-content animated {{modalAnimation}}">
 				<div class="modal-body">
-					<p></p>
-					<div class="row">
+          <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6"><p style="color: red">{{message}}</p></div>
+            <div class="col-sm-3"></div>
+          <div class="row">
 						<div class="col-sm-11">              
 							<div class="col-sm-1">
 							</div>               
@@ -159,19 +162,19 @@
 									<div *ngIf = "add == 'addGroup' && modalForm. status == 'VALID'">
 										<div class="col-sm-6"></div>                        
 										<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-										<button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "addGroup()" >Add</button>
+										<button class="btn btn-primary btn-sm" (click) = "addGroup()" >Add</button>
 									</div>  
 
 									<div *ngIf = "add == 'addGroup' && modalForm. status == 'INVALID'">
 										<div class="col-sm-6"></div>                        
 										<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-										<button class="btn btn-primary btn-sm" data-dismiss = "modal" disabled="" >Add</button>
+										<button class="btn btn-primary btn-sm" disabled="" >Add</button>
 									</div>                 
 
 									<div *ngIf = "update == 'updateGroup'">
 										<div class="col-sm-6"></div>                        
 										<button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
-										<button class="btn btn-primary btn-sm" data-dismiss = "modal" (click) = "updateGroup()" >Save</button>                      
+										<button class="btn btn-primary btn-sm" (click) = "updateGroup()" >Save</button>                      
 									</div>                      
 
 								</div>

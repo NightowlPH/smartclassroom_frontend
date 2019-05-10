@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { AdminGroupService } from './group.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
+declare var $: any;
 
 @Component
 ({
@@ -53,7 +54,8 @@ export class AdminGroupComponent
 			this.groups  = data['groups']
 			this.totalUsr = this.groups.length
 		},(error: HttpErrorResponse) =>
-			{
+      {
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})
 	}
@@ -70,6 +72,7 @@ export class AdminGroupComponent
 			this.permissions = data['permissions']
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			}) 
 		this.groupService.GetGroup("group").subscribe( data =>
@@ -79,6 +82,7 @@ export class AdminGroupComponent
 			this.mapData(data['data'])
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})		
 	}
@@ -92,17 +96,12 @@ export class AdminGroupComponent
 			this.groupService.UpdateGroup(data,"group")
 			.subscribe( data =>
 			{
-				if(data['message'])
-				{
-					this.message = data['message']
-				}
-				else
-				{
-					this.message = ""
-					this.ngOnInit()
-				}		
+			  this.message = ""
+        $("#modal-groups").modal('hide');
+				this.ngOnInit()
 			},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})
 		}		
@@ -116,6 +115,7 @@ export class AdminGroupComponent
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})
 	}
@@ -137,6 +137,7 @@ export class AdminGroupComponent
 			this.permissions = data['permissions']
 		},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})   		   	
 	}
@@ -150,13 +151,11 @@ export class AdminGroupComponent
 			this.groupService.AddGroup(data,"groups").subscribe( response =>
 			{
 				this.message = ""
+        $("#modal-groups").modal('hide');
 				this.ngOnInit()			
-				if (response['message'] == "already exist")
-				{
-					this.message = "group already exist"
-				}
 			},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})			
 		}
