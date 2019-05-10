@@ -1,10 +1,12 @@
-import { Component, OnInit} from '@angular/core'
+import { Component, OnInit, OnDestroy} from '@angular/core'
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { interval } from 'rxjs';
 
 import { ErrorHandlerService } from '../../../error-handler.service';
 import { AdminRoomStatusService } from './room-status.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import * as $ from 'jquery'
 
@@ -21,23 +23,23 @@ var temperature: number
   styleUrls: ['./room-status.component.css']
 })
 
-export class AdminRoomStatusComponent implements OnInit
+export class AdminRoomStatusComponent implements OnInit, OnDestroy
 {
-
 	constructor(private adminRoomStatusService: AdminRoomStatusService, private errorHandlerService: ErrorHandlerService){
-		interval(4000).subscribe( x =>
-		{
-			this.adminRoomStatusService.CheckRoomControlData()
-			.subscribe( data =>
-			{
-				console.log(data)
-				if(data['room_control_updated'] == false)
-				{
-					console.log("UPDATE")
-					this.ngOnInit()
-				}
-			})
-		})
+    interval(4000)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe( x =>
+        {
+        this.adminRoomStatusService.CheckRoomControlData()
+        .subscribe( data => {
+          console.log(data)
+          if(data['room_control_updated'] == false)
+          {
+            console.log("UPDATE")
+            this.ngOnInit()
+          }
+        })
+      })
 	}
 
 	room_status: object[]
@@ -47,15 +49,22 @@ export class AdminRoomStatusComponent implements OnInit
 	class = [["","",""],["","",""]]
 	key2: string = 'id'
 	reverse2: boolean = false
-	row2 = 10
-	totalUsr: number
+  row2 = 10
+  private unsubscribe: Subject<void> = new Subject();
+  totalUsr: number
 	tempID2
 	filter2: string
 	p2: number = 1;
 
 	filter: string
 	row = 9
-	p = 1
+  p = 1
+
+  ngOnDestroy(){
+    console.debug("Destroying");
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 
 	ngOnInit()
 	{				

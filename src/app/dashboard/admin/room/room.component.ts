@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { AdminRoomService } from './room.service';
 import { ErrorHandlerService } from '../../../error-handler.service';
+declare var $: any;
 
 @Component
 ({
@@ -52,7 +53,7 @@ export class AdminRoomComponent
 			this.rooms  = data['rooms']
 			this.totalUsr = this.rooms.length		
 		},(error: HttpErrorResponse) =>
-			{
+      {
 				this.errorHandlerService.handleError(error)
 			})
 	}
@@ -77,12 +78,10 @@ export class AdminRoomComponent
 			{	
 				this.message = ""
 				this.ngOnInit()			
-				if (response['message'] == "already exist")
-				{
-					this.message = "room already exist"
-				}
+        $("#modal-rooms").modal('hide');
 			},(error: HttpErrorResponse) =>
 			{
+        this.message = error.error.message;
 				this.errorHandlerService.handleError(error)
 			})				
 		}	
@@ -121,18 +120,13 @@ export class AdminRoomComponent
 			this.roomService.UpdateRoom(this.modalForm.value,"room")
 			.subscribe( data => 
 			{
-				if(data['message'])
-				{
-					this.message = data['message']
-				}
-				else
-				{
-					this.message = ""
-					this.ngOnInit()
-				}		
-			},(error: HttpErrorResponse) =>
-			{
-				this.errorHandlerService.handleError(error)
+				this.message = ""
+        $("#modal-rooms").modal('hide');
+				this.ngOnInit()
+      },(error: HttpErrorResponse) => {
+        console.error(error);
+        this.message = error.error.message;
+        this.errorHandlerService.handleError(error)
 			})
 		}		
 	}

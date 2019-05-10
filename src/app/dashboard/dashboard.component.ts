@@ -76,10 +76,10 @@ export class DashboardComponent implements DoCheck
 		if(location.hash.slice(1,location.hash.length) == "/home/roomStatus" || location.hash.slice(1,location.hash.length) == "/home/admin/roomStatus")
 		{
 			console.log("MINI")
-			var body_class_name = document.getElementById("index-body").className  		
-	  		if(body_class_name.indexOf("mini-navbar") == -1)
+			var body_class_name = $("index-body").attr("class")
+	  		if(body_class_name == undefined || body_class_name.indexOf("mini-navbar") == -1)
 	  		{
-	  			document.getElementById("index-body").className = "mini-navbar body-small"
+          $("#index-body").attr({'class': "mini-navbar body-small"})
 	  		} 
 		}		
 	}
@@ -108,19 +108,19 @@ export class DashboardComponent implements DoCheck
 			if(location.hash.slice(1,location.hash.length) == "/home/roomStatus" || location.hash.slice(1,location.hash.length) == "/home/admin/roomStatus")
 			{
 				console.log("MINI")
-				var body_class_name = document.getElementById("index-body").className  		
-		  		if(body_class_name.indexOf("mini-navbar") == -1)
-		  		{
-		  			document.getElementById("index-body").className = "mini-navbar body-small"
-		  		} 
+				var body_class_name = $("#index-body").attr('class')  		
+        if(body_class_name == undefined || body_class_name.indexOf("mini-navbar") == -1)
+        {
+          $("#index-body").attr({'class': "mini-navbar body-small"});
+        } 
 			}
 			else if(location.hash.slice(1,location.hash.length) != "/home/roomStatus" || location.hash.slice(1,location.hash.length) != "/home/admin/roomStatus")
 			{
-				var body_class_name = document.getElementById("index-body").className
-				if(body_class_name.indexOf("mini-navbar") == 0)
+				var body_class_name = $("#index-body").attr('class')
+				if(body_class_name == undefined || body_class_name.indexOf("mini-navbar") == 0)
 		  		{
 		  			console.log("YES")
-		  			document.getElementById("index-body").className = "body-small"
+            $("#index-body").attr({'class': "body-small"})
 		  		}
 		  	}			
 		}			
@@ -200,7 +200,7 @@ export class DashboardComponent implements DoCheck
 	createImageFromBlob(image: Blob) {
 	   let reader = new FileReader();
 	   reader.addEventListener("load", () => {	   			     
-	      document.getElementById("user_photo_modal")['src'] = reader.result;
+       $("#user_photo_modal").attr({'src': reader.result});
 	   }, false);
 
 	   if (image) {	   		

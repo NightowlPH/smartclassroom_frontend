@@ -48,7 +48,6 @@ export class AdminAppLogsComponent implements OnInit
 		this.appLogsService.DelActiveUsers(id)
 		.subscribe( data =>
 		{
-			console.log(data['token'])
 			this.ngOnInit()
 		},(error: HttpErrorResponse) =>
 			{

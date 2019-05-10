@@ -8,7 +8,8 @@ export class ErrorHandlerService
 	constructor(private route: Router){}
 
 	handleError(error: object)
-	{				
+  {				
+    console.error(error);
 		if(error['error'].message == "your token has been expired" && error['status'] == 500)
 		{			
 			this.route.navigate(['/login'])		
