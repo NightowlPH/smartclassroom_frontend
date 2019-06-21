@@ -14,6 +14,7 @@ export class AdminUsersService
 
 	constructor ( private http: HttpClient, private cookieService: CookieService, private router: Router ){}
 	private baseUrl = environment.backend_uri;
+	user_id: string;
 
 	getAll()
 	{		
@@ -71,6 +72,16 @@ export class AdminUsersService
 			headers: this.Headers()
 		})
 	}
+
+	AdminChangeUserPassword(new_password: object)
+	{
+		return this.http.put(`${this.baseUrl}/user/change-password/${this.user_id}`,new_password,
+		{
+			headers: this.Headers()
+		})
+	}
+
+
 
 	private Headers()
 	{

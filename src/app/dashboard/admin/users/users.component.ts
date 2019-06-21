@@ -25,6 +25,7 @@ export class AdminUsersComponent implements OnInit
 	tempID	
 
 	modalForm: FormGroup
+	modalForm_change_password: FormGroup
 	addDetails: object	
 	add: string
 	update: string
@@ -36,7 +37,7 @@ export class AdminUsersComponent implements OnInit
 	
 
 	constructor(private usersService: AdminUsersService, private formBuilder: FormBuilder, private errorHandlerService: ErrorHandlerService,
-				private route: Router){ this.createForm() }
+				private route: Router){ this.createForm(), this.create_form_change_password() }
 
 
 	createForm()
@@ -45,6 +46,15 @@ export class AdminUsersComponent implements OnInit
 		({
 
 		})    
+	}
+
+	create_form_change_password()
+	{
+		this.modalForm_change_password = this.formBuilder.group
+		({
+			new_password: ['',Validators.required],
+			confirm_password: ['', Validators.required],
+		})
 	}
 
 	ngOnInit()
@@ -194,6 +204,43 @@ export class AdminUsersComponent implements OnInit
 			{
 				this.errorHandlerService.handleError(error)
 			})		
+	}
+
+	click_icon_change_password(id: string)
+	{
+		this.usersService.user_id = id
+	}
+
+	changePassword()
+	{
+		var new_pass = this.modalForm_change_password.value['new_password']
+		var confirm_pass = this.modalForm_change_password.value['confirm_password']
+
+		if(new_pass == confirm_pass)
+		{
+			this.usersService.AdminChangeUserPassword({new_password: new_pass})
+			.subscribe( data =>
+			{
+				if(data!=null && data['message'])
+				{
+					this.message = data['message']
+				}
+				else
+				{
+	        		$("#change_password").modal('hide');
+					this.message = ""
+					this.ngOnInit()
+				}
+			},(error: HttpErrorResponse) =>
+			{
+				this.errorHandlerService.handleError(error)
+			})
+		}
+		else if(new_pass != confirm_pass)
+		{
+			this.message = "Passwords didn't match. Try again"
+		}
+
 	}
 
 	private mapData(data: object)
